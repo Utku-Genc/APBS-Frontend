@@ -1,0 +1,55 @@
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card p-4 shadow" style="width: 400px; max-width: 400px;">
+        <div class="text-center mb-3">
+            <img src="../../../assets/site-img/logo.png" alt="Logo" class="img-fluid" style="max-width: 80px;">
+            <h4 class="mt-2">Kocaeli Üniversitesi</h4>
+            <h5 class="text-muted">Akademik Personel Başvuru Sistemi</h5>
+        </div>
+        <h5 class="text-center">Kayıt Ol</h5>
+        <form (ngSubmit)="onSubmit()">
+            <div class="mb-2">
+                <label class="form-label"><i class="fas fa-id-card"></i> TC Kimlik No</label>
+                <input type="text" class="form-control " placeholder="TC Kimlik No" [(ngModel)]="registerObj.tcKimlik" name="tcKimlik" required>
+            </div>
+            <div class="mb-2">
+                <label class="form-label"><i class="fas fa-envelope"></i> E-posta</label>
+                <input type="email" class="form-control " placeholder="E-posta" [(ngModel)]="registerObj.email" name="email" required>
+            </div>
+            <div class="mb-2 row">
+                <div class="col">
+                    <label class="form-label"><i class="fas fa-user"></i> Ad</label>
+                    <input type="text" class="form-control " placeholder="Ad" [(ngModel)]="registerObj.firstName" name="firstName" required>
+                </div>
+                <div class="col">
+                    <label class="form-label">Soyad</label>
+                    <input type="text" class="form-control " placeholder="Soyad" [(ngModel)]="registerObj.lastName" name="lastName" required>
+                </div>
+            </div>
+            <div class="mb-2">
+                <label class="form-label"><i class="fas fa-calendar-alt"></i> Doğum Tarihi</label>
+                <input type="date" class="form-control " [(ngModel)]="registerObj.dob" name="dob" required>
+            </div>
+            <div class="mb-2">
+                <label class="form-label"><i class="fas fa-lock"></i> Şifre</label>
+                <input type="password" class="form-control " placeholder="Şifre" [(ngModel)]="registerObj.password" name="password" required>
+            </div>
+            <div class="mb-2">
+                <label class="form-label"><i class="fas fa-lock"></i> Şifre Tekrarı</label>
+                <input type="password" class="form-control " placeholder="Şifre Tekrarı" [(ngModel)]="registerObj.confirmPassword" name="confirmPassword" required>
+            </div>
+            <div class="mb-2 text-center">
+                <!-- Cloudflare Turnstile CAPTCHA -->
+                <div class="cf-turnstile" 
+                     [attr.data-sitekey]="turnstileSiteKey"
+                     data-callback="onCaptchaSuccess">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-sm" [disabled]="!isCaptchaValid">
+                <i class="fas fa-user-plus"></i> Kayıt Ol
+            </button>
+        </form>
+        <div class="text-center mt-2">
+            <a routerLink="/login" class="small">Zaten hesabınız var mı? <strong>Giriş Yap</strong></a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+/* Genel stil ayarları */
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(255, 255, 255); /* Arka plan beyaz */
+    color: rgb(0, 0, 0); /* Metin rengi siyah */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}

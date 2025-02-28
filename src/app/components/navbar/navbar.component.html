@@ -1,0 +1,51 @@
+
+<div class="navbar">
+    <!-- Sol Taraf: Logo ve Başlık -->
+    <div class="navbar-left">
+        <img src="../../../assets/site-img/logo.png" alt="Logo" class="navbar-logo">
+        <span class="navbar-title">Akademik Personel Başvuru Sistemi</span>
+        
+        <!-- Mobil Menü Butonu -->
+        <div class="navbar-mobile-menu" (click)="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+
+    <!-- Orta: Arama Kutusu -->
+    <div class="navbar-center">
+        <input type="text" placeholder="Arama yapın..." class="navbar-search">
+        <i class="fas fa-search search-icon"></i>
+    </div>
+
+    <!-- Sağ Taraf: Masaüstü Menü -->
+    <div class="navbar-right">
+        <a  class="navbar-item navbar-bell"><i class="fas fa-bell"></i></a>
+        <a href="#" class="navbar-item"><i class="fas fa-file-alt"></i> Başvurularım</a>
+
+        <div class="navbar-profile" (click)="toggleProfileMenu()">
+            <a class="navbar-item navbar-user"><i class="fas fa-user navbar-user"></i> Utku Genç</a>
+        </div>
+    </div>
+</div>
+
+<!-- Masaüstü Profil Menüsü -->
+<div class="profile-menu" [class.active]="profileMenuActive">
+    <a><i class="fas fa-user"></i> Profilim</a>
+    <a href="#"><i class="fas fa-cog"></i> Ayarlar</a>
+    <a href="#"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+</div>
+
+<!-- Mobil Menünün İçeriği -->
+<div class="mobile-menu" [class.active]="mobileMenuActive">
+    <div class="navbar-profile" (click)="toggleMobileProfileMenu()">
+        <a href="#"><i class="fas fa-user"></i> Utku Genç</a>
+    </div>
+    
+    <div class="mobile-profile-menu" [class.active]="mobileProfileMenuActive">
+        <a href="#"><i class="fas fa-user"></i> Profilim</a>
+        <a href="#"><i class="fas fa-cog"></i> Ayarlar</a>
+    </div>
+    <a href="#"><i class="fas fa-file-alt"></i> Başvurularım</a>
+    <a href="#"><i class="fas fa-bell"></i> Bildirimler</a>
+    <a href="#"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+</div>

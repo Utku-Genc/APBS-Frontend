@@ -1,0 +1,99 @@
+/* Genel stil ayarları */
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(255, 255, 255); /* Arka plan beyaz */
+    color: rgb(0, 0, 0); /* Metin rengi siyah */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Bootstrap'in form container'ı etkileyen default paddinglerini sıfırlayalım */
+.container {
+    padding: 0 !important;
+}
+
+/* Form container */
+.card {
+    background-color: rgb(255, 255, 255); /* Arka plan beyaz */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Başlık alanı */
+.text-center h4 {
+    color: rgb(8, 162, 80); /* Başlık rengi yeşil */
+    font-weight: bold;
+}
+
+.text-center h5 {
+    color: rgb(100, 100, 100); /* Açıklama gri tonu */
+    font-weight: normal;
+}
+
+/* Form başlıkları */
+h5.text-center {
+    font-size: 1.2rem;
+    color: rgb(8, 162, 80); /* Yeşil renk */
+}
+
+/* Input alanları */
+.form-control {
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Input kenarlığı */
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255); /* Beyaz arka plan */
+    color: rgb(0, 0, 0); /* Metin rengi siyah */
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Input alanlarına odaklanıldığında */
+.form-control:focus {
+    border-color: rgb(8, 162, 80); /* Yeşil kenarlık */
+    box-shadow: 0 0 5px rgba(8, 162, 80, 0.3);
+}
+
+/* Input alanlarına hover efekti */
+.form-control:hover {
+    border-color: rgb(8, 162, 80);
+    background-color: rgb(234, 250, 237); /* Açık yeşil arka plan */
+}
+
+/* CAPTCHA Alanı */
+.cf-turnstile {
+    display: flex;
+    justify-content: center;
+}
+
+/* Giriş Butonu */
+.btn-primary {
+    background-color: rgb(8, 162, 80); /* Yeşil buton */
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: rgb(6, 142, 70); /* Koyu yeşil hover */
+}
+
+/* Kayıt Linki */
+.text-center a {
+    color: rgb(8, 162, 80);
+    font-weight: bold;
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 480px) {
+    .card {
+        width: 90%;
+    }
+}

@@ -8,7 +8,7 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "utk",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -21,10 +21,8 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
@@ -85,6 +83,7 @@
               }
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -92,5 +91,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "2dd2bc88-fc3f-4b04-bcdc-f7c82ac81f6b"
   }
 }

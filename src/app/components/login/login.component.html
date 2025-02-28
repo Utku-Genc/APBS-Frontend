@@ -1,0 +1,32 @@
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card p-4 shadow" style="width: 400px;">
+        <div class="text-center mb-3">
+            <img src="../../../assets/site-img/logo.png" alt="Logo" class="img-fluid" style="max-width: 80px;">
+            <h4 class="mt-2">Kocaeli Üniversitesi</h4>
+            <h5 class="text-muted">Akademik Personel Başvuru Sistemi</h5>
+        </div>
+        <h5 class="text-center">Giriş Yap</h5>
+        <form (ngSubmit)="onSubmit()">
+            <div class="mb-2">
+                <label class="form-label"><i class="fas fa-id-card"></i> TC Kimlik No</label>
+                <input type="text" class="form-control" placeholder="TC Kimlik No" [(ngModel)]="loginObj.tcKimlik"
+                    name="tcKimlik" required>
+            </div>
+            <div class="mb-2">
+                <label class="form-label"><i class="fas fa-lock"></i> Şifre</label>
+                <input type="password" class="form-control" placeholder="Şifre" [(ngModel)]="loginObj.password"
+                    name="password" required>
+            </div>
+            <div class="cf-turnstile" [attr.data-sitekey]="turnstileSiteKey" data-callback="onCaptchaSuccess">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" [disabled]="!isCaptchaValid">
+                <i class="fas fa-sign-in-alt"></i> Giriş Yap
+            </button>
+
+        </form>
+        <div class="text-center mt-3">
+            <a routerLink="/register">Hesabınız yok mu? <strong>Kayıt Ol</strong></a>
+        </div>
+    </div>
+</div>
