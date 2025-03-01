@@ -9,7 +9,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(8,162,80);
+    background-color: var(--background-color);
     padding: 10px 20px;
     color: rgb(255,255,255);
     flex-wrap: wrap;
