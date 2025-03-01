@@ -1,15 +1,15 @@
 <div class="container d-flex justify-content-center align-items-center mt-5">
-    <div class="card p-4 shadow" style="width: 400px; max-width: 400px;">
-        <div class="text-center mb-3">
+    <div class="card p-3 shadow" style="width: 400px; max-width: 400px;">
+        <div class="text-center mb-1">
             <img src="../../../assets/site-img/logo.png" alt="Logo" class="img-fluid" style="max-width: 80px;">
-            <h4 class="mt-2">Kocaeli Üniversitesi</h4>
+            <h4 class="mt-3">Kocaeli Üniversitesi</h4>
             <h5 class="text-muted">Akademik Personel Başvuru Sistemi</h5>
         </div>
         <h5 class="text-center">Kayıt Ol</h5>
         <form (ngSubmit)="onSubmit()">
             <div class="mb-2">
                 <label class="form-label"><i class="fas fa-id-card"></i> TC Kimlik No</label>
-                <input type="text" class="form-control " placeholder="TC Kimlik No" [(ngModel)]="registerObj.tcKimlik" name="tcKimlik" required>
+                <input type="text" class="form-control " placeholder="TC Kimlik No" [(ngModel)]="registerObj.nationalityId" name="nationalityId" required>
             </div>
             <div class="mb-2">
                 <label class="form-label"><i class="fas fa-envelope"></i> E-posta</label>
@@ -27,7 +27,7 @@
             </div>
             <div class="mb-2">
                 <label class="form-label"><i class="fas fa-calendar-alt"></i> Doğum Tarihi</label>
-                <input type="date" class="form-control " [(ngModel)]="registerObj.dob" name="dob" required>
+                <input type="date" class="form-control " [(ngModel)]="registerObj.dateOfBirth" name="dateOfBirth" required>
             </div>
             <div class="mb-2">
                 <label class="form-label"><i class="fas fa-lock"></i> Şifre</label>
