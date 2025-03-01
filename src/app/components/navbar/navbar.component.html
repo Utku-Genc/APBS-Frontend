@@ -1,51 +1,64 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <!-- Logo ve Başlık -->
+    <a class="navbar-brand">
+      <img src="../../../assets/site-img/logo.png" alt="Logo" class="navbar-logo">
+      <span class="navbar-title">Akademik Personel Başvuru Sistemi</span>
+    </a>
 
-<div class="navbar">
-    <!-- Sol Taraf: Logo ve Başlık -->
-    <div class="navbar-left">
-        <img src="../../../assets/site-img/logo.png" alt="Logo" class="navbar-logo">
-        <span class="navbar-title">Akademik Personel Başvuru Sistemi</span>
+    <!-- Navbar Toggle Button (Mobil için) -->
+    <button class="navbar-toggler" type="button" (click)="toggleMobileMenu()" aria-controls="navbarNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+<i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Navbar Menü -->
+    <div class="collapse navbar-collapse" [ngClass]="{'show': mobileMenuActive}" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <!-- Arama Butonu Ortalanmış -->
+        <li class="nav-item mx-auto">
+          <input type="text" class="form-control" placeholder="Arama yapın..." aria-label="Search">
+        </li>
+
+        <!-- Giriş Yapılmamışsa Kayıt ve Giriş Butonları -->
+        <ng-container *ngIf="!isAuthenticated">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/register">Kayıt Ol</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login">Giriş Yap</a>
+          </li>
+        </ng-container>
+
+        <!-- Giriş Yapıldıysa Profil ve Çıkış Butonları -->
+        <ng-container *ngIf="isAuthenticated">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/notification"><i class="fas fa-bell"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink=""><i class="fas fa-file-alt"></i> Başvurularım</a>
+          </li>
         
-        <!-- Mobil Menü Butonu -->
-        <div class="navbar-mobile-menu" (click)="toggleMobileMenu()">
-            <i class="fas fa-bars"></i>
-        </div>
-    </div>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fas fa-user"></i> {{ profileMenuUserName }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item">Profilim</a></li>
+              <li><a class="dropdown-item">Ayarlara Git</a></li>
+              <li><a class="dropdown-item" (click)="logout()">Çıkış Yap</a></li>
+            </ul>
+          </li>
+        </ng-container>
 
-    <!-- Orta: Arama Kutusu -->
-    <div class="navbar-center">
-        <input type="text" placeholder="Arama yapın..." class="navbar-search">
-        <i class="fas fa-search search-icon"></i>
+        <!-- Tema Değiştirme Butonu -->
+        <li class="nav-item">
+          <button class="btn btn-outline-secondary" (click)="switchTheme()">
+            <i [class]="isDarkTheme ? 'fas fa-sun' : 'fas fa-moon'"></i>
+          </button>
+        </li>
+      </ul>
     </div>
-
-    <!-- Sağ Taraf: Masaüstü Menü -->
-    <div class="navbar-right">
-        <a  class="navbar-item navbar-bell"><i class="fas fa-bell"></i></a>
-        <a href="#" class="navbar-item"><i class="fas fa-file-alt"></i> Başvurularım</a>
-
-        <div class="navbar-profile" (click)="toggleProfileMenu()">
-            <a class="navbar-item navbar-user"><i class="fas fa-user navbar-user"></i> Utku Genç</a>
-        </div>
-    </div>
-</div>
-
-<!-- Masaüstü Profil Menüsü -->
-<div class="profile-menu" [class.active]="profileMenuActive">
-    <a><i class="fas fa-user"></i> Profilim</a>
-    <a href="#"><i class="fas fa-cog"></i> Ayarlar</a>
-    <a href="#"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
-</div>
-
-<!-- Mobil Menünün İçeriği -->
-<div class="mobile-menu" [class.active]="mobileMenuActive">
-    <div class="navbar-profile" (click)="toggleMobileProfileMenu()">
-        <a href="#"><i class="fas fa-user"></i> Utku Genç</a>
-    </div>
-    
-    <div class="mobile-profile-menu" [class.active]="mobileProfileMenuActive">
-        <a href="#"><i class="fas fa-user"></i> Profilim</a>
-        <a href="#"><i class="fas fa-cog"></i> Ayarlar</a>
-    </div>
-    <a href="#"><i class="fas fa-file-alt"></i> Başvurularım</a>
-    <a href="#"><i class="fas fa-bell"></i> Bildirimler</a>
-    <a href="#"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
-</div>
+  </div>
+</nav>
