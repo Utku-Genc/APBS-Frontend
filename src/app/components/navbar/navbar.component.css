@@ -1,240 +1,105 @@
-/* Genel Stil */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
-/* Navbar */
+/* Navbar Renk Düzenlemeleri */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--background-color);
-    padding: 10px 20px;
-    color: rgb(255,255,255);
-    flex-wrap: wrap;
+    background-color: var(--primary-color);
 }
 
-/* Sol Taraf */
-.navbar-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.navbar-logo {
-    height: 50px;
-}
-
-.navbar-title {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-/* Orta: Arama Kutusu */
-.navbar-center {
-    flex: 1;
-    margin: 0 20px;
-    max-width: 400px;
-    position: relative;
-}
-
-.navbar-search {
-    width: 100%;
-    padding: 8px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.search-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: gray;
-}
-
-/* Sağ Taraf */
-.navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* Navbar Butonları */
-.navbar-item {
+.navbar .navbar-brand {
     color: white;
-    text-decoration: none;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    height:  1px;
-    padding: 20px 20px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-    transition: 0.3s ease;
 }
-.navbar-item:hover {
-    background-color: rgb(234,250,237);
+
+
+.navbar .navbar-brand img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+.navbar .navbar-toggler {
+color: white;
+}
+
+.navbar .nav-link {
+    color: white;
+    background-color: var(--secondary-color);
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    margin: 0 5px;
+    
+}
+
+.navbar .nav-link:hover {
+    color: white;
+    background-color: var(--primary-hover-color);
     border-radius: 10px;
-    color: #000; 
 }
 
-.navbar-item i {
-    font-size: 16px;
+/* Arama kutusunu ortalamak için */
+.navbar .nav-item.mx-auto {
+    flex-grow: 1;
+    text-align: center;
 }
 
-/* Kullanıcı Bilgileri */
-.navbar-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
+.navbar .form-control {
+    width: 80%;
+    margin: auto;
+    max-width: 400px;
 }
 
-.navbar-user{
-    font-size: 16px;
-}
-.navbar-user-image {
-    height: 30px;
-    border-radius: 50%;
+/* Tema değiştir button */
+.navbar .btn-outline-secondary {
+    color: var(--text-color);
+    border-color: var(--primary-color);
 }
 
-.navbar-user-name {
-    font-size: 16px;
+.navbar .btn-outline-secondary:hover {
+    background-color: var(--primary-color);
+    color: var(--text-color);
 }
 
-/* Masaüstü Açılır Profil Menüsü */
-.profile-menu {
-    display: none;
-    position: absolute;
-    top: 50px;
-    right: 20px;
-    background: white;
+/* Profil dropdown */
+.navbar .nav-item.dropdown .dropdown-menu {
+    background-color: var(--secondary-color);
     color: black;
-    width: 150px;
     border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    flex-direction: column;
-    z-index: 100;
+    transition: all 0.3s ease;
 }
 
-.profile-menu a {
-    padding: 10px;
-    display: block;
-    text-decoration: none;
-    color: black;
+.navbar .nav-item.dropdown .dropdown-menu .dropdown-item:hover {
+    background-color: var(--primary-hover-color);
+    color: white;
+
 }
 
-.profile-menu a:hover {
-    background: #f1f1f1;
-}
-
-.profile-menu.active {
-    display: flex;
-}
 
 /* Mobil Menü */
-.navbar-mobile-menu {
-    display: none;
-    font-size: 24px;
-    cursor: pointer;
+.navbar-collapse {
+    transition: all 0.3s ease;
 }
 
-/* Mobil Açılır Menü */
-.mobile-menu {
-    display: none;
-    flex-direction: column;
-    background-color: rgb(8,162,80);
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    width: 200px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 100;
+.navbar-collapse.show {
+    display: block !important;
 }
 
-.mobile-menu a {
-    padding: 10px;
-    text-decoration: none;
-    color: white;
-    display: block;
+/* Güneş ve Ay simgesi animasyon */
+.navbar .btn-outline-secondary i.fas.fa-sun {
+    color: #FDB813; /* Güneş rengi */
+    width: 20px;
 }
 
-.mobile-menu a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+.navbar .btn-outline-secondary i.fas.fa-moon {
+    color: #ffffff; /* Ay rengi */
+    width: 20px;
+
 }
 
-.mobile-menu.active {
-    display: flex;
+.navbar .navbar-title {
+    display: inline-block;
+    max-width: 90%;  /* Başlık, container'a sığacak şekilde boyutlandırılır */
+    word-wrap: break-word;  /* Uzun kelimeler alt satıra kayar */
+    white-space: normal;  /* Satır sonunda otomatik olarak alt satıra geçer */
 }
 
-/* Mobil Profil Menüsü */
-.mobile-profile {
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-}
-
-.mobile-profile-menu {
-    display: none;
-    flex-direction: column;
-}
-
-.mobile-profile-menu.active {
-    display: flex;
-}
-
-.mobile-profile-menu a {
-    padding: 10px;
-    text-decoration: none;
-    color: white;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.mobile-profile-menu a:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Mobil Görünüm */
-@media (max-width: 960px) {
-    .navbar {
-        align-items: flex-start;
-    }
-
-    .navbar-title {
-        font-size: 16px;
-    }
-
-    .navbar-center {
-        width: 100%;
-        order: 3;
-        margin-top: 10px;
-        margin-left: 0;
-        max-width: 100%;
-    }
-
-    .navbar-search {
-        width: 100%;
-    }
-
-    .navbar-left {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-    }
-
-    .navbar-right {
-        display: none;
-    }
-    .navbar-mobile-menu {
-        display: block;
-    }
-
-    .profile-menu {
-        display: none;
-    }
+@media screen and (max-width: 500px) {
+   .navbar .navbar-title {
+      font-size: 16px;
+   }
 }

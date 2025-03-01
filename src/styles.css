@@ -1,5 +1,36 @@
-:root {
---primary-color: #007bff;
---background-color: rgb(8, 162, 80);
---text-color: #333;
-}
+/* Temalar */
+
+/* Varsayılan olarak açık tema */
+[data-theme="light"] {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --primary-color: rgb(8, 162, 80);
+    --secondary-color: rgb(35, 173, 100);
+    --secondary-text-color: #666666;
+    --card-background-color: #ffffff;
+    --input-background-color: #ffffff;
+    --input-hover-background-color: rgb(234, 250, 237);
+    --primary-hover-color: rgb(6, 142, 70);
+  }
+  
+  /* Koyu tema */
+  [data-theme="dark"] {
+    --background-color: rgb(40,43,48);
+    --text-color: #ffffff;
+    --primary-color: rgb(8, 162, 80);
+    --secondary-color: rgb(35, 173, 100);
+    --secondary-text-color: #bbbbbb;
+    --card-background-color: rgb(54,57,62);
+    --input-background-color: rgb(66,69,73);
+    --input-hover-background-color: #555555;
+    --primary-hover-color: rgb(6, 142, 70);
+  }
+  
+  /* Genel Stil */
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }

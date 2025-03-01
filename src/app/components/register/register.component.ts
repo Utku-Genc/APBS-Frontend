@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { environment } from '../../../environments/environment';
 import { Router, RouterLink } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { RegisterModel } from '../../models/auth/register.model';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'utk-register',
   imports: [FormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
   registerObj: RegisterModel = {
@@ -29,10 +29,10 @@ export class RegisterComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private toastrService = inject(ToastrService);
 
   ngOnInit() {
     (window as any).onCaptchaSuccess = (token: string) => {
-      console.log("CAPTCHA başarılı:", token);
       this.isCaptchaValid = true;
       this.cdr.detectChanges();
     };
@@ -40,31 +40,40 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (!this.isCaptchaValid) {
-      alert("Lütfen CAPTCHA doğrulamasını tamamlayın.");
+      this.toastrService.warning("Lütfen CAPTCHA doğrulamasını tamamlayın.");
       return;
     }
-
+  
     if (this.registerObj.password !== this.registerObj.confirmPassword) {
-      alert("Şifreler uyuşmuyor!");
+      this.toastrService.error("Şifreler uyuşmuyor!");
       return;
     }
-
+  
     this.authService.register(this.registerObj).subscribe({
       next: (response) => {
         if (response.isSuccess && response.data) {
-          console.log("Kayıt Başarılı, Token:", response.data.token);
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("expiration", response.data.expiration);
-          alert("Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.");
-          this.router.navigate(['/login']);
+          this.toastrService.success("Kayıt başarılı! Ana sayfaya yönlendiriliyorsunuz.");
+          setTimeout(() => {
+            window.location.href = "/";  // Sayfayı yönlendiriyoruz
+          }, 1000);  // 1 saniye sonra yönlendirme yapılacak
         } else {
-          console.log("Kayıt başarısız:", response.message);
-          alert("Kayıt başarısız: " + response.message);
+          this.toastrService.error("Kayıt başarısız: " + response.message);
         }
       },
       error: (err) => {
-        console.error("Kayıt hatası:", err);
-        alert("Bir hata oluştu, lütfen tekrar deneyin.");
+        if (err.error?.ValidationErrors) {
+          // Hata mesajlarını bir dizi olarak alıyoruz
+          const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+          
+          // Her hata mesajını ayrı ayrı göstermek için forEach ile döngü oluşturuyoruz
+          errorMessages.forEach((message: string | undefined) => {
+            this.toastrService.error(message); // Her hata mesajını ayrı ayrı gösteriyoruz
+          });
+        } else {
+          this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+        }
       }
     });
   }

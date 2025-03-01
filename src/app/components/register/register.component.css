@@ -1,9 +1,8 @@
-/* Aynı stil ayarlarını kullanabilirsiniz, login sayfasındaki ile uyumlu */
-
+/* Genel Stil Ayarları */
 body {
     font-family: Arial, sans-serif;
-    background-color: rgb(255, 255, 255); /* Arka plan beyaz */
-    color: rgb(0, 0, 0); /* Metin rengi siyah */
+    background-color: var(--background-color); /* Arka plan rengi değişken ile */
+    color: var(--text-color); /* Metin rengi değişken ile */
     margin: 0;
     padding: 0;
     display: flex;
@@ -19,49 +18,58 @@ body {
 
 /* Form container */
 .card {
-    background-color: rgb(255, 255, 255); /* Arka plan beyaz */
+    background-color: var(--card-background-color); /* Kart arka planı değişken ile */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Başlık alanı */
+/* Başlık Alanı */
 .text-center h4 {
-    color: rgb(8, 162, 80); /* Başlık rengi yeşil */
+    color: var(--primary-color); /* Başlık rengi değişken ile */
     font-weight: bold;
 }
 
 .text-center h5 {
-    color: rgb(100, 100, 100); /* Açıklama gri tonu */
+    color: var(--secondary-text-color); /* Açıklama metni rengi */
     font-weight: normal;
 }
 
-/* Form başlıkları */
+.text-muted{
+    color: var(--secondary-text-color) !important;
+}
+/* Form Başlıkları */
 h5.text-center {
     font-size: 1.2rem;
-    color: rgb(8, 162, 80); /* Yeşil renk */
+    color: var(--primary-color); /* Yeşil renk */
 }
 
-/* Input alanları */
+/* Input Alanları */
 .form-control {
     border: 1px solid rgba(0, 0, 0, 0.2); /* Input kenarlığı */
     border-radius: 5px;
-    background-color: rgb(255, 255, 255); /* Beyaz arka plan */
-    color: rgb(0, 0, 0); /* Metin rengi siyah */
+    background-color: var(--input-background-color); /* Beyaz arka plan */
+    color: var(--text-color); /* Metin rengi siyah */
     transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 /* Input alanlarına odaklanıldığında */
 .form-control:focus {
-    border-color: rgb(8, 162, 80); /* Yeşil kenarlık */
+    border-color: var(--primary-color); /* Yeşil kenarlık */
     box-shadow: 0 0 5px rgba(8, 162, 80, 0.3);
+}
+.form-label{
+    color: var(--text-color);
 }
 
 /* Input alanlarına hover efekti */
 .form-control:hover {
-    border-color: rgb(8, 162, 80);
-    background-color: rgb(234, 250, 237); /* Açık yeşil arka plan */
+    border-color: var(--primary-color);
+    background-color: var(--input-hover-background-color); /* Açık yeşil arka plan */
+}
+.form-control::placeholder {
+    color: var(--secondary-text-color); /* Gri placeholder */
 }
 
 /* CAPTCHA Alanı */
@@ -70,21 +78,21 @@ h5.text-center {
     justify-content: center;
 }
 
-/* Kayıt Butonu */
+/* Giriş Butonu */
 .btn-primary {
-    background-color: rgb(8, 162, 80); /* Yeşil buton */
+    background-color: var(--primary-color); /* Yeşil buton */
     border: none;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
-    background-color: rgb(6, 142, 70); /* Koyu yeşil hover */
+    background-color: var(--primary-hover-color); /* Koyu yeşil hover */
 }
 
 /* Kayıt Linki */
 .text-center a {
-    color: rgb(8, 162, 80);
+    color: var(--primary-color);
     font-weight: bold;
 }
 
