@@ -10,7 +10,7 @@ export class ToastService {
       icon: 'success',
       title: message,
       toast: true,
-      position: 'top-end',
+      position: 'bottom-end',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -26,7 +26,7 @@ export class ToastService {
       icon: 'error',
       title: message,
       toast: true,
-      position: 'top-end',
+      position: 'bottom-end',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -42,7 +42,7 @@ export class ToastService {
       icon: 'warning',
       title: message,
       toast: true,
-      position: 'top-end',
+      position: 'bottom-end',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -58,7 +58,7 @@ export class ToastService {
       icon: 'info',
       title: message,
       toast: true,
-      position: 'top-end',
+      position: 'bottom-end',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -76,7 +76,7 @@ export class ToastService {
         icon: 'error',
         title: errorMessage,
         toast: true,
-        position: 'top-end',
+        position: 'bottom-end',
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
@@ -90,5 +90,20 @@ export class ToastService {
     // Tüm toast'ların aynı anda başlatılmasını sağlıyoruz
     await Promise.all(promises);
   }
+
+
+  confirmation(title: string, text: string) {
+    return Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, değiştir!',
+      cancelButtonText: 'İptal'
+    });
+  }
+  
 }
 
