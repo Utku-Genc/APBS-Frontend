@@ -1,0 +1,35 @@
+.profile-img {
+    font-size: 120px;
+    border-radius: 50%;
+    display: block;
+    background-color: var(--primary-color);
+    color: var(--background-color) !important;
+    padding: 10px;
+  }
+
+  
+  
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
+  }
+  
+  .list-group-item {
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+    border: none;
+  }
+  
+  .nav-tabs .nav-link {
+    color: var(--secondary-text-color);
+  }
+  
+  .nav-tabs .nav-link.active {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+  }

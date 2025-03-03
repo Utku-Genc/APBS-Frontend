@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
           console.log("Giriş Başarılı, Token:", response.data.token);
           localStorage.setItem("token", response.data.token); // Token'ı sakla
           localStorage.setItem("expiration", response.data.expiration); // Kullanıcı bilgilerini sakla
-          this.toastrService.success("Kayıt başarılı! Ana sayfaya yönlendiriliyorsunuz.");
+          this.toastrService.success("Giriş başarılı! Ana sayfaya yönlendiriliyorsunuz.");
           setTimeout(() => {
             window.location.href = "/";  // Sayfayı yönlendiriyoruz
           }, 1000);  // 1 saniye sonra yönlendirme yapılacak
