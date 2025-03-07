@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'utk-homepage',
-  imports: [CommonModule],
+  imports: [CommonModule, CardsComponent],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
