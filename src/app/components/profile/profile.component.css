@@ -1,3 +1,4 @@
+
 .profile-img-default {
   font-size: 120px;
   border-radius: 50%; /* Yuvarlak şekil */
@@ -19,6 +20,7 @@
   height: 150px; /* 1:1 oranında küçük resimler için */
   object-fit: cover; /* Resmin kutuya sığmasını sağlar */
 }
+
   
   
   .btn-primary {

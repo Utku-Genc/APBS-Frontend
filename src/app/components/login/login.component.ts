@@ -54,10 +54,8 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("token", response.data.token); // Token'ı sakla
           localStorage.setItem("expiration", response.data.expiration); // Kullanıcı bilgilerini sakla
           this.toastrService.success("Giriş başarılı! Yönlendiriliyorsunuz...");
-  
           // Kullanıcıyı önceki sayfasına yönlendirmek için returnUrl bilgisini al
           const returnUrl = new URLSearchParams(window.location.search).get('returnUrl') || "/";
-          
           setTimeout(() => {
             window.location.href = returnUrl;  // returnUrl varsa o sayfaya, yoksa ana sayfaya yönlendir
           }, 1000);  // 1 saniye sonra yönlendirme yapılacak

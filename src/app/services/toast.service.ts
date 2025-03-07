@@ -10,7 +10,7 @@ export class ToastService {
       icon: 'success',
       title: message,
       toast: true,
-      position: 'top-end',
+      position: 'bottom-end',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -26,7 +26,7 @@ export class ToastService {
       icon: 'error',
       title: message,
       toast: true,
-      position: 'top-end',
+      position: 'bottom-end',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -42,7 +42,7 @@ export class ToastService {
       icon: 'warning',
       title: message,
       toast: true,
-      position: 'top-end',
+      position: 'bottom-end',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -58,7 +58,7 @@ export class ToastService {
       icon: 'info',
       title: message,
       toast: true,
-      position: 'top-end',
+      position: 'bottom-end',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -69,6 +69,26 @@ export class ToastService {
     });
   }
 
+  // Her hata mesajını ayrı ayrı toast olarak göstermek için
+  async showErrors(errorMessages: string[]) {
+    const promises = errorMessages.map((errorMessage) => {
+      return Swal.fire({
+        icon: 'error',
+        title: errorMessage,
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        },
+      });
+    });
+  }
+
+
   confirmation(title: string, text: string) {
     return Swal.fire({
       title: title,
@@ -78,7 +98,8 @@ export class ToastService {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Evet, onaylıyorum!',
-      cancelButtonText: 'İptal',
+      cancelButtonText: 'İptal'
     });
   }
+  
 }

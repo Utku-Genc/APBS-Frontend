@@ -13,7 +13,6 @@
         <input type="file" id="profileImageUpload" hidden 
         (change)="onImageChange($event)" 
         accept="image/png, image/jpeg, image/jpg, image/bmp, image/tiff">
- 
       </label>
       <button *ngIf="profileImageChanged" class="btn btn-primary mt-3" (click)="updateProfileImage()">Resmi
         Kaydet</button>

@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs';
 import { UserModel } from '../../models/auth/user.model';
 
+
 @Component({
   selector: 'utk-navbar',
   imports: [CommonModule, RouterLink],
@@ -93,9 +94,11 @@ export class NavbarComponent implements OnInit {
       { title: "Yeni Mesaj", description: "Danışmanınızdan yeni bir mesaj var.", date: new Date().toISOString(), isRead: false },
       { title: "Sistem Güncellemesi", description: "Sistem güncellemesi tamamlandı.", date: new Date().toISOString(), isRead: true }
     ];
-  
-    this.unreadCount = this.notifications.filter(n => !n.isRead).length;
+      this.unreadCount = this.notifications.filter(n => !n.isRead).length;
+
   }
+
+  
 
   getUser() {
     console.log("---------------------------------");

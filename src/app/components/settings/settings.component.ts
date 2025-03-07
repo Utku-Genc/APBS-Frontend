@@ -2,8 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ToastService } from '../../services/toast.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UserModel } from '../../models/auth/user.model';
 import { AuthService } from '../../services/auth.service';
+import { UserModel } from '../../models/auth/user.model';
 
 @Component({
   selector: 'utk-settings',
@@ -54,6 +54,7 @@ export class SettingsComponent implements OnInit {
       }
     }
     
+  
 
   updateProfileImage() {
     if (this.profileImage) {

@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { UserModel } from '../../models/auth/user.model';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { CommonModule} from '@angular/common';
 import { CardsComponent } from "../cards/cards.component";
+import { UserModel } from '../../models/auth/user.model';
 
 @Component({
   selector: 'utk-profile',
