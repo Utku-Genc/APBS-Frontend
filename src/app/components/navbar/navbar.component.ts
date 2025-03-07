@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../services/auth.service';
+import { filter } from 'rxjs';
+import { UserModel } from '../../models/auth/user.model';
 
 @Component({
   selector: 'utk-navbar',
@@ -10,24 +13,39 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
+  private toastrService = inject(ToastrService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  notifications: { title: string, description: string, date: string, isRead: boolean }[] = [];
+  isLoggedIn: boolean = false;
   isAuthenticated: boolean = false;
   profileMenuActive: boolean = false;
   mobileMenuActive: boolean = false;
-  profileMenuUserName: string = 'Misafir';  // Varsayılan kullanıcı ismi
   isDarkTheme: boolean = false;  // Tema durumunu takip etmek için değişken
-  
-  private toastrService = inject(ToastrService);
+  unreadCount: number = 0;
+
+
+  userObj!: UserModel;
 
 
   ngOnInit() {
-    // localStorage'dan token'i kontrol et
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Token varsa kullanıcı giriş yapmış demektir
-      this.isAuthenticated = true;
-      this.profileMenuUserName = 'Utku Genç';  // Dinamik olarak kullanıcı adı
-    }
+    this.router.events.pipe(filter(event=>event instanceof NavigationEnd)).subscribe(()=>{
+      console.log(this.isLoggedIn + " Navbar");
+      const isAlreadyLoggedIn = this.isLoggedIn
+      this.isLoggedIn = this.authService.isAuthenticated();
+      console.log(isAlreadyLoggedIn+"  "+this.isLoggedIn)
+      if(isAlreadyLoggedIn == true && isAlreadyLoggedIn != this.isLoggedIn){
+        this.toastrService.info("Token süreniz doldu tekrardan giriş yapiniz","Lütfen Tekrardan Giriş Yapınız")
+        this.router.navigate(["login"])
+      }
+      if (this.isLoggedIn) {
+        this.getUser();
+        this.fetchNotifications();
 
+      }
+    })
     // localStorage'dan tema bilgisini al
     const storedTheme = localStorage.getItem('theme');
     
@@ -62,14 +80,27 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    // Kullanıcı çıkış yaptığında token'ı sil
-    localStorage.removeItem('token');
-    this.isAuthenticated = false;
-    this.profileMenuUserName = 'Misafir';  // Varsayılan kullanıcı ismi
+    this.authService.logout();  // AuthService'ten logout fonksiyonunu çağır
     this.toastrService.success("Çıkış Başarılı! Ana sayfaya yönlendiriliyorsunuz.");
     setTimeout(() => {
       window.location.href = "/";  // Sayfayı yönlendiriyoruz
     }, 1000);  // 1 saniye sonra yönlendirme yapılacak
   }
+  fetchNotifications() {
+    // Örnek API verisi (Gerçek bir API bağlarsan buraya HTTP isteği ekleyebilirsin)
+    this.notifications = [
+      { title: "Yeni Başvuru Onayı", description: "Başvurunuz onaylandı!", date: new Date().toISOString(), isRead: false },
+      { title: "Yeni Mesaj", description: "Danışmanınızdan yeni bir mesaj var.", date: new Date().toISOString(), isRead: false },
+      { title: "Sistem Güncellemesi", description: "Sistem güncellemesi tamamlandı.", date: new Date().toISOString(), isRead: true }
+    ];
   
+    this.unreadCount = this.notifications.filter(n => !n.isRead).length;
+  }
+
+  getUser() {
+    this.authService.getUserByToken().subscribe(response => {
+      console.log(response.data);
+      this.userObj = response.data;
+    })
+  }
 }

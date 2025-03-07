@@ -10,7 +10,7 @@
             <div class="mb-2">
                 <label class="form-label"><i class="fas fa-id-card"></i> TC Kimlik No</label>
                 <input type="text" class="form-control" placeholder="TC Kimlik No" [(ngModel)]="loginObj.nationalityId"
-                    name="tcKimlik" required>
+                    name="tcKimlik" required minlength="11" maxlength="11">
             </div>
             <div class="mb-2">
                 <label class="form-label"><i class="fas fa-lock"></i> Şifre</label>

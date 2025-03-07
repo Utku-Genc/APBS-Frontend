@@ -1,0 +1,56 @@
+<div class="container mt-4">
+  <div class="row">
+    <!-- Profil Resmi -->
+    <div class="col-md-3 d-flex flex-column align-items-center position-relative mt-4">
+      <label for="profileImageUpload" class="profile-img-container">
+        <i *ngIf="!profileImage" class="fa-regular fa-circle-user profile-img-default"></i>
+        <!-- Profil resmi var ise, göster -->
+        <img *ngIf="profileImage" [src]="profileImage" alt="Profile Image" class="profile-img">
+        <!-- Düzenleme ikonu -->
+        <p class="edit-icon">
+          <i class="fa-solid fa-pencil"></i>
+        </p>
+        <input type="file" id="profileImageUpload" hidden 
+        (change)="onImageChange($event)" 
+        accept="image/png, image/jpeg, image/jpg, image/bmp, image/tiff">
+ 
+      </label>
+      <button *ngIf="profileImageChanged" class="btn btn-primary mt-3" (click)="updateProfileImage()">Resmi
+        Kaydet</button>
+
+    </div>
+
+    <!-- Kullanıcı Bilgileri ve Şifre Güncelleme -->
+    <div class="col-md-9">
+      <h1><i class="fa-solid fa-gear"></i> Ayarlar</h1>
+      <p>Buradan profil fotoğrafınızı, e-posta adresinizi ve şifrenizi güncelleyebilirsiniz.</p>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <i class="fa-solid fa-id-card"></i> <strong> T.C. Kimlik:</strong> {{ userObj.nationalityId }}
+        </li>
+        <li class="list-group-item">
+          <i class="fa-solid fa-user"></i> <strong> İsim Soyisim:</strong> {{ userObj.firstName }} {{
+          userObj.lastName }}
+        </li>
+        <li class="list-group-item">
+          <i class="fa-solid fa-cake-candles"></i> <strong> Doğum Tarihi:</strong> {{ userObj.dateOfBirth |
+          date:'dd/MM/yyyy' }}
+        </li>
+        <li class="list-group-item">
+          <i class="fa-solid fa-envelope"></i> <strong> Email:</strong>
+          <input type="email" [(ngModel)]="userObj.email" class="form-control" required>
+        </li>
+        <li class="list-group-item"><i class="fa-solid fa-lock"></i> <strong> Mevcut Şifre:</strong>
+          <input type="password" id="currentPassword" [(ngModel)]="currentPassword" class="form-control" required>
+        </li>
+        <li class="list-group-item"><i class="fa-solid fa-unlock"></i> <strong> Yeni Şifre:</strong>
+          <input type="password" id="newPassword" [(ngModel)]="newPassword" class="form-control" required>
+        </li>
+        <li class="list-group-item"><i class="fa-solid fa-unlock"></i><strong> Yeni Şifre Tekrar:</strong>
+          <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" class="form-control" required>
+        </li>
+      </ul>
+      <button class="btn btn-primary mt-3" (click)="updateProfile()">Kaydet</button>
+    </div>
+  </div>
+</div>

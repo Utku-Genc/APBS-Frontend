@@ -18,16 +18,19 @@ declare var turnstile: any; // Cloudflare Turnstile için global değişken
 })
 export class LoginComponent implements OnInit {
 
+  private cdr = inject(ChangeDetectorRef); // Change Detection için
+  private authService = inject(AuthService);
+  private toastrService = inject(ToastrService);  
+  private http = inject(HttpClient);
+
   loginObj: LoginModel = {
     nationalityId: '',
     password: ''
   };
   turnstileSiteKey = environment.turnstileSiteKey;
   isCaptchaValid = false; // Butonun başlangıçta devre dışı olması için
-  private cdr = inject(ChangeDetectorRef); // Change Detection için
-  private authService = inject(AuthService);
-  private toastrService = inject(ToastrService);
-  http = inject(HttpClient);
+
+
   
 
   ngOnInit() {
@@ -43,15 +46,20 @@ export class LoginComponent implements OnInit {
       this.toastrService.warning("Lütfen CAPTCHA doğrulamasını tamamlayın.");
       return;
     }
+  
     this.authService.login(this.loginObj).subscribe({
       next: (response) => {
         if (response.isSuccess && response.data) {
           console.log("Giriş Başarılı, Token:", response.data.token);
           localStorage.setItem("token", response.data.token); // Token'ı sakla
           localStorage.setItem("expiration", response.data.expiration); // Kullanıcı bilgilerini sakla
-          this.toastrService.success("Kayıt başarılı! Ana sayfaya yönlendiriliyorsunuz.");
+          this.toastrService.success("Giriş başarılı! Yönlendiriliyorsunuz...");
+  
+          // Kullanıcıyı önceki sayfasına yönlendirmek için returnUrl bilgisini al
+          const returnUrl = new URLSearchParams(window.location.search).get('returnUrl') || "/";
+          
           setTimeout(() => {
-            window.location.href = "/";  // Sayfayı yönlendiriyoruz
+            window.location.href = returnUrl;  // returnUrl varsa o sayfaya, yoksa ana sayfaya yönlendir
           }, 1000);  // 1 saniye sonra yönlendirme yapılacak
         } else {
           console.log("Giriş başarısız:", response.message);
@@ -59,12 +67,9 @@ export class LoginComponent implements OnInit {
       },
       error: (err) => {
         if (err.error?.ValidationErrors) {
-          // Hata mesajlarını bir dizi olarak alıyoruz
           const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
-          
-          // Her hata mesajını ayrı ayrı göstermek için forEach ile döngü oluşturuyoruz
           errorMessages.forEach((message: string | undefined) => {
-            this.toastrService.error(message); // Her hata mesajını ayrı ayrı gösteriyoruz
+            this.toastrService.error(message);
           });
         } else {
           this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
@@ -72,4 +77,5 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+  
 }

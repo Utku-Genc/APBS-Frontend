@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
     <!-- Logo ve Başlık -->
-    <a class="navbar-brand">
+    <a class="navbar-brand" routerLink="/">
       <img src="../../../assets/site-img/logo.png" alt="Logo" class="navbar-logo">
       <span class="navbar-title">Akademik Personel Başvuru Sistemi</span>
     </a>
@@ -21,7 +21,7 @@
         </li>
 
         <!-- Giriş Yapılmamışsa Kayıt ve Giriş Butonları -->
-        <ng-container *ngIf="!isAuthenticated">
+        <ng-container *ngIf="!isLoggedIn">
           <li class="nav-item">
             <a class="nav-link" routerLink="/register">Kayıt Ol</a>
           </li>
@@ -31,7 +31,7 @@
         </ng-container>
 
         <!-- Giriş Yapıldıysa Profil ve Çıkış Butonları -->
-        <ng-container *ngIf="isAuthenticated">
+        <ng-container *ngIf="isLoggedIn">
           <li class="nav-item">
             <a class="nav-link" routerLink="/notification"><i class="fas fa-bell"></i></a>
           </li>
@@ -42,11 +42,11 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <i class="fas fa-user"></i> {{ profileMenuUserName }}
+              <i class="fas fa-user"></i> {{ userObj.firstName }} {{ userObj.lastName }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item">Profilim</a></li>
-              <li><a class="dropdown-item">Ayarlara Git</a></li>
+              <li><a class="dropdown-item" routerLink="/profile">Profilim</a></li>
+              <li><a class="dropdown-item" routerLink="/settings">Ayarlara Git</a></li>
               <li><a class="dropdown-item" (click)="logout()">Çıkış Yap</a></li>
             </ul>
           </li>

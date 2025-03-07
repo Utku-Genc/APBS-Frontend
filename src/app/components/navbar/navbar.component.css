@@ -9,12 +9,12 @@
 
 
 .navbar .navbar-brand img {
-    height: 50px;
+    height: 60px;
     margin-right: 10px;
 }
 
 .navbar .navbar-toggler {
-color: white;
+    color: white;
 }
 
 .navbar .nav-link {
@@ -23,7 +23,7 @@ color: white;
     transition: all 0.3s ease;
     border-radius: 5px;
     margin: 0 5px;
-    
+
 }
 
 .navbar .nav-link:hover {
@@ -81,25 +81,53 @@ color: white;
 
 /* Güneş ve Ay simgesi animasyon */
 .navbar .btn-outline-secondary i.fas.fa-sun {
-    color: #FDB813; /* Güneş rengi */
+    color: #FDB813;
+    /* Güneş rengi */
     width: 20px;
 }
 
 .navbar .btn-outline-secondary i.fas.fa-moon {
-    color: #ffffff; /* Ay rengi */
+    color: #ffffff;
+    /* Ay rengi */
     width: 20px;
 
 }
 
 .navbar .navbar-title {
     display: inline-block;
-    max-width: 90%;  /* Başlık, container'a sığacak şekilde boyutlandırılır */
-    word-wrap: break-word;  /* Uzun kelimeler alt satıra kayar */
-    white-space: normal;  /* Satır sonunda otomatik olarak alt satıra geçer */
+    max-width: 90%;
+    /* Başlık, container'a sığacak şekilde boyutlandırılır */
+    word-wrap: break-word;
+    /* Uzun kelimeler alt satıra kayar */
+    white-space: normal;
+    /* Satır sonunda otomatik olarak alt satıra geçer */
 }
 
 @media screen and (max-width: 500px) {
-   .navbar .navbar-title {
-      font-size: 16px;
-   }
+    .navbar .navbar-title {
+        font-size: 16px;
+    }
+
+    .navbar .navbar-brand img {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .navbar .nav-item {
+        margin: 5px 0;
+        width: 100%;
+        background-color: none !important;
+    }
+
+    .navbar .nav-item .nav-link {
+        background-color: var(--primary-color) !important;
+        margin: 0 16px;
+    }
+
+    .navbar .nav-item .navbar .form-control {
+        width: 100%;
+        margin: auto;
+
+    }
 }

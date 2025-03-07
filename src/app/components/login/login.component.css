@@ -105,4 +105,7 @@ h5.text-center {
     .card {
         width: 90%;
     }
+    .img-fluid {
+        display: none !important;
+    }
 }

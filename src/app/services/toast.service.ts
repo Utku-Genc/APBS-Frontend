@@ -69,26 +69,16 @@ export class ToastService {
     });
   }
 
-  // Her hata mesajını ayrı ayrı toast olarak göstermek için
-  async showErrors(errorMessages: string[]) {
-    const promises = errorMessages.map((errorMessage) => {
-      return Swal.fire({
-        icon: 'error',
-        title: errorMessage,
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        },
-      });
+  confirmation(title: string, text: string) {
+    return Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, onaylıyorum!',
+      cancelButtonText: 'İptal',
     });
-
-    // Tüm toast'ların aynı anda başlatılmasını sağlıyoruz
-    await Promise.all(promises);
   }
 }
-

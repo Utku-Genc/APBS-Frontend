@@ -1,0 +1,47 @@
+.profile-img-default {
+  font-size: 120px;
+  border-radius: 50%; /* Yuvarlak şekil */
+  display: block;
+  background-color: var(--primary-color);
+  color: var(--background-color) !important;
+  padding: 5px;
+
+}
+
+.profile-img {
+  font-size: 120px;
+  border-radius: 50%; /* Yuvarlak şekil */
+  display: block;
+  background-color: var(--primary-color);
+  color: var(--background-color) !important;
+  padding: 5px;
+  width: 150px; /* 1:1 oranında küçük resimler için */
+  height: 150px; /* 1:1 oranında küçük resimler için */
+  object-fit: cover; /* Resmin kutuya sığmasını sağlar */
+}
+  
+  
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
+  }
+  
+  .list-group-item {
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+    border: none;
+  }
+  
+  .nav-tabs .nav-link {
+    color: var(--secondary-text-color);
+  }
+  
+  .nav-tabs .nav-link.active {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+  }

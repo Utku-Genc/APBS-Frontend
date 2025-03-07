@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <div class="row">
+    <!-- Profil Resmi -->
+    <div class="col-md-3 d-flex justify-content-center align-items-center">
+      <i *ngIf="!profileImage" class="fa-regular fa-circle-user profile-img-default"></i>
+      <!-- Profil resmi var ise, göster -->
+      <img *ngIf="profileImage" src="../../../assets/site-img/logo.png" alt="Profile Image" class="profile-img">
+    </div>
+
+    <!-- Kişisel Bilgiler ve Ayarlar -->
+    <div class="col-md-9">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <h1><i class="fa-solid fa-user"></i> Profilim</h1>
+          <p>Bu sayfada, size ait olan bilgileri ve başvurularınızı takip edebilirsiniz.</p>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <i class="fa-solid fa-id-card"></i> <strong> T.C. Kimlik:</strong> {{ userObj.nationalityId }}
+            </li>
+            <li class="list-group-item">
+              <i class="fa-solid fa-user"></i> <strong> İsim Soyisim:</strong> {{ userObj.firstName }} {{
+              userObj.lastName }}
+            </li>
+            <li class="list-group-item">
+              <i class="fa-solid fa-cake-candles"></i> <strong> Doğum Tarihi:</strong> {{ userObj.dateOfBirth |
+              date:'dd/MM/yyyy' }}
+            </li>
+            <li class="list-group-item">
+              <i class="fa-solid fa-envelope"></i> <strong> Email:</strong> {{ userObj.email }}
+            </li>
+
+
+          </ul>
+        </div>
+        <button class="btn btn-primary" routerLink="/settings"><i class="fa-solid fa-gear"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Başvurular Tabları -->
+  <div class="mt-4">
+    <ul class="nav nav-tabs" id="applicationTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button"
+          role="tab">Aktif Başvurular</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="past-tab" data-bs-toggle="tab" data-bs-target="#past" type="button"
+          role="tab">Geçmiş Başvurular</button>
+      </li>
+    </ul>
+    <div class="tab-content mt-3">
+      <div class="tab-pane fade show active" id="active" role="tabpanel">
+        <utk-cards></utk-cards>
+      </div>
+      <div class="tab-pane fade" id="past" role="tabpanel">
+        <!-- <app-application-card [status]="'past'"></app-application-card> -->
+      </div>
+    </div>
+  </div>
+</div>
