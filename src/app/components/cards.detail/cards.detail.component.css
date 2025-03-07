@@ -1,0 +1,117 @@
+.card {
+  background-color: var(--card-background-color);
+  color: var(--text-color);
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding-bottom: 50px; /* Başvur butonu için boşluk bırak */
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-img-top {
+  max-height: 200px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+
+.card-text {
+  white-space: pre-wrap; /* Alt satırları ve boşlukları korur */
+  margin-bottom: 15px;
+}
+
+/* Geri Dön Butonu */
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+/* Başvur Butonu */
+.apply-button {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.apply-button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+/* Başvuru ve Tarih Üst Bilgi Düzeni */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-header .card-title {
+  margin: 0;
+}
+
+.card-header .deadline {
+  font-weight: bold;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Kısa Bilgiler Yan Yana */
+.card-details .info-row,
+.additional-info .info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.card-details .info-row p,
+.additional-info .info-row p {
+  width: 48%;
+  margin-bottom: 10px;
+}
+
+/* Mobil uyumlu tasarım için medya sorgusu */
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-header .deadline {
+    margin-top: 10px;
+  }
+
+  /* Mobilde yan yana olan bilgileri alt alta yerleştir */
+  .card-details .info-row p,
+  .additional-info .info-row p {
+    width: 100%;
+  }
+}

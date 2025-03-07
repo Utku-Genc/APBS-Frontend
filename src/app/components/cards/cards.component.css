@@ -1,0 +1,25 @@
+.card {
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  .btn-primary:hover {
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
+  }
+  .card-img {
+
+    display: block;
+    background-color: var(--primary-color);
+    color: var(--background-color) !important;
+    width: auto; /* 1:1 oranında küçük resimler için */
+    height: 150px; /* 1:1 oranında küçük resimler için */
+    object-fit: cover; /* Resmin kutuya sığmasını sağlar */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }

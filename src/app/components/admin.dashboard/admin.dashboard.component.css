@@ -1,0 +1,56 @@
+/* İzole edilmiş tablo sınıfı ile tüm stil bozulmasın */
+.admin-table {
+  --bs-table-bg: var(--card-background-color) !important; /* Arka plan rengi */
+  --bs-table-color: var(--text-color) !important; /* Yazı rengi */
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Başlık hücreleri için stil */
+.admin-table th {
+  background-color: var(--primary-color) !important;
+  color: white;
+  font-weight: bold;
+}
+
+/* Hücrelerin genel sınırları ve stilini düzenleyelim */
+.admin-table th,
+.admin-table td {
+  border-top: 1px solid var(--secondary-text-color);
+  padding: 12px; /* Hücrelere biraz boşluk ekleyelim */
+  vertical-align: middle; /* Yazıları dikeyde ortala */
+
+}
+
+/* Durum Badges */
+.admin-table .badge.bg-success {
+  font-size: 16px;
+}
+
+.admin-table .badge.bg-secondary {
+  font-size: 16px;
+
+}
+
+/* Butonlar için hover efektleri */
+.admin-table button:hover {
+  background-color: var(--primary-hover-color);
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}
+
+/* İkonları butonlarda hizalamak için margin */
+.admin-table button i {
+  margin-right: 8px; /* İkon ile metin arasında boşluk */
+}
+
+/* Mobil uyumluluk için tabloyu responsive yapalım */
+.admin-table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Alternatif satır arka plan renkleri */
+.admin-table tr:hover {
+  background-color: #f1f1f1; /* Satır üzerine geldiğinde renk değişsin */
+}

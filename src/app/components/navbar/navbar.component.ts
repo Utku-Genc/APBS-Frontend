@@ -98,6 +98,8 @@ export class NavbarComponent implements OnInit {
   }
 
   getUser() {
+    console.log("---------------------------------");
+
     this.authService.getUserByToken().subscribe(response => {
       console.log(response.data);
       this.userObj = response.data;

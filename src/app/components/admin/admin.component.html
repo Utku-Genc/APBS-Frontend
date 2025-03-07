@@ -1,0 +1,35 @@
+<div class="d-flex">
+  <!-- Sol Menü (Sidebar) -->
+  <div class="sidebar p-3" id="sidebar">
+    <h3 class="text-white">Admin Paneli</h3>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <button class="btn btn-primary" (click)="navigateTo('dashboard')">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-primary" (click)="navigateTo('settings')">
+          <i class="fas fa-cogs"></i> Ayarlar
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-primary" (click)="navigateTo('users')">
+          <i class="fas fa-users"></i> Kullanıcılar
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Menü Butonu (Her Çözünürlükte Görünsün) -->
+  <button class="btn text-white menu-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+    Menü
+  </button>
+
+  <!-- Sağ Kısım: İçerik Alanı -->
+  <div class="content-area flex-grow-1 p-3">
+    <!-- Başlık Dinamik Olarak Değişir -->
+    <h2 class="content-title">{{ pageTitle }}</h2>
+    <router-outlet></router-outlet>
+  </div>
+</div>

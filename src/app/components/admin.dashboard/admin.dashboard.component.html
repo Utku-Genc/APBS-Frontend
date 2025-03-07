@@ -1,0 +1,37 @@
+<!-- Responsive tabloya sahip bir div ile tabloyu saralım -->
+<div class="admin-table-responsive">
+  <table class="table admin-table">
+    <thead>
+      <tr>
+        <th scope="col"><i class="fas fa-id-badge"></i> ID</th>
+        <th scope="col"><i class="fas fa-heading"></i> Başlık</th>
+        <th scope="col"><i class="fas fa-align-left"></i> Açıklama</th>
+        <th scope="col"><i class="fas fa-user"></i> Yükleyen</th>
+        <th scope="col"><i class="fas fa-check-circle"></i> Durum</th>
+        <th scope="col"><i class="fas fa-tools"></i> İşlemler</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items">
+        <td><i class="fas fa-id-badge"></i> {{ item.id }}</td>
+        <td>{{ item.title | summary:30}}</td>
+        <td>{{ item.description | summary:80 }}</td>
+        <td>{{ item.uploader }}</td>
+        <td>
+          <span [class]="item.isActive ? 'badge bg-success' : 'badge bg-secondary'">
+            <i class="fas" [ngClass]="item.isActive ? 'fa-check-circle' : 'fa-times-circle'"></i> 
+            {{ item.isActive ? 'Aktif' : 'Pasif' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-warning me-2 mt-2 mb-2" (click)="onToggleActive(item.id, item.isActive)">
+            <i class="fas fa-sync-alt"></i> Durum Değiştir
+          </button>
+          <button class="btn btn-danger me-2 mt-2 mb-2" (click)="onDelete(item.id)">
+            <i class="fas fa-trash-alt"></i> Sil
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

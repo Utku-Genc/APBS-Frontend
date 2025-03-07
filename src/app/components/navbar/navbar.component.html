@@ -32,8 +32,35 @@
 
         <!-- Giriş Yapıldıysa Profil ve Çıkış Butonları -->
         <ng-container *ngIf="isLoggedIn">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/notification"><i class="fas fa-bell"></i></a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle position-relative" id="notificationDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fas fa-bell"></i>
+              <span *ngIf="unreadCount > 0" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
+                {{ unreadCount }}
+              </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+              <li *ngIf="notifications.length === 0" class="dropdown-item text-muted">Yeni bildiriminiz yok</li>
+              
+              <ng-container *ngFor="let notification of notifications.slice(0, 3); let i = index">
+                <li>
+                  <a class="dropdown-item">
+                    <strong>{{ notification.title }}</strong><br>
+                    <small>{{ notification.description }}</small><br>
+                    <span class="text-muted">{{ notification.date | date:'dd MMMM yyyy, HH:mm':'tr-TR' }}</span>
+                  </a>
+                </li>
+                <li *ngIf="i < 2">
+                  <hr class="dropdown-divider">
+                </li>
+              </ng-container>
+          
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-center" routerLink="/notifications">Tüm Bildirimleri Gör</a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink=""><i class="fas fa-file-alt"></i> Başvurularım</a>
