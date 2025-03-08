@@ -11,6 +11,7 @@ import { GuestGuard } from './guards/guest.guard';
 import { CardsDetailComponent } from './components/cards.detail/cards.detail.component';
 import { AdminDashboardComponent } from './components/admin.dashboard/admin.dashboard.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { CardsFormsComponent } from './components/cards.forms/cards.forms.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -27,6 +28,7 @@ export const routes: Routes = [
 
     // Card Detail Sayfası
     {path: 'detail/:id', component: CardsDetailComponent},
+    {path: 'ilan/ekle', component: CardsFormsComponent},
 
 
     //Admin Dashboard

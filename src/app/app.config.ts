@@ -12,15 +12,13 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),    
     provideAnimations(),  // Toastr için gerekli
-    provideToastr(
-      {
-        positionClass: 'toast-bottom-right',
-        preventDuplicates: true,
-        closeButton: true,
-        progressBar: true,
-        progressAnimation: 'decreasing'
-      }
-    ),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideToastr({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+      closeButton: true,
+      progressBar: true,
+      progressAnimation: 'decreasing'
+    }),
+    provideHttpClient(withInterceptors([authInterceptor]))
   ]
 };

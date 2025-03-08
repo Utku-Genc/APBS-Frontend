@@ -1,0 +1,49 @@
+<div class="container mt-5">
+  <div class="card">
+    <h2>Yeni İlan Ekle</h2>
+
+    <form (ngSubmit)="submitForm()">
+      <div class="form-group">
+        <label for="title">Başlık:</label>
+        <input type="text" id="title" [(ngModel)]="formData.baslik" name="title" required placeholder="Buraya başlık yazın">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Açıklama:</label>
+        <quill-editor [(ngModel)]="formData.aciklama" [modules]="editorConfig" name="description" placeholder="Buraya açıklama yazın"></quill-editor>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="position">Pozisyon:</label>
+          <select id="position" [(ngModel)]="formData.pozisyonId" name="position">
+            <option value="null">Seçiniz</option>
+            <option *ngFor="let pos of positions" [value]="pos.id">{{ pos.name }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="department">Bölüm:</label>
+          <select id="department" [(ngModel)]="formData.bolumId" name="department">
+            <option value="null">Seçiniz</option>
+            <option *ngFor="let dept of departments" [value]="dept.id">{{ dept.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="startDate">Başlangıç Tarihi:</label>
+          <input type="date" id="startDate" [(ngModel)]="formData.baslangicTarihi" name="startDate">
+        </div>
+
+        <div class="form-group">
+          <label for="endDate">Bitiş Tarihi:</label>
+          <input type="date" id="endDate" [(ngModel)]="formData.bitisTarihi" name="endDate">
+        </div>
+      </div>
+
+      <button type="submit">Kaydet</button>
+    </form>
+  </div>
+</div>
