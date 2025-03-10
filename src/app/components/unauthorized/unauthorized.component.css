@@ -1,0 +1,44 @@
+.container-fluid {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh !important;
+    text-align: center;
+}
+
+.row {
+    background-color: var(--card-background-color);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.fa-circle-exclamation {
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+.h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+#countdown {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.btn.text-white {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn.text-white:hover {
+    background-color: var(--primary-hover-color);
+}

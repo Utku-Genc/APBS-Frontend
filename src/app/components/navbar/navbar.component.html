@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
-    <!-- Logo ve Başlık -->
+    <!-- Logo ve Başlık Herkeste sabit-->
     <a class="navbar-brand" routerLink="/">
-      <img src="../../../assets/site-img/logo.png" alt="Logo" class="navbar-logo">
+      <img src="../../../assets/site-img/logo.png" alt="Logo" class="navbar-logo" decoding="async">
       <span class="navbar-title">Akademik Personel Başvuru Sistemi</span>
     </a>
 
-    <!-- Navbar Toggle Button (Mobil için) -->
+    <!-- Navbar Toggle Button (Mobil için) Herkeste sabit-->
     <button class="navbar-toggler" type="button" (click)="toggleMobileMenu()" aria-controls="navbarNav"
       aria-expanded="false" aria-label="Toggle navigation">
 <i class="fa-solid fa-bars"></i>
@@ -15,7 +15,7 @@
     <!-- Navbar Menü -->
     <div class="collapse navbar-collapse" [ngClass]="{'show': mobileMenuActive}" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <!-- Arama Butonu Ortalanmış -->
+        <!-- Arama Butonu Ortalanmış Herkeste sabit-->
         <li class="nav-item mx-auto">
           <input type="text" class="form-control" placeholder="Arama yapın..." aria-label="Search">
         </li>
@@ -63,10 +63,19 @@
             </ul>
 
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="userRole !== 'admin' && userRole !== 'yonetici' && userRole !== 'juri'">
             <a class="nav-link" routerLink=""><i class="fas fa-file-alt"></i> Başvurularım</a>
           </li>
-        
+
+          <li *ngIf="userRole === 'admin'" class="nav-item">
+            <a class="nav-link" routerLink="/admin"><i class="fa-solid fa-user-shield"></i> Admin Paneli</a>
+          </li>
+          <li *ngIf="userRole === 'yonetici' || userRole === 'admin'"class="nav-item">
+            <a class="nav-link" routerLink=""><i class="fa-solid fa-user-gear"></i> Yönetici Paneli</a>
+          </li>
+          <li *ngIf="userRole === 'juri' || userRole === 'yonetici' || userRole === 'admin'" class="nav-item">
+            <a class="nav-link" routerLink=""><i class="fa-solid fa-user-pen"></i> Juri Paneli</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">

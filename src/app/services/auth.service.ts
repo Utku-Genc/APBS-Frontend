@@ -52,7 +52,7 @@ export class AuthService {
     }
     return null;
   }
-  getUserRoles(): string[] {
+  getUserRoles(): string[] { //decode ile tokeninin içindeki rolleri alıyoruz
     const decodedToken = this.getDecodedToken();
     if (decodedToken) {
       const roles = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
@@ -61,10 +61,25 @@ export class AuthService {
     return [];
   }
 
-  isAdmin(): boolean {
+  getUserRole(): string | null { // Kullanıcının rolünü döndüren fonksiyon
     const roles = this.getUserRoles();
-    return roles.includes('admin');
+    console.log('Kullanıcı Rolleri:', roles);
+  
+    if (roles.length === 0) {
+      return null;
+    }
+  
+    const roleHierarchy = ['admin', 'yonetici', 'juri']; 
+  
+    for (const role of roleHierarchy) {
+      if (roles.includes(role)) {
+        return role; 
+      }
+    }
+  
+    return null; // Hiçbir eşleşme yoksa null dön
   }
+  
 
   isAuthenticated(){
     const expirationString = localStorage.getItem("expiration");

@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
   notifications: { title: string, description: string, date: string, isRead: boolean }[] = [];
   isLoggedIn: boolean = false;
   isAuthenticated: boolean = false;
+  userRole: string | null = null;
   profileMenuActive: boolean = false;
   mobileMenuActive: boolean = false;
   isDarkTheme: boolean = false;  // Tema durumunu takip etmek için değişken
@@ -47,6 +48,7 @@ export class NavbarComponent implements OnInit {
 
       }
     })
+
     // localStorage'dan tema bilgisini al
     const storedTheme = localStorage.getItem('theme');
     
@@ -59,6 +61,19 @@ export class NavbarComponent implements OnInit {
       this.setTheme(prefersDark ? 'dark' : 'light');
     }
   }
+
+  getUser() {
+    console.log("---------------------------------");
+    this.authService.getUserByToken().subscribe(response => {
+      console.log(response.data);
+      this.userObj = response.data;
+    })
+    this.userRole = this.authService.getUserRole();
+    console.log("Tepe Rol:", this.userRole);
+    console.log("---------------------------------");
+  }
+
+  
 
   toggleProfileMenu() {
     this.profileMenuActive = !this.profileMenuActive;
@@ -100,12 +115,5 @@ export class NavbarComponent implements OnInit {
 
   
 
-  getUser() {
-    console.log("---------------------------------");
 
-    this.authService.getUserByToken().subscribe(response => {
-      console.log(response.data);
-      this.userObj = response.data;
-    })
-  }
 }
