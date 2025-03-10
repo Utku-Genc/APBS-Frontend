@@ -12,6 +12,8 @@ import { CardsDetailComponent } from './components/cards.detail/cards.detail.com
 import { AdminDashboardComponent } from './components/admin.dashboard/admin.dashboard.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { CardsFormsComponent } from './components/cards.forms/cards.forms.component';
+import { RoleGuard } from './guards/role.guard';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -28,7 +30,11 @@ export const routes: Routes = [
 
     // Card Detail Sayfası
     {path: 'detail/:id', component: CardsDetailComponent},
-    {path: 'ilan/ekle', component: CardsFormsComponent},
+    {path: 'ilan/ekle',
+     component: CardsFormsComponent,
+     canActivate: [LoginGuard, RoleGuard],
+     data: { roles: ['admin', 'yonetici'] }},
+
 
 
     //Admin Dashboard
@@ -38,6 +44,13 @@ export const routes: Routes = [
         children: [
           { path: 'dashboard', component: AdminDashboardComponent },
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-        ]
+        ],
+        canActivate: [LoginGuard, RoleGuard],
+        data: { roles: ['admin'] }
       },
+
+
+      { path: 'unauthorized', component: UnauthorizedComponent }, 
+      { path: '**', redirectTo: 'unauthorized' }
+
 ];

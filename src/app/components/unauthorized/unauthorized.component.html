@@ -1,0 +1,12 @@
+<div class="container-fluid d-flex vh-100">
+    <div class="row align-items-center justify-content-center w-75">
+        <div class="col-auto text-center">
+            <i class="fa-solid fa-circle-exclamation"></i>
+        </div>
+        <div class="col-auto">
+            <p class="h2">Bu sayfayı görüntüleme yetkiniz yok veya sayfa mevcut değil.</p>
+            <p><span id="countdown">{{ countdown }}</span> saniye sonra anasayfaya yönlendirileceksiniz. </p>
+            <button (click)="redirectToHomepage()" class="btn text-white">Anasayfaya Dön</button>
+        </div>
+    </div>
+</div>
