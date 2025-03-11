@@ -34,7 +34,6 @@
 
 /* Butonlar için hover efektleri */
 .admin-table button:hover {
-  background-color: var(--primary-hover-color);
   transform: scale(1.05);
   transition: all 0.2s ease-in-out;
 }
@@ -51,6 +50,7 @@
 }
 
 /* Alternatif satır arka plan renkleri */
+
 .admin-table tr:hover {
-  background-color: #f1f1f1; /* Satır üzerine geldiğinde renk değişsin */
+  background-color: var(--primary-hover-color); /* Satır üzerine geldiğinde renk değişsin */
 }

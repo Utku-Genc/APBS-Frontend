@@ -14,6 +14,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { CardsFormsComponent } from './components/cards.forms/cards.forms.component';
 import { RoleGuard } from './guards/role.guard';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { AdminDepartmentManagementComponent } from './components/admin-department-management/admin-department-management.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -43,6 +44,7 @@ export const routes: Routes = [
         component: AdminComponent,
         children: [
           { path: 'dashboard', component: AdminDashboardComponent },
+          { path: 'alan', component: AdminDepartmentManagementComponent },
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         ],
         canActivate: [LoginGuard, RoleGuard],

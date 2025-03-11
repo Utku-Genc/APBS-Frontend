@@ -34,3 +34,50 @@
     margin: 0;
     padding: 0;
   }
+
+  /* SweetAlert2 Temaya Uyumlu Stil */
+.swal2-popup {
+  background-color: var(--card-background-color) !important;
+  color: var(--text-color) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.custom-swal-confirm {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+}
+
+.custom-swal-confirm:hover {
+  background-color: var(--primary-hover-color) !important;
+}
+
+.custom-swal-cancel {
+  background-color: var(--input-background-color) !important;
+  color: var(--text-color) !important;
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+}
+
+.custom-swal-cancel:hover {
+  background-color: var(--input-hover-background-color) !important;
+}
+
+/* Apply additional styling to inputs and buttons */
+.swal2-input {
+  background-color: var(--input-background-color) !important;
+  color: var(--text-color) !important;
+  border-radius: 5px !important;
+  padding: 10px 15px !important;
+}
+
+.swal2-button {
+  border-radius: 8px !important;
+}
+
+.swal2-popup {
+  border-radius: 10px !important;
+}
+
