@@ -9,6 +9,11 @@
         </button>
       </li>
       <li class="nav-item">
+        <button class="btn btn-primary" (click)="navigateTo('alan')">
+          <i class="fas fa-cogs"></i> Alan Bölüm İşlemleri
+        </button>
+      </li>
+      <li class="nav-item">
         <button class="btn btn-primary" (click)="navigateTo('settings')">
           <i class="fas fa-cogs"></i> Ayarlar
         </button>
@@ -29,7 +34,6 @@
   <!-- Sağ Kısım: İçerik Alanı -->
   <div class="content-area flex-grow-1 p-3">
     <!-- Başlık Dinamik Olarak Değişir -->
-    <h2 class="content-title">{{ pageTitle }}</h2>
     <router-outlet></router-outlet>
   </div>
 </div>
