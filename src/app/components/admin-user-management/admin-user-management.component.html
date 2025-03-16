@@ -1,0 +1,181 @@
+<div class="user-management-container">
+    <h2 class="title">Kullanıcı Yönetimi</h2>
+ <!-- Filtreler -->
+<div class="filter-container">
+    <button class="filter-button btn btn-primary" (click)="toggleFilters()">Filtreler</button>
+    <div class="filter-content" [ngClass]="{'open': showFilters}">
+        <div class="filters">
+            <!-- Ad ve Soyad -->
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="firstName">Ad</label>
+                    <input type="text" id="firstName" [(ngModel)]="filters.firstName" class="form-control" placeholder="Ad girin">
+                </div>
+                <div class="col-md-6">
+                    <label for="lastName">Soyad</label>
+                    <input type="text" id="lastName" [(ngModel)]="filters.lastName" class="form-control" placeholder="Soyad girin">
+                </div>
+            </div>
+
+            <!-- TC Kimlik ve Email -->
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label for="nationalityId">TC Kimlik</label>
+                    <input type="text" id="nationalityId" [(ngModel)]="filters.nationalityId" class="form-control" placeholder="TC Kimlik girin">
+                </div>
+                <div class="col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" [(ngModel)]="filters.email" class="form-control" placeholder="Email girin">
+                </div>
+            </div>
+
+            <!-- Durum ve Tarihler -->
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label for="status">Durum</label>
+                    <select id="status" [(ngModel)]="filters.status" class="form-control">
+                        <option value="">Tümü</option>
+                        <option value="true">Aktif</option>
+                        <option value="false">Engelli</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="minDateOfBirth">Başlangıç Doğum Tarihi</label>
+                    <input type="date" id="minDateOfBirth" [(ngModel)]="filters.minDateOfBirth" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label for="maxDateOfBirth">Bitiş Doğum Tarihi</label>
+                    <input type="date" id="maxDateOfBirth" [(ngModel)]="filters.maxDateOfBirth" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <button class="btn btn-primary mt-3" (click)="loadUsers()">Filtrele</button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-primary btn-filter-reset mt-3" (click)="resetFilters()">Sıfırla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <div class="table-responsive mt-4">
+        <table class="user-table">
+            <thead>
+                <tr class="table-header">
+                    <th><i class="fas fa-eye"></i> Profil</th>
+                    <th><i class="fas fa-id-badge"></i> ID</th>
+                    <th><i class="fas fa-user-circle"></i> Resim</th>
+                    <th><i class="fas fa-user"></i> Ad</th>
+                    <th><i class="fas fa-id-card"></i> TC Kimlik</th>
+                    <th><i class="fas fa-envelope"></i> Email</th>
+                    <th><i class="fas fa-check-circle"></i> Durum</th>
+                    <th><i class="fas fa-cogs"></i> Roller</th>
+                    <th><i class="fas fa-calendar-alt"></i> Kayıt Tarihi</th>
+                    <th><i class="fas fa-tools"></i> İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users" class="user-row">
+                    <td>
+                        <button class="btn btn-sm btn-primary">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                    <td>{{ user.id }}</td>
+                    <td>
+                        <i *ngIf="!profileImage" class="fa-regular fa-circle-user profile-img-default"></i>
+                    </td>
+                    <td>{{ user.firstName }} {{ user.lastName }}</td>
+                    <td (mouseenter)="user.showFullTc = true" (mouseleave)="user.showFullTc = false">
+                        {{ user.nationalityId | tcMask:user.showFullTc }}
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <span class="badge" [ngClass]="user.status ? 'bg-success' : 'bg-danger'">
+                            {{ user.status ? 'Aktif' : 'Engelli' }}
+                        </span>
+                    </td>
+                    <td>
+                        <span *ngFor="let role of user.roles" class="badge bg-secondary mx-1">
+                            {{ role.operationClaimName }}
+                        </span>
+                    </td>
+                    <td>{{ user.dateOfBirth| date:'dd/MM/yyyy' }}</td>
+                    <td>
+                        <button class="btn btn-sm mx-1 action-btn"
+                            [ngClass]="user.status ? 'btn-danger' : 'btn-success'"
+                            (click)="user.status ? blockUser(user.id) : unblockUser(user.id)">
+                            <i class="fas" [ngClass]="user.status ? 'fa-ban' : 'fa-check'"></i>
+                            {{ user.status ? 'Engelle' : 'Engeli Kaldır' }}
+                        </button>
+
+                        <button class="btn btn-sm btn-warning mx-1" (click)="editUserRole(user.id)">
+                            <i class="fas fa-user-edit"></i> Rol Düzenle
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <button class="btn btn-secondary" (click)="previousPage()" [disabled]="pageNumber === 1">Önceki</button>
+        <button class="btn btn-secondary" (click)="nextPage()" [disabled]="users.length < pageSize">Sonraki</button>
+    </div>
+</div>
+
+<div class="modal fade" id="editUserRoleModal" #editUserRoleModal tabindex="-1" aria-labelledby="editUserRoleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserRoleModalLabel">Rol Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{userRoleId}} ID'li kullanıcının rolleri aşağıda gösterilmektedir. Rolleri düzenleyebilir veya yeni
+                    roller ekleyebilirsiniz.</p>
+
+                <div class="d-flex">
+                    <div class="form-group col me-2">
+                        <label class="mb-2"><strong>Mevcut Roller</strong></label>
+                        <ul class="list-group" *ngIf="selectedUserRoles && selectedUserRoles.length > 0; else noRoles">
+                            <li class="list-group-item" *ngFor="let role of selectedUserRoles">
+                                {{ role.operationClaimName.charAt(0).toUpperCase() +
+                                role.operationClaimName.slice(1).toLowerCase() }}
+                                <button class="btn btn-danger btn-sm float-end" (click)="deleteRole(role)">Sil</button>
+                            </li>
+                        </ul>
+                        <ng-template #noRoles>
+                            <p>Kullanıcının rolü yoktur.</p>
+                        </ng-template>
+                    </div>
+
+                    <div class="form-group ms-2 col">
+                        <label class="mb-2"><strong>Eklenebilir Roller</strong></label>
+                        <ul class="list-group"
+                            *ngIf="selectedAvailableRoles && selectedAvailableRoles.length > 0; else allRolesAdded">
+                            <li class="list-group-item" *ngFor="let role of selectedAvailableRoles">
+                                {{ role.name.charAt(0).toUpperCase() + role.name.slice(1).toLowerCase() }}
+                                <button class="btn btn-success btn-sm float-end" (click)="addRole(role)">Ekle</button>
+                            </li>
+                        </ul>
+                        <ng-template #allRolesAdded>
+                            <p>Kullanıcı bütün rollere sahiptir.</p>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" (click)="saveRoles()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>

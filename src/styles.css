@@ -71,6 +71,8 @@
   color: var(--text-color) !important;
   border-radius: 5px !important;
   padding: 10px 15px !important;
+  width: 100% !important;
+  margin: 5px 0 !important;
 }
 
 .swal2-button {

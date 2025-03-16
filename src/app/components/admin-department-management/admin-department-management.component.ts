@@ -9,6 +9,7 @@ import { AlanModel } from '../../models/alan/alan.model';
 import { BolumService } from '../../services/bolum.service';
 import { BolumAddModel } from '../../models/bolum/bolum-add.model';
 import { BolumModel } from '../../models/bolum/bolum.model';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class AdminDepartmentManagementComponent implements OnInit {
   private alanService = inject(AlanService);
   private bolumService = inject(BolumService);
   private toastService = inject(ToastService);
+  private toastrService = inject(ToastrService);
   private http = inject(HttpClient);
   
   alanModelObj !: AlanModel[];
@@ -34,6 +36,8 @@ export class AdminDepartmentManagementComponent implements OnInit {
 
   ngOnInit() {
     this.getAllBolumler();
+    this.getAllAlanlar();
+
 
 
   }
@@ -202,7 +206,6 @@ export class AdminDepartmentManagementComponent implements OnInit {
     });
   }
   addBolum() {
-    this.getAllAlanlar();
   
     Swal.fire({
       title: 'Yeni Bölüm Ekle',
@@ -269,6 +272,8 @@ export class AdminDepartmentManagementComponent implements OnInit {
   }
   
   editBolum(bolum: BolumModel) {
+   this.getAllAlanlar();
+    console.log(bolum);
     Swal.fire({
       title: `${bolum.id} ID'li bölümü güncelliyorsunuz`,
       html: `
@@ -334,8 +339,15 @@ export class AdminDepartmentManagementComponent implements OnInit {
               this.toastService.error('Bölüm güncellenirken bir hata oluştu: ' + response.message);
             }
           },
-          error: (error) => {
-            this.toastService.error('Bölüm güncellenirken bir hata oluştu: ' + error.message);
+          error: (err) => {
+            if (err.error?.ValidationErrors) {
+              const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+              errorMessages.forEach((message: string | undefined) => {
+                this.toastrService.error(message);
+              });
+            } else {
+              this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+            }
           }
         });
       }

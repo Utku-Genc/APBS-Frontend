@@ -6,10 +6,11 @@ import { ToastService } from '../../services/toast.service';
 import { CommonModule} from '@angular/common';
 import { CardsComponent } from "../cards/cards.component";
 import { UserModel } from '../../models/auth/user.model';
+import { TcMaskPipe } from "../../pipes/tcmask.pipe";
 
 @Component({
   selector: 'utk-profile',
-  imports: [RouterLink, CommonModule, CardsComponent],
+  imports: [RouterLink, CommonModule, CardsComponent, TcMaskPipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -24,13 +25,13 @@ export class ProfileComponent implements OnInit {
 
   
   userObj!: UserModel;
-  
     ngOnInit(): void {
         this.getUser();
     }
     getUser() {
       this.authService.getUserByToken().subscribe(response => {
         this.userObj = response.data;
+        this.userObj.showFullTc = false;
       })
     }
 

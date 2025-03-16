@@ -22,6 +22,6 @@ export class BolumService {
         return this.apiService.put(`${this.endpoint}update`, bolum);
     }
     delete(id: number): Observable<any> {
-        return this.apiService.delete(`${this.endpoint}delete/${id}`);
+        return this.apiService.delete(`${this.endpoint}delete?id=${id}`);
     }
 }

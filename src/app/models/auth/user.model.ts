@@ -5,4 +5,5 @@ export interface UserModel {
     lastName: string;
     email: string;
     dateOfBirth: string;
+    showFullTc: boolean ;
   }
