@@ -12,16 +12,16 @@ import { jwtDecode } from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  private authEndpoint = 'Auth/';
+  private endpoint = 'Auth/';
 
   constructor(private apiService: ApiService) {}
 
   register(RegisterModel: RegisterModel): Observable<SingleResponseModel<TokenModel>> {
-    return this.apiService.post<SingleResponseModel<TokenModel>>(`${this.authEndpoint}register`, RegisterModel);
+    return this.apiService.post<SingleResponseModel<TokenModel>>(`${this.endpoint}register`, RegisterModel);
   }
 
   login(loginModel: LoginModel): Observable<SingleResponseModel<TokenModel>> {
-    return this.apiService.post<SingleResponseModel<TokenModel>>(`${this.authEndpoint}login`, loginModel);
+    return this.apiService.post<SingleResponseModel<TokenModel>>(`${this.endpoint}login`, loginModel);
   }
 
   logout(): void {
@@ -30,12 +30,10 @@ export class AuthService {
   }
 
   getUserByToken(): Observable<SingleResponseModel<UserModel>> {
-    return this.apiService.get<SingleResponseModel<UserModel>>(`${this.authEndpoint}getUserByToken`);
+    return this.apiService.get<SingleResponseModel<UserModel>>(`${this.endpoint}getUserByToken`);
   }
   
-  getUserById(id: number): Observable<SingleResponseModel<UserModel>> {
-    return this.apiService.get<SingleResponseModel<UserModel>>(`${this.authEndpoint}getUserById?id=${id}`);
-  }
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }

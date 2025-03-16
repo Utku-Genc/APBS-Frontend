@@ -9,21 +9,21 @@ import { AlanAddModel } from '../models/alan/alan.add.model';
   providedIn: 'root'
 })
 export class AlanService {
-  private authEndpoint = 'Alan/';
+  private endpoint = 'Alan/';
     constructor(private apiService: ApiService) {}
     getAll(): Observable<SingleResponseModel<AlanModel[]>> {
-      return this.apiService.get<SingleResponseModel<AlanModel[]>>(`${this.authEndpoint}getall`);
+      return this.apiService.get<SingleResponseModel<AlanModel[]>>(`${this.endpoint}getall`);
     }
 
     add(data: AlanAddModel): Observable<SingleResponseModel<AlanAddModel>> {
-      return this.apiService.post<SingleResponseModel<AlanAddModel>>(`${this.authEndpoint}add`, data); 
+      return this.apiService.post<SingleResponseModel<AlanAddModel>>(`${this.endpoint}add`, data); 
     }
 
     update(data: AlanModel): Observable<SingleResponseModel<AlanModel>> {
-      return this.apiService.put<SingleResponseModel<AlanModel>>(`${this.authEndpoint}update`, data);
+      return this.apiService.put<SingleResponseModel<AlanModel>>(`${this.endpoint}update`, data);
     }
     delete(id: number): Observable<SingleResponseModel<any>> {
-      return this.apiService.delete<SingleResponseModel<any>>(`${this.authEndpoint}delete/${id}`);
+      return this.apiService.delete<SingleResponseModel<any>>(`${this.endpoint}delete?id=${id}`);
     }
     
 }
