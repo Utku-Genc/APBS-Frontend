@@ -37,9 +37,6 @@ export class AdminDepartmentManagementComponent implements OnInit {
   ngOnInit() {
     this.getAllBolumler();
     this.getAllAlanlar();
-
-
-
   }
 
 
@@ -54,8 +51,9 @@ export class AdminDepartmentManagementComponent implements OnInit {
         if (response.isSuccess) {
           console.log('Tüm alanlar: ', response.data);
           this.alanModelObj = response.data;
+
         } else {
-          this.toastService.error('Alanlar getirilirken bir hata oluştu: ' + response.message);
+          this.toastService.error(response.message);
         }
       },
       error: (error) => {
@@ -95,10 +93,10 @@ export class AdminDepartmentManagementComponent implements OnInit {
           this.alanService.add(this.alanAddObj).subscribe({
             next: (response) => {
               if (response.isSuccess) {
-                this.toastService.success('Alan başarıyla eklendi!');
+                this.toastService.success(response.message);
                 this.getAllAlanlar();
               } else {
-                this.toastService.error('Alan eklenirken bir hata oluştu: ' + response.message);
+                this.toastService.error(response.message);
               }
             },
             error: (error) => {
@@ -146,10 +144,10 @@ export class AdminDepartmentManagementComponent implements OnInit {
         this.alanService.update(updatedAlan).subscribe({
           next: (response) => {
             if (response.isSuccess) {
-              this.toastService.success('Alan başarıyla güncellendi!');
+              this.toastService.success(response.message);
               this.getAllAlanlar(); 
             } else {
-              this.toastService.error('Alan güncellenirken bir hata oluştu: ' + response.message);
+              this.toastService.error(response.message);
             }
           },
           error: (error) => {
@@ -173,10 +171,10 @@ export class AdminDepartmentManagementComponent implements OnInit {
         this.alanService.delete(id).subscribe({
           next: (response) => {
             if (response.isSuccess) {
-              this.toastService.success('Alan başarıyla silindi!');
+              this.toastService.success(response.message);
               this.getAllAlanlar(); 
             } else {
-              this.toastService.error('Alan silinirken bir hata oluştu: ' + response.message);
+              this.toastService.error(response.message);
             }
           },
           error: (error) => {
@@ -197,7 +195,7 @@ export class AdminDepartmentManagementComponent implements OnInit {
         if (response.isSuccess) {
           this.bolumModelObj = response.data;
         } else {
-          this.toastService.error('Bölümler getirilirken bir hata oluştu: ' + response.message);
+          this.toastService.error(response.message);
         }
       },
       error: (error) => {
@@ -257,10 +255,10 @@ export class AdminDepartmentManagementComponent implements OnInit {
         this.bolumService.add(bolumAddObj).subscribe({
           next: (response) => {
             if (response.isSuccess) {
-              this.toastService.success('Bölüm başarıyla eklendi!');
+              this.toastService.success(response.message);
               this.getAllBolumler(); 
             } else {
-              this.toastService.error('Bölüm eklenirken bir hata oluştu: ' + response.message);
+              this.toastService.error(response.message);
             }
           },
           error: (error) => {
@@ -333,10 +331,10 @@ export class AdminDepartmentManagementComponent implements OnInit {
         this.bolumService.update(updatedBolum).subscribe({
           next: (response) => {
             if (response.isSuccess) {
-              this.toastService.success('Bölüm başarıyla güncellendi!');
+              this.toastService.success(response.message);
               this.getAllBolumler(); 
             } else {
-              this.toastService.error('Bölüm güncellenirken bir hata oluştu: ' + response.message);
+              this.toastService.error(response.message);
             }
           },
           error: (err) => {
@@ -367,7 +365,7 @@ export class AdminDepartmentManagementComponent implements OnInit {
         this.bolumService.delete(id).subscribe({
           next: (response) => {
             if (response.isSuccess) {
-              this.toastService.success('Bölüm başarıyla silindi!');
+              this.toastService.success(response.message);
               this.getAllBolumler(); 
             } else {
               this.toastService.error('Bölüm silinirken bir hata oluştu: ' + response.message);

@@ -1,0 +1,61 @@
+.notification-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    animation: fadeInOut 5s ease-in-out;
+}
+
+/* Icon için yuvarlak arka plan */
+.notification-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color); /* Varsayılan renk */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.notification-icon i {
+    font-size: 25px;
+    color: white;
+}
+
+/* Başlık için stil */
+.notification-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Mesaj için stil */
+.notification-message {
+    font-size: 14px;
+    margin: 5px 0 0;
+    color: white;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-20px); }
+}

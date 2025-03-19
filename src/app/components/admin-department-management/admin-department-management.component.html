@@ -15,7 +15,8 @@
     <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'bolum' }">
       <h3>Bölüm Yönetimi</h3>
       <button class="btn btn-primary mb-3" (click)="addBolum()">Yeni Bölüm Ekle</button>
-      <table class="admin-table">
+      <p *ngIf="bolumModelObj == null">Herhangi bir bölüm mevcut değil!</p>
+      <table class="admin-table" *ngIf="bolumModelObj != null">
         <thead>
           <tr>
             <th><i class="fas fa-id-badge"></i> ID</th>
@@ -26,6 +27,7 @@
             <th><i class="fas fa-envelope"></i> E-Posta</th>
             <th><i class="fas fa-map"></i> Adres</th>
             <th><i class="fas fa-tools"></i> İşlemler</th>
+            <th></th>
 
           </tr>
         </thead>
@@ -41,8 +43,10 @@
 
 
             <td>
-              <button class="btn btn-warning me-2 mt-2 mb-2" (click)="editBolum(bolum)">Düzenle</button>
-              <button class="btn btn-danger me-2 mt-2 mb-2" (click)="deleteBolum(bolum.id)">Sil</button>
+              <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editBolum(bolum)"><i class="fa-solid fa-pen"></i> Düzenle</button>
+            </td>
+            <td>
+              <button class="btn btn-danger me-2 mt-2 mb-2  w-100" (click)="deleteBolum(bolum.id)"><i class="fas fa-trash-alt"></i> Sil</button>
             </td>
           </tr>
         </tbody>
@@ -52,13 +56,15 @@
     <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'alan' }">
       <h3>Alan Yönetimi</h3>
       <button class="btn btn-primary mb-3" (click)="addAlan()">Yeni Alan Ekle</button>
-      <table class="admin-table">
+      <p *ngIf="alanModelObj == null">Herhangi bir alan mevcut değil!</p>
+      <table class="admin-table" *ngIf="alanModelObj != null">
         <thead>
           <tr>
             <th><i class="fas fa-id-badge"></i> ID</th>
             <th><i class="fas fa-heading"></i> Alan Adı</th>
             <th><i class="fas fa-align-left"></i> Açıklama</th>
             <th><i class="fas fa-tools"></i> İşlemler</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -67,8 +73,10 @@
             <td>{{ alan.ad }}</td>
             <td>{{ alan.aciklama }}</td>
             <td>
-              <button class="btn btn-warning me-2 mt-2 mb-2" (click)="editAlan(alan)">Düzenle</button>
-              <button class="btn btn-danger me-2 mt-2 mb-2" (click)="deleteAlan(alan.id)">Sil</button>
+              <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editAlan(alan)"> <i class="fa-solid fa-pen"></i>Düzenle</button>
+            </td>
+            <td>
+              <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="deleteAlan(alan.id)"><i class="fas fa-trash-alt"></i> Sil</button>
             </td>
           </tr>
         </tbody>

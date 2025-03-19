@@ -17,6 +17,7 @@ import { UserOperationClaimModel } from '../../models/user-operation-claim/user-
 import { OperationClaimService } from '../../services/operation-claim.service';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OperationClaimModel } from '../../models/operation-claim/operation-claim.model';
 
 @Component({
   selector: 'utk-admin-user-management',
@@ -53,6 +54,7 @@ export class AdminUserManagementComponent implements OnInit {
   isDescending = false;
   
   userRole: UserOperationClaimModel[] = [];
+  roles: OperationClaimModel[] = [];
 
   selectedUserRoles: any[] = [];
   selectedAvailableRoles: any[] = [];
@@ -182,7 +184,7 @@ toggleFilters() {
     this.operationClaimService.getAll().subscribe(
       (response) => {
         if (response.isSuccess) {
-          this.userRole = response.data;
+          this.roles = response.data;
           console.log(response.data);
         } else {
           this.toastService.error('Roller yüklenirken hata oluştu.');
@@ -211,7 +213,7 @@ toggleFilters() {
       if (result.isConfirmed) {
         this.userService.deactivateUser(userId).subscribe((response) => {
           if (response.isSuccess) {
-            this.toastService.success('Kullanıcı başarıyla engellendi.');
+            this.toastService.success(response.message);
             this.loadUsers(); // Kullanıcıları yeniden yükle
           } else {
             this.toastService.error('Kullanıcı engellenirken hata oluştu.');
@@ -238,9 +240,8 @@ toggleFilters() {
       if (result.isConfirmed) {
         this.userService.activateUser(userId).subscribe((response) => {
           if (response.isSuccess) {
-            this.toastService.success(
-              'Kullanıcının engeli başarıyla kaldırıldı.'
-            );
+            this.toastService.success(response.message);
+
             this.loadUsers(); // Kullanıcıları yeniden yükle
           } else {
             this.toastService.error('Engel kaldırılırken hata oluştu.');
@@ -261,10 +262,10 @@ toggleFilters() {
           this.selectedUserRoles = response.data; // Kullanıcının mevcut rollerini ekle
 
           // Kullanıcının sahip olmadığı rolleri hesapla
-          this.selectedAvailableRoles = this.userRole.filter(
+          this.selectedAvailableRoles = this.roles.filter(
             (role) =>
               !this.selectedUserRoles.some(
-                (userRole) => userRole.operationClaimId === role.id
+                (roles) => roles.operationClaimId === role.id
               )
           );
 
@@ -316,7 +317,7 @@ toggleFilters() {
                 id: role.operationClaimId,
                 name: role.operationClaimName,
               });
-              this.toastService.success('Rol başarıyla silindi.');
+              this.toastService.success(response.message);
             } else {
               this.toastService.error('Rol silinirken hata oluştu.');
             }
@@ -352,9 +353,9 @@ toggleFilters() {
             (r) => r.id !== role.id
           );
 
-          this.toastService.success('Rol başarıyla eklendi.');
+          this.toastService.success(response.message);
         } else {
-          this.toastService.error('Rol eklenirken hata oluştu.');
+          this.toastService.error(response.message);
         }
       },
       (error) => {

@@ -1,65 +1,71 @@
 <div class="user-management-container">
     <h2 class="title">Kullanıcı Yönetimi</h2>
- <!-- Filtreler -->
-<div class="filter-container">
-    <button class="filter-button btn btn-primary" (click)="toggleFilters()">Filtreler</button>
-    <div class="filter-content" [ngClass]="{'open': showFilters}">
-        <div class="filters">
-            <!-- Ad ve Soyad -->
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="firstName">Ad</label>
-                    <input type="text" id="firstName" [(ngModel)]="filters.firstName" class="form-control" placeholder="Ad girin">
+    <!-- Filtreler -->
+    <div class="filter-container">
+        <button class="filter-button btn btn-primary" (click)="toggleFilters()"><i class="fa-solid fa-filter"></i> Filtreler</button>
+        <div class="filter-content" [ngClass]="{'open': showFilters}">
+            <div class="filters">
+                <!-- Ad ve Soyad -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="firstName">Ad</label>
+                        <input type="text" id="firstName" [(ngModel)]="filters.firstName" class="form-control"
+                            placeholder="Ad girin">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastName">Soyad</label>
+                        <input type="text" id="lastName" [(ngModel)]="filters.lastName" class="form-control"
+                            placeholder="Soyad girin">
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="lastName">Soyad</label>
-                    <input type="text" id="lastName" [(ngModel)]="filters.lastName" class="form-control" placeholder="Soyad girin">
-                </div>
-            </div>
 
-            <!-- TC Kimlik ve Email -->
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <label for="nationalityId">TC Kimlik</label>
-                    <input type="text" id="nationalityId" [(ngModel)]="filters.nationalityId" class="form-control" placeholder="TC Kimlik girin">
+                <!-- TC Kimlik ve Email -->
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label for="nationalityId">TC Kimlik</label>
+                        <input type="text" id="nationalityId" [(ngModel)]="filters.nationalityId" class="form-control"
+                            placeholder="TC Kimlik girin">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" [(ngModel)]="filters.email" class="form-control"
+                            placeholder="Email girin">
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" [(ngModel)]="filters.email" class="form-control" placeholder="Email girin">
-                </div>
-            </div>
 
-            <!-- Durum ve Tarihler -->
-            <div class="row mt-3">
-                <div class="col-md-4">
-                    <label for="status">Durum</label>
-                    <select id="status" [(ngModel)]="filters.status" class="form-control">
-                        <option value="">Tümü</option>
-                        <option value="true">Aktif</option>
-                        <option value="false">Engelli</option>
-                    </select>
+                <!-- Durum ve Tarihler -->
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label for="status">Durum</label>
+                        <select id="status" [(ngModel)]="filters.status" class="form-control">
+                            <option value="">Tümü</option>
+                            <option value="true">Aktif</option>
+                            <option value="false">Engelli</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="minDateOfBirth">Başlangıç Doğum Tarihi</label>
+                        <input type="date" id="minDateOfBirth" [(ngModel)]="filters.minDateOfBirth"
+                            class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="maxDateOfBirth">Bitiş Doğum Tarihi</label>
+                        <input type="date" id="maxDateOfBirth" [(ngModel)]="filters.maxDateOfBirth"
+                            class="form-control">
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="minDateOfBirth">Başlangıç Doğum Tarihi</label>
-                    <input type="date" id="minDateOfBirth" [(ngModel)]="filters.minDateOfBirth" class="form-control">
-                </div>
-                <div class="col-md-4">
-                    <label for="maxDateOfBirth">Bitiş Doğum Tarihi</label>
-                    <input type="date" id="maxDateOfBirth" [(ngModel)]="filters.maxDateOfBirth" class="form-control">
-                </div>
-            </div>
 
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <button class="btn btn-primary mt-3" (click)="loadUsers()">Filtrele</button>
-                </div>
-                <div class="col-md-6">
-                    <button class="btn btn-primary btn-filter-reset mt-3" (click)="resetFilters()">Sıfırla</button>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary mt-3" (click)="loadUsers()">Filtrele</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-filter-reset mt-3" (click)="resetFilters()">Sıfırla</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
@@ -78,6 +84,7 @@
                     <th><i class="fas fa-cogs"></i> Roller</th>
                     <th><i class="fas fa-calendar-alt"></i> Kayıt Tarihi</th>
                     <th><i class="fas fa-tools"></i> İşlemler</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -108,14 +115,15 @@
                     </td>
                     <td>{{ user.dateOfBirth| date:'dd/MM/yyyy' }}</td>
                     <td>
-                        <button class="btn btn-sm mx-1 action-btn"
+                        <button class="btn btn-sm mx-1 action-btn w-100"
                             [ngClass]="user.status ? 'btn-danger' : 'btn-success'"
                             (click)="user.status ? blockUser(user.id) : unblockUser(user.id)">
                             <i class="fas" [ngClass]="user.status ? 'fa-ban' : 'fa-check'"></i>
                             {{ user.status ? 'Engelle' : 'Engeli Kaldır' }}
                         </button>
-
-                        <button class="btn btn-sm btn-warning mx-1" (click)="editUserRole(user.id)">
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-warning mx-1 w-100" (click)="editUserRole(user.id)">
                             <i class="fas fa-user-edit"></i> Rol Düzenle
                         </button>
                     </td>

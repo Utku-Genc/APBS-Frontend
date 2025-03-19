@@ -11,6 +11,7 @@
         <th scope="col"><i class="fas fa-user"></i> Yükleyen</th>
         <th scope="col"><i class="fas fa-check-circle"></i> Durum</th>
         <th scope="col"><i class="fas fa-tools"></i> İşlemler</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -26,10 +27,12 @@
           </span>
         </td>
         <td>
-          <button class="btn btn-warning me-2 mt-2 mb-2" (click)="onToggleActive(item.id, item.isActive)">
+          <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="onToggleActive(item.id, item.isActive)">
             <i class="fas fa-sync-alt"></i> Durum Değiştir
           </button>
-          <button class="btn btn-danger me-2 mt-2 mb-2" (click)="onDelete(item.id)">
+        </td>
+        <td>
+          <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="onDelete(item.id)">
             <i class="fas fa-trash-alt"></i> Sil
           </button>
         </td>

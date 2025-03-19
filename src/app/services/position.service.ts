@@ -3,23 +3,24 @@ import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
 import { ListResponseModel } from '../models/response/list.response.model';
 import { SingleResponseModel } from '../models/response/single.response.model';
-import { OperationClaimModel } from '../models/operation-claim/operation-claim.model';
-import { OperationClaimAddModel } from '../models/operation-claim/operation-claim-add.model';
+import { PositionModel } from '../models/position/position.model';
+import { PositionAddModel } from '../models/position/position-add.model';
+
 
 @Injectable({
   providedIn: 'root',
 })
-export class OperationClaimService {
-  private endpoint = 'OperationClaim/'; // API endpoint
+export class PositionService {
+  private endpoint = 'Pozisyon/'; // API endpoint
 
   constructor(private apiService: ApiService) {}
-  getAll(): Observable<ListResponseModel<OperationClaimModel>> {
-    return this.apiService.get<ListResponseModel<OperationClaimModel>>(`${this.endpoint}getall`);
+  getAll(): Observable<ListResponseModel<PositionModel>> {
+    return this.apiService.get<ListResponseModel<PositionModel>>(`${this.endpoint}getall`);
   }
-  add(role: OperationClaimAddModel): Observable<any> {
+  add(role: PositionAddModel): Observable<any> {
     return this.apiService.post(`${this.endpoint}add`, role);
   }
-  update(role: OperationClaimModel): Observable<any> {
+  update(role: PositionModel): Observable<any> {
     return this.apiService.put(`${this.endpoint}update`, role);
   }
   delete(id: number): Observable<any> {
