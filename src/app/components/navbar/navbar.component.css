@@ -69,6 +69,17 @@
 
 }
 
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+  }
+  
 
 /* Mobil Menü */
 .navbar-collapse {
@@ -81,7 +92,7 @@
 
 /* Güneş ve Ay simgesi animasyon */
 .navbar .btn-outline-secondary i.fas.fa-sun {
-    color: #FDB813;
+    color: #ffda85;
     /* Güneş rengi */
     width: 20px;
 }

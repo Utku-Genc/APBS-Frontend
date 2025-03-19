@@ -1,0 +1,11 @@
+<div class="notification-container" *ngIf="notification">
+  <div class="notification">
+    <div class="notification-icon" [style.backgroundColor]="notification.bgColor">
+      <i [class]="notification.icon"></i>
+    </div>
+    <div class="notification-content">
+      <h4 class="notification-title">{{ notification.title }}</h4>
+      <p class="notification-message">{{ notification.message }}</p>
+    </div>
+  </div>
+</div>

@@ -51,11 +51,11 @@ export class UserService {
   }
 
   deactivateUser(userId: number): Observable<any> {
-    return this.apiService.post<any>(`${this.endpoint}deactivate/${userId}`, {});
+    return this.apiService.put<any>(`${this.endpoint}deactivate/${userId}`, {});
   }
 
   // Kullanıcı engelini kaldır
   activateUser(userId: number): Observable<any> {
-    return this.apiService.post<any>(`${this.endpoint}activate/${userId}`, {});
+    return this.apiService.put<any>(`${this.endpoint}activate/${userId}`, {});
   }
 }
