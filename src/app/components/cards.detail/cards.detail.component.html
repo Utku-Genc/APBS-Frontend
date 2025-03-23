@@ -1,4 +1,4 @@
-<div class="container mt-4" *ngIf="card">
+<div class="container mt-4" *ngIf="ilanDetailObj">
     <div class="card shadow-lg">
       <!-- Geri Dön Butonu -->
       <button class="btn btn-outline-secondary back-button" (click)="goBack()">
@@ -6,33 +6,33 @@
       </button>
   
       <!-- Küçültülmüş Görsel -->
-      <img src="../../../assets/site-img/{{card.image}}" class="card-img-top" alt="{{ card.title }}">
+      <img src="../../../assets/site-img/random_shapes.jpg" class="card-img-top" alt="{{ ilanDetailObj.baslik }}">
   
       <div class="card-body">
         <div class="card-header">
-          <h2 class="card-title">{{ card.title }}</h2>
-          <p class="card-text deadline"><strong>Başvuru Tarihi: </strong>{{card.startline}} - {{ card.deadline }}</p>
+          <h2 class="card-title">{{ ilanDetailObj.baslik }}</h2>
+          <p class="card-text deadline"><strong>Başvuru Tarihi: </strong>{{ilanDetailObj.baslangicTarihi | date:'dd/MM/YYYY' }} - {{ ilanDetailObj.bitisTarihi | date:'dd/MM/YYYY'}}</p>
         </div>
   
         <div class="card-details">
           <div class="info-row">
-            <p class="card-text"><strong>Bölüm:</strong> {{ card.department }}</p>
-            <p class="card-text"><strong>Rol:</strong> {{ card.role }}</p>
+            <p class="card-text "><strong class="card-primary">Bölüm:</strong> {{ ilanDetailObj.bolum.ad }}</p>
+            <p class="card-text"><strong class="card-primary">Rol:</strong> {{ ilanDetailObj.pozisyon.ad }}</p>
           </div>
-          <p class="card-text"><strong>Açıklama:</strong></p>
-          <p class="card-text" [innerHTML]="card.description | newline"></p>
+          <p class="card-text  "><strong class="card-primary">Açıklama:</strong></p>
+          <p [innerHTML]="ilanDetailObj.aciklama | newline"></p>
         </div>
   
         <div class="additional-info">
           <div class="info-row">
-            <p class="card-text"><strong>İletişim: </strong> 
-              <i class="fa-solid fa-phone"></i> {{ card.phone }} | 
-              <i class="fa-solid fa-envelope"></i> {{ card.email }}
+            <p class="card-text"><strong class="card-primary">İletişim: </strong> <br>
+              <i class="fa-solid fa-phone"></i> {{ ilanDetailObj.bolum.telefon }} <br> 
+              <i class="fa-solid fa-envelope"></i> {{ ilanDetailObj.bolum.email }}
             </p>
-            <p class="card-text"><strong>Adres:</strong> {{ card.address }}</p>
+            <p class="card-text"><strong class="card-primary">Adres:</strong> {{ ilanDetailObj.bolum.adres }}</p>
           </div>
-          <p class="card-text"><strong>Başvuru Şartları:</strong> {{ card.conditions }}</p>
-          <p class="card-text"><strong>Öğretim Türü:</strong> {{ card.educationType }}</p>
+          <p class="card-text"><strong class="card-primary">Başvuru Şartları:</strong> {{ ilanDetailObj.status }}</p>
+          <p class="card-text"><strong class="card-primary">Öğretim Türü:</strong> {{ ilanDetailObj.status }}</p>
         </div>
   
         <!-- Kullanıcı giriş yapmışsa başvur butonu göster -->

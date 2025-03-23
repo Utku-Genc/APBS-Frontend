@@ -1,23 +1,51 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { IlanDetailModel } from '../../models/ilan/ilan-detail.model';
+import { IlanService } from '../../services/ilan.service';
+import { PositionService } from '../../services/position.service';
+import { BolumService } from '../../services/bolum.service';
+import { SummaryPipe } from '../../pipes/summary.pipe';
 
 @Component({
   selector: 'utk-cards',
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, SummaryPipe],
   templateUrl: './cards.component.html',
-  styleUrl: './cards.component.css'
+  styleUrl: './cards.component.css',
 })
-export class CardsComponent {
-  cards = [
-    { title: 'Makine Mühendisliği', image:"random_shapes.jpg" , department: 'Makine ve İmalat', role: 'Doç. Dr.', deadline: '15 Mart 2025', detailsLink: '/detail/1' },
-    { title: 'Bilgisayar Mühendisliği',image:"random_shapes_4.jpg" , department: 'Yazılım ve Donanım', role: 'Prof. Dr.', deadline: '20 Mart 2025', detailsLink: '/detail/2' },
-    { title: 'Elektrik Elektronik',image:"random_shapes_2.jpg" , department: 'Elektrik ve Haberleşme', role: 'Dr. Öğr. Üyesi', deadline: '10 Nisan 2025', detailsLink: '/detail/3' },
-    { title: 'Elektrik Elektronik',image:"random_shapes_3.jpg" , department: 'Elektrik ve Haberleşme', role: 'Dr. Öğr. Üyesi', deadline: '10 Nisan 2025', detailsLink: '/detail/4' },
-    { title: 'Elektrik Elektronik',image:"random_shapes.jpg" , department: 'Elektrik ve Haberleşme', role: 'Dr. Öğr. Üyesi', deadline: '10 Nisan 2025', detailsLink: '/detail/5' },
-    { title: 'Makine Mühendisliği',image:"random_shapes_4.jpg" , department: 'Makine ve İmalat', role: 'Doç. Dr.', deadline: '15 Mart 2025', detailsLink: '/detail/6' },
-    { title: 'Bilgisayar Mühendisliği',image:"random_shapes_2.jpg" , department: 'Yazılım ve Donanım', role: 'Prof. Dr.', deadline: '20 Mart 2025', detailsLink: '/detail/7' }
-  ];
-  
+export class CardsComponent implements OnInit {
+  @Input() status: string = 'active'; // Varsayılan olarak 'active' ilanlar gelir
 
+  private ilanService = inject(IlanService);
+  private positionService = inject(PositionService);
+  private bolumService = inject(BolumService);
+
+  ilanlar: IlanDetailModel[] = [];
+
+  ngOnInit(): void {
+    this.fetchApplications();
+  }
+
+  fetchApplications() {
+    if (this.status === 'active') {
+      // Aktif ilanları getiren API çağrısı
+      console.log('Aktif ilanlar getiriliyor...');
+      this.getAllActives();
+    } else if (this.status === 'past') {
+      // Geçmiş ilanları getiren API çağrısı
+      console.log('Geçmiş ilanlar getiriliyor...');
+      this.getAllExpireds();
+    }
+  }
+
+  getAllActives() {
+    this.ilanService.getAllActives().subscribe((response) => {
+      this.ilanlar = response.data;
+    });
+  }
+  getAllExpireds() {
+    this.ilanService.getAllExpireds().subscribe((response) => {
+      this.ilanlar = response.data;
+    });
+  }
 }

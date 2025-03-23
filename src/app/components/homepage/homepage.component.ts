@@ -10,5 +10,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent {
-  
+  status: string = 'active';
+
 }

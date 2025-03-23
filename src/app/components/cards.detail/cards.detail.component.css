@@ -44,7 +44,9 @@
 .back-button:hover {
   background-color: var(--primary-hover-color);
 }
-
+.card-primary{
+  color: var(--primary-color);
+}
 /* Başvur Butonu */
 .apply-button {
   position: absolute;
