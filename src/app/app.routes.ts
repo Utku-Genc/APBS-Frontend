@@ -33,10 +33,7 @@ export const routes: Routes = [
 
     // Card Detail Sayfası
     {path: 'detail/:id', component: CardsDetailComponent},
-    {path: 'ilan/ekle',
-     component: CardsFormsComponent,
-     canActivate: [LoginGuard, RoleGuard],
-     data: { roles: ['admin', 'yonetici'] }},
+
 
 
 
@@ -49,6 +46,7 @@ export const routes: Routes = [
           { path: 'alan', component: AdminDepartmentManagementComponent },
           {path: 'role', component: AdminRoleManagementComponent},
           { path: 'users', component: AdminUserManagementComponent }, 
+          {path: 'ilan/ekle', component: CardsFormsComponent},
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         ],
         canActivate: [LoginGuard, RoleGuard],

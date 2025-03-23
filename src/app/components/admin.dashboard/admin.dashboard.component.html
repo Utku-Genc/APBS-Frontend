@@ -1,34 +1,52 @@
-<!-- Responsive tabloya sahip bir div ile tabloyu saralım -->
 <h2 class="content-title">Dashboard</h2>
 
 <div class="admin-table-responsive">
   <table class="table admin-table">
     <thead>
       <tr>
+        <th><i class="fas fa-eye"></i> İlan</th>
         <th scope="col"><i class="fas fa-id-badge"></i> ID</th>
         <th scope="col"><i class="fas fa-heading"></i> Başlık</th>
         <th scope="col"><i class="fas fa-align-left"></i> Açıklama</th>
+        <th scope="col"><i class="fa-solid fa-briefcase"></i> Bölüm</th>
+        <th scope="col"><i class="fa-solid fa-book"></i> Pozisyon</th>
         <th scope="col"><i class="fas fa-user"></i> Yükleyen</th>
         <th scope="col"><i class="fas fa-check-circle"></i> Durum</th>
         <th scope="col"><i class="fas fa-tools"></i> İşlemler</th>
-        <th></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of items">
-        <td><i class="fas fa-id-badge"></i> {{ item.id }}</td>
-        <td>{{ item.title | summary:30}}</td>
-        <td>{{ item.description | summary:80 }}</td>
-        <td>{{ item.uploader }}</td>
+      <tr *ngFor="let item of ilansModelObj">
         <td>
-          <span [class]="item.isActive ? 'badge bg-success' : 'badge bg-secondary'">
-            <i class="fas" [ngClass]="item.isActive ? 'fa-check-circle' : 'fa-times-circle'"></i> 
-            {{ item.isActive ? 'Aktif' : 'Pasif' }}
+          <a routerLink="/detail/{{item.id}}">
+          <button class="btn btn-sm btn-primary" >
+            <i class="fas fa-eye"></i>
+          </button></a>
+        </td>
+        <td><i class="fas fa-id-badge"></i> {{ item.id }}</td>
+        <td>{{ item.baslik | summary:15 }}</td>
+        <td>{{ stripHtml(item.aciklama) | summary:30 }}</td>
+        <td>{{ item.bolum.ad }}</td>
+        <td>{{ item.pozisyon.ad }}</td>
+        <td>#{{ item.olusturan.id }} {{ item.olusturan.firstName }} {{ item.olusturan.lastName }}</td>
+        <td>
+          <span [class]="item.status ? 'badge bg-success' : 'badge bg-secondary'">
+            <i class="fas" [ngClass]="item.status ? 'fa-check-circle' : 'fa-times-circle'"></i>
+            {{ item.status ? 'Aktif' : 'Pasif' }}
           </span>
         </td>
         <td>
-          <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="onToggleActive(item.id, item.isActive)">
-            <i class="fas fa-sync-alt"></i> Durum Değiştir
+          <button class="btn action-btn me-2 mt-2 mb-2 w-100" [ngClass]="item.status ? 'btn-danger' : 'btn-success'"
+            (click)="item.status ? deactivate(item.id) : activate(item.id)">
+            <i class="fas" [ngClass]="item.status ? 'fa-ban' : 'fa-check'"></i>
+            {{ item.status ? 'Pasif Et' : 'Aktif Et' }}
+          </button>
+        </td>
+        <td>
+          <button class="btn action-btn btn-warning me-2 mt-2 mb-2 w-100" (click)="edit(item.id)">
+            <i class="fa-solid fa-pen"></i> Düzenle
           </button>
         </td>
         <td>
@@ -39,4 +57,58 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<!-- Düzenle Modal -->
+<div class="modal modal-xl fade" #editModal tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">İlan Düzenle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="submitForm()">
+        <div class="form-group">
+          <label for="title">Başlık:</label>
+          <input type="text" id="title" [(ngModel)]="formData.baslik" name="title" required
+            placeholder="Buraya başlık yazın">
+        </div>
+        <div class="form-group">
+          <label for="description">Açıklama:</label>
+          <quill-editor [(ngModel)]="formData.aciklama" [modules]="editorConfig" name="description"
+            placeholder="Buraya açıklama yazın"></quill-editor>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="position">Pozisyon:</label>
+            <select id="position" [(ngModel)]="formData.pozisyonId" name="position">
+          <option value="0" selected>Seçiniz</option>
+          <option *ngFor="let pos of positions" [value]="pos.id">{{ pos.ad }}</option>
+            </select>
+          </div>
+  
+          <div class="form-group">
+            <label for="department">Bölüm:</label>
+            <select id="department" [(ngModel)]="formData.bolumId" name="department">
+              <option value="0">Seçiniz</option>
+              <option *ngFor="let bol of bolums" [value]="bol.id">{{ bol.ad }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="startDate">Başlangıç Tarihi ve Saati:</label>
+            <input type="datetime-local" id="startDate" [(ngModel)]="formData.baslangicTarihi" name="startDate">
+          </div>
+        
+          <div class="form-group">
+            <label for="endDate">Bitiş Tarihi ve Saati:</label>
+            <input type="datetime-local" id="endDate" [(ngModel)]="formData.bitisTarihi" name="endDate">
+          </div>
+        </div>
+        <button class="btn btn-primary w-100" type="submit">Kaydet</button>
+      </form>
+    </div>
+  </div>
 </div>

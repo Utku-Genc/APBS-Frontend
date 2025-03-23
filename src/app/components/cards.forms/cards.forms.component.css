@@ -36,105 +36,7 @@ label {
   color: var(--text-color);
 }
 
-/* Quill Editor Stil Güncellemeleri */
-.ql-snow .ql-toolbar {
-  background-color: var(--card-background-color) !important;
-  border: 1px solid var(--primary-color) !important;
-  color: var(--text-color) !important;
-}
 
-/* Quill Picker Renk ve Stil Güncellemeleri */
-.ql-toolbar.ql-snow .ql-picker-label {
-  color: var(--text-color) !important;
-  font-size: 1rem !important;
-}
-.ql-snow .ql-picker.ql-size .ql-picker-label::before, .ql-snow .ql-picker.ql-size .ql-picker-item::before {
-color: var(--text-color) !important;
-}
-
-.ql-snow .ql-picker {
-  display: inline-block;
-  position: relative;
-  margin-right: 10px;
-} 
-
-.ql-snow .ql-picker-item {
-  padding: 8px 15px;
-  cursor: pointer;
-  color: var(--text-color);
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.ql-snow .ql-picker-item:hover {
-  background-color: var(--primary-hover-color);
-}
-
-.ql-snow .ql-selected {
-  background-color: var(--primary-color);
-  color: white;
-  font-weight: bold;
-}
-
-/* Quill Size Selector */
-.ql-snow .ql-size .ql-picker-options {
-  position: absolute;
-  background-color: var(--card-background-color);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  padding: 10px 0;
-  border-radius: 8px;
-  z-index: 9999;
-  top: 100%;
-  left: 0;
-  display: none;
-}
-
-.ql-snow .ql-size.ql-expanded .ql-picker-options {
-  display: block;
-}
-
-/* Quill Stroke ve Fill */
-.ql-snow .ql-stroke,
-.ql-snow .ql-fill,
-.ql-snow .ql-stroke.ql-fill {
-  color: var(--text-color) !important;
-  stroke: var(--text-color) !important;
-  fill: var(--text-color) !important;
-}
-
-/* Quill Button ve Icon Renkleri */
-.ql-snow .ql-picker-item {
-  color: var(--text-color) !important;
-}
-
-/* Input, Select ve Quill Editor */
-input,
-select,
-quill-editor {
-  padding: 12px;
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background-color: var(--input-background-color);
-  color: var(--text-color);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-/* Focus ve Hover Efektleri */
-input:focus,
-select:focus,
-quill-editor:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 5px rgba(8, 162, 80, 0.3);
-}
-
-input:hover,
-select:hover,
-quill-editor:hover {
-  border-color: var(--primary-color);
-  background-color: var(--input-hover-background-color);
-}
 
 input::placeholder {
   color: var(--secondary-text-color); /* Gri placeholder */
@@ -279,6 +181,7 @@ quill-editor::ng-deep .ql-toolbar.ql-snow .ql-picker-options {
 quill-editor::ng-deep .ql-editor::before {
   color: var(--secondary-text-color) !important;
 }
+
 
 /* Buton */
 button {

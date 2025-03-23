@@ -1,16 +1,19 @@
 <div class="container mt-4">
     <div class="row">
-      <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let card of cards">
+      <div class="col-md-12">
+        <h2>  İlanlar</h2>
+      </div>
+      <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let card of ilanlar">
         <div class="card">
-            <img src="../../../assets/site-img/{{card.image}}" alt="Card image cap" class="card-img-top card-img">
+            <img src="../../../assets/site-img/random_shapes.jpg" alt="Card image cap" class="card-img-top card-img">
           <div class="card-body">
-            <h5 class="card-title">{{ card.title }}</h5>
+            <h5 class="card-title">{{ card.baslik | summary:30 }}</h5>
             <p class="card-text">
-              <strong>Bölüm:</strong> {{ card.department }}<br>
-              <strong>Rol:</strong> {{ card.role }}<br>
-              <strong>Son Başvuru:</strong> {{ card.deadline }}
+              <strong>Bölüm:</strong> {{ card.bolum.ad }}<br>
+              <strong>Rol:</strong> {{ card.pozisyon.ad }}<br>
+              <strong>Son Başvuru:</strong> {{ card.bitisTarihi | date: 'hh:mm dd/MM/yyyy ' }}
             </p>
-            <a [routerLink]="card.detailsLink" class="btn btn-primary">Detayları Görüntüle</a>
+            <a routerLink="/detail/{{card.id}}" class="btn btn-primary">Detayları Görüntüle</a>
           </div>
         </div>
       </div>

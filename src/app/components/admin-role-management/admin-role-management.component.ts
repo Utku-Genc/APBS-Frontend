@@ -9,6 +9,7 @@ import { PositionModel } from '../../models/position/position.model';
 import Swal from 'sweetalert2';
 import { OperationClaimAddModel } from '../../models/operation-claim/operation-claim-add.model';
 import { PositionAddModel } from '../../models/position/position-add.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'utk-admin-role-management',
@@ -20,6 +21,7 @@ export class AdminRoleManagementComponent implements OnInit {
   private operationClaimService=  inject(OperationClaimService);
   private positionService= inject(PositionService);
   private toastService = inject(ToastService);
+  private toastrService = inject(ToastrService);
 
   roleModelObj !: OperationClaimModel[]; 
   roleAddObj !: OperationClaimAddModel; 
@@ -52,8 +54,15 @@ export class AdminRoleManagementComponent implements OnInit {
           this.toastService.error('Alanlar getirilirken bir hata oluştu: ' + (response.message ?? ''));
         }
       },
-      error: (error: any) => {
-        this.toastService.error('Alanlar getirilirken bir hata oluştu: ' + (error.message ?? ''));
+      error: (err) => {
+        if (err.error?.ValidationErrors) {
+          const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+          errorMessages.forEach((message: string | undefined) => {
+            this.toastrService.error(message);
+          });
+        } else {
+          this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+        }
       }
     });
   }
@@ -87,14 +96,21 @@ export class AdminRoleManagementComponent implements OnInit {
               this.operationClaimService.add(this.roleAddObj).subscribe({
                 next: (response) => {
                   if (response.isSuccess) {
-                    this.toastService.success('Alan başarıyla eklendi!');
+                    this.toastService.success(response.message);
                     this.loadRoles();
                   } else {
-                    this.toastService.error('Alan eklenirken bir hata oluştu: ' + response.message);
+                    this.toastService.error(response.message);
                   }
                 },
-                error: (error) => {
-                  this.toastService.error('Alan eklenirken bir hata oluştu: ' + error.message);
+                error: (err) => {
+                  if (err.error?.ValidationErrors) {
+                    const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+                    errorMessages.forEach((message: string | undefined) => {
+                      this.toastrService.error(message);
+                    });
+                  } else {
+                    this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+                  }
                 }
               });
             }
@@ -136,11 +152,18 @@ export class AdminRoleManagementComponent implements OnInit {
                   this.toastService.success(response.message);
                   this.loadRoles(); 
                 } else {
-                  this.toastService.error('Rol güncellenirken bir hata oluştu: ' + response.message);
+                  this.toastService.error(response.message);
                 }
               },
-              error: (error) => {
-                this.toastService.error('Rol güncellenirken bir hata oluştu: ' + error.message);
+              error: (err) => {
+                if (err.error?.ValidationErrors) {
+                  const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+                  errorMessages.forEach((message: string | undefined) => {
+                    this.toastrService.error(message);
+                  });
+                } else {
+                  this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+                }
               }
             });
           }
@@ -162,11 +185,18 @@ export class AdminRoleManagementComponent implements OnInit {
                   this.toastService.success(response.message);
                   this.loadRoles(); 
                 } else {
-                  this.toastService.error('Bölüm silinirken bir hata oluştu: ' + response.message);
+                  this.toastService.error(response.message);
                 }
               },
-              error: (error) => {
-                this.toastService.error('Bölüm silinirken bir hata oluştu: ' + error.message);
+              error: (err) => {
+                if (err.error?.ValidationErrors) {
+                  const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+                  errorMessages.forEach((message: string | undefined) => {
+                    this.toastrService.error(message);
+                  });
+                } else {
+                  this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+                }
               }
             });
           }
@@ -181,11 +211,18 @@ export class AdminRoleManagementComponent implements OnInit {
           this.positionModelObj = response.data;
 
         } else {
-          this.toastService.error('Alanlar getirilirken bir hata oluştu: ' + response.message);
+          this.toastService.error(response.message);
         }
       },
-      error: (error) => {
-        this.toastService.error('Alanlar getirilirken bir hata oluştu: ' + error.message);
+      error: (err) => {
+        if (err.error?.ValidationErrors) {
+          const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+          errorMessages.forEach((message: string | undefined) => {
+            this.toastrService.error(message);
+          });
+        } else {
+          this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+        }
       }
     });
   }
@@ -233,8 +270,15 @@ export class AdminRoleManagementComponent implements OnInit {
                   this.toastService.error(response.message);
                 }
               },
-              error: (error) => {
-                this.toastService.error('Bölüm eklenirken bir hata oluştu: ' + error.message);
+              error: (err) => {
+                if (err.error?.ValidationErrors) {
+                  const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+                  errorMessages.forEach((message: string | undefined) => {
+                    this.toastrService.error(message);
+                  });
+                } else {
+                  this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+                }
               }
             });
           }
@@ -261,17 +305,17 @@ export class AdminRoleManagementComponent implements OnInit {
         cancelButton: 'custom-swal-cancel'
       },
       preConfirm: () => {
-        const roleAd = (document.getElementById('positionAd') as HTMLInputElement).value.trim();
+        const positionAd = (document.getElementById('positionAd') as HTMLInputElement).value.trim();
         const positionAciklama = (document.getElementById('positionAciklama') as HTMLInputElement).value.trim();
-        if (!roleAd || roleAd) {
+        if (!positionAd || !positionAciklama) {
           Swal.showValidationMessage('Tüm alanları doldurmalısınız!');
           return false;
         }
-        return { ad: roleAd, aciklama: positionAciklama };
+        return { ad: positionAd, aciklama: positionAciklama };
       }
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const updatePosition: PositionModel = { ...this.roleToUpdate, ad: result.value.ad, aciklama: result.value.aciklama};
+        const updatePosition: PositionModel = { ...this.positionToUpdate, ad: result.value.ad, aciklama: result.value.aciklama};
         this.positionService.update(updatePosition).subscribe({
           next: (response) => {
             if (response.isSuccess) {
@@ -281,8 +325,15 @@ export class AdminRoleManagementComponent implements OnInit {
               this.toastService.error(response.message);
             }
           },
-          error: (error) => {
-            this.toastService.error('Rol güncellenirken bir hata oluştu: ' + error.message);
+          error: (err) => {
+            if (err.error?.ValidationErrors) {
+              const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+              errorMessages.forEach((message: string | undefined) => {
+                this.toastrService.error(message);
+              });
+            } else {
+              this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+            }
           }
         });
       }
@@ -307,8 +358,15 @@ export class AdminRoleManagementComponent implements OnInit {
               this.toastService.error('Bölüm silinirken bir hata oluştu: ' + response.message);
             }
           },
-          error: (error) => {
-            this.toastService.error('Bölüm silinirken bir hata oluştu: ' + error.message);
+          error: (err) => {
+            if (err.error?.ValidationErrors) {
+              const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+              errorMessages.forEach((message: string | undefined) => {
+                this.toastrService.error(message);
+              });
+            } else {
+              this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+            }
           }
         });
       }

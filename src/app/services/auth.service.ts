@@ -42,6 +42,7 @@ export class AuthService {
     const token = this.getToken();
     if (token) {
       try {
+        console.log(jwtDecode(token));
         return jwtDecode(token);
       } catch (error) {
         console.error('Invalid token', error);
@@ -60,8 +61,9 @@ export class AuthService {
   }
 
   getUserRole(): string | null { // Kullanıcının rolünü döndüren fonksiyon
-    const roles = this.getUserRoles();
+    const roles = this.getUserRoles().map(role => role.toLowerCase());   
     console.log('Kullanıcı Rolleri:', roles);
+    
   
     if (roles.length === 0) {
       return null;
