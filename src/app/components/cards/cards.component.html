@@ -1,7 +1,7 @@
 <div class="container mt-4">
     <div class="row">
       <div class="col-md-12">
-        <h2>  İlanlar</h2>
+        <h2>{{title}}</h2>
       </div>
       <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let card of ilanlar">
         <div class="card">
@@ -11,7 +11,7 @@
             <p class="card-text">
               <strong>Bölüm:</strong> {{ card.bolum.ad }}<br>
               <strong>Rol:</strong> {{ card.pozisyon.ad }}<br>
-              <strong>Son Başvuru:</strong> {{ card.bitisTarihi | date: 'hh:mm dd/MM/yyyy ' }}
+              <strong>Son Başvuru:</strong> {{ card.bitisTarihi | date: 'HH:mm dd/MM/yyyy' }}
             </p>
             <a routerLink="/detail/{{card.id}}" class="btn btn-primary">Detayları Görüntüle</a>
           </div>

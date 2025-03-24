@@ -28,7 +28,7 @@ export const routes: Routes = [
 
     // Profil sayfası için yönlendirmeler ve guardlar.
     {path: 'profile', component: ProfileComponent, canActivate: [LoginGuard]},
-    {path: 'profile/:id', component: ProfileComponent},
+    {path: 'profiles/:id', component: ProfileComponent, canActivate: [LoginGuard, RoleGuard], data: { roles: ['admin', 'yonetici', 'juri'] }},
     {path: 'settings', component: SettingsComponent, canActivate: [LoginGuard]},
 
     // Card Detail Sayfası
