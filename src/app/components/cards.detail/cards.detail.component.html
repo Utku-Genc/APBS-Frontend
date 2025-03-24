@@ -11,7 +11,7 @@
       <div class="card-body">
         <div class="card-header">
           <h2 class="card-title">{{ ilanDetailObj.baslik }}</h2>
-          <p class="card-text deadline"><strong>Başvuru Tarihi: </strong>{{ilanDetailObj.baslangicTarihi | date:'dd/MM/YYYY' }} - {{ ilanDetailObj.bitisTarihi | date:'dd/MM/YYYY'}}</p>
+          <p class="card-text deadline"><strong>Başvuru Tarihi: </strong>{{ilanDetailObj.baslangicTarihi | date: 'HH:mm dd/MM/yyyy'}} - {{ ilanDetailObj.bitisTarihi | date: 'HH:mm dd/MM/yyyy'}}</p>
         </div>
   
         <div class="card-details">

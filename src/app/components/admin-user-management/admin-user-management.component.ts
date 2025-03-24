@@ -16,12 +16,12 @@ import { UserOperationClaimService } from '../../services/user-operation-claim.s
 import { UserOperationClaimModel } from '../../models/user-operation-claim/user-operation-claim.model';
 import { OperationClaimService } from '../../services/operation-claim.service';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { OperationClaimModel } from '../../models/operation-claim/operation-claim.model';
 
 @Component({
   selector: 'utk-admin-user-management',
-  imports: [CommonModule, TcMaskPipe, FormsModule],
+  imports: [CommonModule, TcMaskPipe, FormsModule, RouterModule],
   templateUrl: './admin-user-management.component.html',
   styleUrls: ['./admin-user-management.component.css'],
 })

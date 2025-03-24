@@ -1,51 +1,74 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { IlanDetailModel } from '../../models/ilan/ilan-detail.model';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { IlanService } from '../../services/ilan.service';
-import { PositionService } from '../../services/position.service';
-import { BolumService } from '../../services/bolum.service';
+import { IlanDetailModel } from '../../models/ilan/ilan-detail.model';
 import { SummaryPipe } from '../../pipes/summary.pipe';
+import { CommonModule, DatePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'utk-cards',
-  imports: [RouterLink, CommonModule, SummaryPipe],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.css',
+  imports: [CommonModule, SummaryPipe, DatePipe, RouterModule],
 })
-export class CardsComponent implements OnInit {
-  @Input() status: string = 'active'; // Varsayılan olarak 'active' ilanlar gelir
-
-  private ilanService = inject(IlanService);
-  private positionService = inject(PositionService);
-  private bolumService = inject(BolumService);
+export class CardsComponent implements OnInit, OnChanges {
+  @Input() status: string = 'active'; // Varsayılan değer
 
   ilanlar: IlanDetailModel[] = [];
+  title = 'İlanlar';
+
+  private ilanService = inject(IlanService);
 
   ngOnInit(): void {
     this.fetchApplications();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['status'] && !changes['status'].firstChange) {
+      this.fetchApplications();
+    }
+  }
+
   fetchApplications() {
     if (this.status === 'active') {
-      // Aktif ilanları getiren API çağrısı
-      console.log('Aktif ilanlar getiriliyor...');
       this.getAllActives();
     } else if (this.status === 'past') {
-      // Geçmiş ilanları getiren API çağrısı
-      console.log('Geçmiş ilanlar getiriliyor...');
       this.getAllExpireds();
     }
   }
 
   getAllActives() {
-    this.ilanService.getAllActives().subscribe((response) => {
-      this.ilanlar = response.data;
-    });
+    const currentUrl = window.location.href;
+    if (currentUrl.includes('/profiles/')) {
+      this.title = 'Aktif Başvuruları';
+    } else if (currentUrl.includes('/profile')) {
+      this.title = 'Aktif Başvurularınız';
+    } else {
+      this.title = 'Aktif İlanlar';
+      this.ilanService.getAllActives().subscribe((response) => {
+        this.ilanlar = response.data;
+      });
+    }
   }
+
   getAllExpireds() {
-    this.ilanService.getAllExpireds().subscribe((response) => {
-      this.ilanlar = response.data;
-    });
+    const currentUrl = window.location.href;
+    if (currentUrl.includes('/profiles/')) {
+      this.title = 'Geçmiş Başvuruları';
+    } else if (currentUrl.includes('/profile')) {
+      this.title = 'Geçmiş Başvurularınız';
+    } else {
+      this.title = 'Geçmiş İlanlar';
+      this.ilanService.getAllExpireds().subscribe((response) => {
+        this.ilanlar = response.data;
+      });
+    }
   }
 }

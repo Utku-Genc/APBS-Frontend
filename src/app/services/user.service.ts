@@ -14,8 +14,8 @@ export class UserService {
 
   constructor(private apiService: ApiService) {}
 
-  getUserById(id: number): Observable<SingleResponseModel<UserListModel>> {
-    return this.apiService.get<SingleResponseModel<UserListModel>>(`${this.endpoint}getUserById?id=${id}`);
+  getUserById(id: number): Observable<SingleResponseModel<UserModel>> {
+    return this.apiService.get<SingleResponseModel<UserModel>>(`${this.endpoint}getById?id=${id}`);
   }
 
   getUsersByQuery(

@@ -90,9 +90,11 @@
             <tbody>
                 <tr *ngFor="let user of users" class="user-row">
                     <td>
+                        <a [routerLink]="'/profiles/' + user.id">
                         <button class="btn btn-sm btn-primary">
                             <i class="fas fa-eye"></i>
                         </button>
+                    </a>
                     </td>
                     <td>{{ user.id }}</td>
                     <td>

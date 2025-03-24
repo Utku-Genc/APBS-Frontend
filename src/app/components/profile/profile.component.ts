@@ -7,6 +7,7 @@ import { CommonModule} from '@angular/common';
 import { CardsComponent } from "../cards/cards.component";
 import { UserModel } from '../../models/auth/user.model';
 import { TcMaskPipe } from "../../pipes/tcmask.pipe";
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'utk-profile',
@@ -19,17 +20,35 @@ export class ProfileComponent implements OnInit {
   private toastrService = inject(ToastrService);
   private toastService = inject(ToastService);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private router = inject(Router);
-
+  
+  status: string = 'active';
+  selfProfile = false;
   profileImage: boolean = false;
 
   
   userObj!: UserModel;
     ngOnInit(): void {
+      const url = this.router.url;
+      const segments = url.split('/');
+      if (segments.length > 2 && segments[1] === 'profiles') {
+        const id = Number(segments[2]);
+        this.getUserById(id);
+      } else {
         this.getUser();
+      }
     }
     getUser() {
       this.authService.getUserByToken().subscribe(response => {
+        this.userObj = response.data;
+        this.userObj.showFullTc = false;
+        this.selfProfile = true;
+      })
+    }
+
+    getUserById(id: number): void {
+      this.userService.getUserById(id).subscribe(response => {
         this.userObj = response.data;
         this.userObj.showFullTc = false;
       })
