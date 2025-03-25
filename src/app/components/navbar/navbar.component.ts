@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs';
 import { UserModel } from '../../models/auth/user.model';
+import { NotificationListModel } from '../../models/bildirim/notification-list.model';
+import { BildirimService } from '../../services/bildirim.service';
 
 
 @Component({
@@ -18,8 +20,9 @@ export class NavbarComponent implements OnInit {
   private toastrService = inject(ToastrService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private bildirimService = inject(BildirimService);
 
-  notifications: { title: string, description: string, date: string, isRead: boolean, iconClass: string, bgColor: string}[] = [];
+  notifications: NotificationListModel[] = [];
   isLoggedIn: boolean = false;
   isAuthenticated: boolean = false;
   userRole: string | null = null;
@@ -45,6 +48,10 @@ export class NavbarComponent implements OnInit {
       if (this.isLoggedIn) {
         this.getUser();
         this.fetchNotifications();
+
+        this.bildirimService.notificationUpdated$.subscribe(() => {
+          this.fetchNotifications();
+        });
 
       }
     })
@@ -103,36 +110,10 @@ export class NavbarComponent implements OnInit {
     }, 1000);  // 1 saniye sonra yönlendirme yapılacak
   }
   fetchNotifications() {
-    // Örnek API verisi (Gerçek bir API bağlarsan buraya HTTP isteği ekleyebilirsin)
-    this.notifications = [ 
-      { 
-        title: "Yeni Başvuru Onayı", 
-        description: "Başvurunuz onaylandı!", 
-        date: new Date().toISOString(), 
-        isRead: false, 
-        iconClass: "fas fa-check-circle", 
-        bgColor: "#18e723" // Yeşil
-      },
-      { 
-        title: "Yeni Mesaj", 
-        description: "Danışmanınızdan yeni bir mesaj var.", 
-        date: new Date().toISOString(), 
-        isRead: false, 
-        iconClass: "fas fa-envelope", 
-        bgColor: "#007bff" // Mavi
-      },
-      { 
-        title: "Sistem Güncellemesi", 
-        description: "Sistem güncellemesi tamamlandı.", 
-        date: new Date().toISOString(), 
-        isRead: true, 
-        iconClass: "fas fa-cogs", 
-        bgColor: "#ffc107" // Sarı
-      }
-    ];
-    
-      this.unreadCount = this.notifications.filter(n => !n.isRead).length;
-
+    this.bildirimService.getMyNotifications().subscribe(response => {
+      this.notifications = response.data.filter(n => !n.status);
+      this.unreadCount = this.notifications.length;
+    });
   }
 
   

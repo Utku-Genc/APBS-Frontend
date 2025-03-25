@@ -8,6 +8,7 @@ import { BildirimService } from '../../services/bildirim.service';
 import { SendNotificationModel } from '../../models/bildirim/send-notification.model';
 import { ToastService } from '../../services/toast.service';
 import { SendNotificationAllModel } from '../../models/bildirim/send-notification-all.model';
+import { NotificationListModel } from '../../models/bildirim/notification-list.model';
 
 @Component({
   selector: 'utk-admin-notifications',
@@ -20,22 +21,17 @@ export class AdminNotificationsComponent implements OnInit {
   private bildirimService = inject(BildirimService);
   private toastService = inject(ToastService);
 
+  activeTab: string = 'list';
   selectedTab: string = 'all';
   icons = [
-    'fa-home',
-    'fa-user',
-    'fa-bell',
-    'fa-envelope',
-    'fa-check',
-    'fa-times',
-    'fa-info-circle',
-    'fa-exclamation-triangle',
-    'fa-cog',
-    'fa-trash',
-    'fa-edit',
-    'fa-camera',
-    'fa-heart',
+    'fa-home', 'fa-user', 'fa-bell', 'fa-envelope', 'fa-check', 'fa-times',
+    'fa-info-circle', 'fa-exclamation-triangle', 'fa-cog', 'fa-trash',
+    'fa-edit', 'fa-camera', 'fa-heart',
   ];
+  presetColors: string[] = [
+    '#FF5733', '#33FF57', '#3357FF', '#F1C40F', '#8E44AD', '#E74C3C', '#3498DB', '#2ECC71', '#F39C12', '#D35400'
+  ];
+
 
   selectedIcon: string = 'fa-bell';
   title: string = '';
@@ -49,14 +45,14 @@ export class AdminNotificationsComponent implements OnInit {
     icon: this.selectedIcon,
     renk: this.selectedColor,
   };
-  sendNotificationAllObj:SendNotificationAllModel = {
+  sendNotificationAllObj: SendNotificationAllModel = {
     baslik: this.title,
     aciklama: this.description,
     icon: this.selectedIcon,
     renk: this.selectedColor,
-  }
-  
+  };
 
+  notifications: NotificationListModel[] = []; // Bildirim listesi
   users: UserListModel[] = []; // Tüm kullanıcılar
   filteredUsers: UserListModel[] = []; // Arama sonuçlarına göre filtrelenmiş kullanıcılar
 
@@ -64,8 +60,15 @@ export class AdminNotificationsComponent implements OnInit {
   searchTerm: string = ''; // Kullanıcı arama terimi
 
   ngOnInit(): void {
+    this.getNotifications();
     this.getUsers();
   }
+
+  switchTab(tab: string) {
+    this.activeTab = tab;
+    console.log('Aktif sekme: ', tab);
+  }
+
 
   updateIcon(icon: string) {
     this.selectedIcon = icon;
@@ -83,14 +86,14 @@ export class AdminNotificationsComponent implements OnInit {
       renk: this.selectedColor,
     };
     this.bildirimService
-    .sendNotificationAll(this.sendNotificationAllObj)
-    .subscribe((response) => {
-      if (response.isSuccess) {
-        this.toastService.success(response.message);
-      } else {
-        alert('Bildirim gönderme başarısız.');
-      }
-    });
+      .sendNotificationAll(this.sendNotificationAllObj)
+      .subscribe((response) => {
+        if (response.isSuccess) {
+          this.toastService.success(response.message);
+        } else {
+          alert('Bildirim gönderme başarısız.');
+        }
+      });
   }
 
   sendNotificationToUser() {
@@ -116,6 +119,21 @@ export class AdminNotificationsComponent implements OnInit {
         });
     }
   }
+
+  getNotifications() {
+    this.bildirimService
+      .getAll()
+      .subscribe((notifications) => {
+        this.notifications = notifications.data;
+      });
+  }
+  deleteNotification(id: number) {
+    this.bildirimService.delete(id).subscribe(() => {
+      this.getNotifications();
+    });
+  }
+
+
 
   getUsers() {
     this.userService

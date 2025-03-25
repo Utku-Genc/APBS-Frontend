@@ -1,59 +1,149 @@
-<div class="notification-container">
-    <h2>Bildirim Gönder</h2>
+<h2 class="content-title">Alan ve Bölüm Yönetimi</h2>
 
-    <!-- Tab Menüsü -->
-    <div class="tabs">
-        <button [class.active]="selectedTab === 'all'" (click)="selectedTab = 'all'">Herkese</button>
-        <button [class.active]="selectedTab === 'user'" (click)="selectedTab = 'user'">Kullanıcıya Özel</button>
-    </div>
+<div class="admin-table-responsive">
+    <!-- Sekme Başlıkları -->
+    <ul class="tab-header">
+        <li [class.active]="activeTab === 'list'" (click)="switchTab('list'); getNotifications();">
+            Bildirimler
+        </li>
+        <li [class.active]="activeTab === 'send'" (click)="switchTab('send');">
+            Bildirim Gönderme
+        </li>
+    </ul>
 
-    <!-- Başlık Girişi -->
-    <label>Başlık:</label>
-    <input type="text" [(ngModel)]="title" placeholder="Başlık girin" maxlength="70"/>
+    <div class="tab-content .table-responsive">
+        <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'list' }">
+            <h3>Bildirim Yönetimi</h3>
+            <table class="admin-table" *ngIf="notifications != null">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-id-badge"></i> ID</th>
+                        <th><i class="fas fa-icons"></i> İkon</th>
+                        <th><i class="fas fa-heading"></i> Başlık</th>
+                        <th><i class="fas fa-comment-alt"></i> Açıklama</th>
+                        <th><i class="fas fa-palette"></i> Renk</th>
+                        <th><i class="fas fa-users"></i> Alıcı ID</th>
+                        <th><i class="fas fa-circle"></i> Durum</th>
+                        <th><i class="fas fa-calendar-alt"></i> Tarih</th>
+                        <th><i class="fas fa-tools"></i> İşlemler</th>
+                    </tr>
 
-    <!-- Açıklama Girişi -->
-    <label>Açıklama:</label>
-    <textarea [(ngModel)]="description" placeholder="Açıklama girin"></textarea>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let notification of notifications">
+                        <td><i class="fas fa-id-badge"></i> {{ notification.id }}</td>
+                        <td>
+                            <!-- İkonu dinamik olarak göster -->
+                            <i class="fa" [ngClass]="notification.icon"></i>
+                        </td>
+                        <td>{{ notification.baslik }}</td>
+                        <td>{{ notification.aciklama }}</td>
+                        <td>
+                            <!-- Rengi dinamik olarak göster -->
+                            <span class="color-box" [style.background-color]="notification.renk"></span>
+                        </td>
+                        <td>{{ notification.kullaniciId }}</td>
+                        <td>
+                            <!-- Durumu true/false'a göre göster -->
+                            <span
+                                [ngClass]="{'status-read': notification.status, 'status-unread': !notification.status}">
+                                {{ notification.status ? 'Okundu' : 'Okunmadı' }}
+                            </span>
+                        </td>
+                        <td>{{ notification.olusturmaTarihi | date: 'HH:mm dd/MM/yyyy' }}</td>
 
-    <!-- Kullanıcı Seçimi (Sadece Kullanıcıya Özel Bildirim İçin Görünür) -->
-    <div *ngIf="selectedTab === 'user'">
-        <label>Kullanıcı Seç:</label>
-        
-        <!-- Kullanıcı Arama Kutusu -->
-        <input type="text" [(ngModel)]="searchTerm" (input)="filterUsers()" placeholder="Kullanıcı ara..." />
+                        <td>
+                            <button class="btn btn-danger me-2 mt-2 mb-2 w-100"
+                                (click)="deleteNotification(notification.id)">
+                                <i class="fas fa-trash-alt"></i> Sil
+                            </button>
+                        </td>
+                    </tr>
 
-        <select [(ngModel)]="selectedUser">
-            <option *ngFor="let user of filteredUsers" [value]="user.id">
-                #{{ user.id }} {{user.firstName}} {{user.lastName}}
-            </option>
-        </select>
-    </div>
 
-    <!-- Renk Seçimi -->
-    <label>Renk Seç:</label>
-    <input class="color-picker" type="color" [(ngModel)]="selectedColor" (input)="updateColor($event)" />
+                </tbody>
+            </table>
+        </div>
 
-    <!-- İkon Seçimi -->
-    <label>İkon Seç:</label>
-    <div class="icon-list">
-        <i *ngFor="let icon of icons" [class]="'fas ' + icon" (click)="updateIcon(icon)"
-            [ngStyle]="{'color': selectedIcon === icon ? selectedColor : 'inherit'}">
-        </i>
-    </div>
+        <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'send' }">
+            <h3>Bildirim Gönderme</h3>
 
-    <button *ngIf="selectedTab !== 'user'" class="btn btn-primary mt-3 w-100" (click)="sendNotification()">Herkese Gönder</button>
-    <button *ngIf="selectedTab === 'user'" class="btn btn-primary mt-3 w-100" (click)="sendNotificationToUser()">Kullanıcıya Gönder</button>
+            <div class="notification-container">
 
-    <!-- Önizleme -->
-    <h3 class="mt-2">Önizleme</h3>
-    <div class="preview-card" [ngStyle]="{'backgroundColor': selectedColor}">
-        <div class="row d-flex align-items-center">
-            <div class="col-2">
-                <i [class]="'fas ' + selectedIcon"></i>
-            </div>
-            <div class="text-content col-10">
-                <h3>{{ title || 'Başlık' }}</h3>
-                <p>{{ description || 'Açıklama burada görünecek...' }}</p>
+                <div class="tabs">
+                    <button [class.active]="selectedTab === 'all'" (click)="selectedTab = 'all'">Herkese Bildirim
+                        Gönder</button>
+                    <button [class.active]="selectedTab === 'user'" (click)="selectedTab = 'user'">Kullanıcıya Bildirim
+                        Gönder</button>
+                </div>
+
+                <!-- Başlık Girişi -->
+                <label class="mt-2">Başlık:</label>
+                <input type="text" [(ngModel)]="title" placeholder="Başlık girin" maxlength="70" />
+
+                <!-- Açıklama Girişi -->
+                <label class="mt-2">Açıklama:</label>
+                <textarea [(ngModel)]="description" placeholder="Açıklama girin"></textarea>
+
+                <!-- Kullanıcı Seçimi (Sadece Kullanıcıya Özel Bildirim İçin Görünür) -->
+                <div *ngIf="selectedTab === 'user'">
+                    <label class="mt-2">Kullanıcı Seç:</label>
+                    <!-- Kullanıcı Arama Kutusu -->
+                    <input type="text" [(ngModel)]="searchTerm" (input)="filterUsers()"
+                        placeholder="Kullanıcı ara..." />
+
+                    <select [(ngModel)]="selectedUser">
+                        <option *ngFor="let user of filteredUsers" [value]="user.id">
+                            #{{ user.id }} {{user.firstName}} {{user.lastName}}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Renk Seçimi -->
+                <div class="d-flex flex-column flex-md-row">
+                    <div class="col-md-6 me-2 mb-2 mb-md-0">
+                        <label class="mt-2" class="mt-2">Renk Seç:</label>
+                        <input class="color-picker" type="color" [(ngModel)]="selectedColor"
+                            (input)="updateColor($event)" />
+                    </div>
+                    <!-- Öne Çıkan Renkler (Önceden Tanımlanmış) -->
+                    <div class="preset-colors col-md-6 ms-2">
+                        <label class="mt-2">Önceden Tanımlı Renkler:</label>
+                        <div class="color-options d-flex flex-wrap">
+                            <div *ngFor="let color of presetColors" class="color-box" [style.background-color]="color"
+                                (click)="selectedColor = color">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- İkon Seçimi -->
+                <label class="mt-2">İkon Seç:</label>
+                <div class="icon-list">
+                    <i *ngFor="let icon of icons" [class]="'fas ' + icon" (click)="updateIcon(icon)"
+                        [ngStyle]="{'color': selectedIcon === icon ? selectedColor : 'inherit'}">
+                    </i>
+                </div>
+
+
+                <button *ngIf="selectedTab !== 'user'" class="btn btn-primary mt-3 w-100"
+                    (click)="sendNotification()">Herkese
+                    Gönder</button>
+                <button *ngIf="selectedTab === 'user'" class="btn btn-primary mt-3 w-100"
+                    (click)="sendNotificationToUser()">Kullanıcıya Gönder</button>
+
+                <!-- Önizleme -->
+                <h3 class="mt-2">Önizleme</h3>
+                <div class="preview-card" [ngStyle]="{'backgroundColor': selectedColor}">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-2">
+                            <i [class]="'fas ' + selectedIcon"></i>
+                        </div>
+                        <div class="text-content col-10">
+                            <h3>{{ title || 'Başlık' }}</h3>
+                            <p>{{ description || 'Açıklama burada görünecek...' }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
