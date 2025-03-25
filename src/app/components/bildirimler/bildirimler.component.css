@@ -1,0 +1,87 @@
+.card {
+    background-color: var(--card-background-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
+}
+.table-responsive {
+    overflow-x: auto;
+  }
+
+.bildirim-table {
+    --bs-table-bg: var(--card-background-color) !important;
+    /* Arka plan rengi */
+    --bs-table-color: var(--text-color) !important;
+    /* Yazı rengi */
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    width: 100%;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-hover-color);
+  }
+  
+  .bildirim-table th {
+    background-color: var(--primary-color) !important;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .bildirim-table th,
+  .bildirim-table td {
+    border-top: 1px solid var(--secondary-text-color);
+    padding: 12px; 
+    vertical-align: middle; 
+  }
+  
+  
+  .bildirim-table button:hover {
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .bildirim-table button i {
+    margin-right: 8px; 
+  }
+  
+  .bildirim-table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .bildirim-table tr:hover {
+    background-color: var(--primary-hover-color); 
+  }
+
+.color-box {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    /* Kare köşeler için */
+}
+
+/* Durum için stil */
+.status-read {
+    color: var(--secondary-text-color);
+    font-weight: bold;
+}
+
+.status-unread {
+    color: rgb(220,53,69);
+    font-weight: bold;
+}
+
+i {
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}

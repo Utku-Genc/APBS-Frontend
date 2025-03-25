@@ -43,29 +43,29 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
               <li *ngIf="notifications.length === 0" class="dropdown-item text-muted">Yeni bildiriminiz yok</li>
           
-              <ng-container *ngFor="let notification of notifications.slice(0, 3); let i = index">
+                <ng-container *ngFor="let notification of notifications.slice(-3); let i = index">
                 <li>
                   <a class="dropdown-item d-flex align-items-center">
-                    <!-- Bildirim İkonu -->
-                    <span class="icon-container me-2" [style.backgroundColor]="notification.bgColor">
-                      <i [class]="notification.iconClass"></i>
-                    </span>
-                    <!-- Bildirim İçeriği -->
-                    <div>
-                      <strong>{{ notification.title }}</strong><br>
-                      <small>{{ notification.description }}</small><br>
-                      <span class="text-muted">{{ notification.date | date:'HH:mm - dd/MM/yyyy':'tr-TR' }}</span>
-                    </div>
+                  <!-- Bildirim İkonu -->
+                  <span class="icon-container me-2" [style.backgroundColor]="notification.renk">
+                    <i class="fa " [class]="notification.icon"></i>
+                  </span>
+                  <!-- Bildirim İçeriği -->
+                  <div>
+                    <strong>{{ notification.baslik }}</strong><br>
+                    <small>{{ notification.aciklama }}</small><br>
+                    <span class="text-muted">{{ notification.olusturmaTarihi | date:'HH:mm - dd/MM/yyyy':'tr-TR' }}</span>
+                  </div>
                   </a>
                 </li>
                 <li *ngIf="i < 2">
                   <hr class="dropdown-divider">
                 </li>
-              </ng-container>
+                </ng-container>
           
               <li><hr class="dropdown-divider"></li>
               <li>
-                <a class="dropdown-item text-center" routerLink="/notifications">Tüm Bildirimleri Gör</a>
+                <a class="dropdown-item text-center" routerLink="/bildirimler">Tüm Bildirimleri Gör</a>
               </li>
             </ul>
           </li>

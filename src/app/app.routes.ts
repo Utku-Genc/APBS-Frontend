@@ -18,6 +18,7 @@ import { AdminDepartmentManagementComponent } from './components/admin-departmen
 import { AdminUserManagementComponent } from './components/admin-user-management/admin-user-management.component';
 import { AdminRoleManagementComponent } from './components/admin-role-management/admin-role-management.component';
 import { AdminNotificationsComponent } from './components/admin-notifications/admin-notifications.component';
+import { BildirimlerComponent } from './components/bildirimler/bildirimler.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -31,6 +32,7 @@ export const routes: Routes = [
     {path: 'profile', component: ProfileComponent, canActivate: [LoginGuard]},
     {path: 'profiles/:id', component: ProfileComponent, canActivate: [LoginGuard, RoleGuard], data: { roles: ['admin', 'yonetici', 'juri'] }},
     {path: 'settings', component: SettingsComponent, canActivate: [LoginGuard]},
+    {path: 'bildirimler', component: BildirimlerComponent, canActivate:[LoginGuard]},
 
     // Card Detail Sayfası
     {path: 'detail/:id', component: CardsDetailComponent},

@@ -5,7 +5,9 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   color: var(--text-color);
 }
-
+.table-responsive {
+  overflow-x: auto;
+}
 .tabs {
   display: flex;
   margin-bottom: 15px;
@@ -25,7 +27,7 @@
   color: white;
 }
 
-input, textarea, select {
+input, textarea, select{
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -35,6 +37,11 @@ input, textarea, select {
   border-radius: 5px;
 }
 
+.color-options{
+  display: flex;
+  gap: 10px;
+  
+}
 .color-picker {
   display: flex;
   gap: 10px;
@@ -70,14 +77,136 @@ input, textarea, select {
   font-size: 40px;
 }
 
-button {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 10px 20px;
-  border: none;
+/* Renk kutusunu kare yapma */
+.color-box {
+  display: inline-block;
+  width: 40px;
+  border-radius: 4px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
   margin-top: 10px;
+  height: 40px; /* Kare köşeler için */
 }
 
-button:hover {
-  background-color: var(--secondary-color);
+/* Durum için stil */
+.status-read {
+  color: green;
+  font-weight: bold;
+}
+
+.status-unread {
+  color: red;
+  font-weight: bold;
+}
+
+.admin-table {
+  --bs-table-bg: var(--card-background-color) !important; /* Arka plan rengi */
+  --bs-table-color: var(--text-color) !important; /* Yazı rengi */
+  background-color: var(--card-background-color);
+  color: var(--text-color);
+  width: 100%;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.admin-table th {
+  background-color: var(--primary-color) !important;
+  color: white;
+  font-weight: bold;
+}
+
+.admin-table th,
+.admin-table td {
+  border-top: 1px solid var(--secondary-text-color);
+  padding: 12px; 
+  vertical-align: middle; 
+}
+
+
+.admin-table button:hover {
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.admin-table button i {
+  margin-right: 8px; 
+}
+
+.admin-table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-table tr:hover {
+  background-color: var(--primary-hover-color); 
+}
+
+.tab-container {
+  background-color: var(--card-background-color);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tab-header {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+.tab-header li {
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--text-color);
+  background-color: var(--card-background-color);
+  transition: background 0.3s, color 0.3s;
+}
+
+.tab-header li:hover {
+  background-color: var(--primary-hover-color);
+  color: white;
+}
+
+.tab-header .active {
+  background-color: var(--primary-color);
+  color: white;
+  border-bottom: 3px solid var(--secondary-color);
+}
+
+.tab-content {
+  padding: 20px;
+}
+
+.tab-pane {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Aktif olan sekme görünsün */
+.tab-pane.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
