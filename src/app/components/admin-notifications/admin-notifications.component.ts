@@ -7,6 +7,7 @@ import { UserListModel } from '../../models/user/user-list.model';
 import { BildirimService } from '../../services/bildirim.service';
 import { SendNotificationModel } from '../../models/bildirim/send-notification.model';
 import { ToastService } from '../../services/toast.service';
+import { SendNotificationAllModel } from '../../models/bildirim/send-notification-all.model';
 
 @Component({
   selector: 'utk-admin-notifications',
@@ -48,6 +49,12 @@ export class AdminNotificationsComponent implements OnInit {
     icon: this.selectedIcon,
     renk: this.selectedColor,
   };
+  sendNotificationAllObj:SendNotificationAllModel = {
+    baslik: this.title,
+    aciklama: this.description,
+    icon: this.selectedIcon,
+    renk: this.selectedColor,
+  }
   
 
   users: UserListModel[] = []; // Tüm kullanıcılar
@@ -69,9 +76,20 @@ export class AdminNotificationsComponent implements OnInit {
   }
 
   sendNotification() {
-    console.log('Herkese bildirim gönderildi:', {
-      title: this.title,
-      description: this.description,
+    this.sendNotificationAllObj = {
+      baslik: this.title,
+      aciklama: this.description,
+      icon: this.selectedIcon,
+      renk: this.selectedColor,
+    };
+    this.bildirimService
+    .sendNotificationAll(this.sendNotificationAllObj)
+    .subscribe((response) => {
+      if (response.isSuccess) {
+        this.toastService.success(response.message);
+      } else {
+        alert('Bildirim gönderme başarısız.');
+      }
     });
   }
 
