@@ -77,10 +77,10 @@
           <li *ngIf="userRole === 'admin'" class="nav-item">
             <a class="nav-link" routerLink="/admin"><i class="fa-solid fa-user-shield"></i> Admin Paneli</a>
           </li>
-          <li *ngIf="userRole === 'yonetici' || userRole === 'admin'"class="nav-item">
+          <li *ngIf="userRole === 'yonetici'"class="nav-item">
             <a class="nav-link" routerLink=""><i class="fa-solid fa-user-gear"></i> Yönetici Paneli</a>
           </li>
-          <li *ngIf="userRole === 'juri' || userRole === 'yonetici' || userRole === 'admin'" class="nav-item">
+          <li *ngIf="userRole === 'juri'" class="nav-item">
             <a class="nav-link" routerLink=""><i class="fa-solid fa-user-pen"></i> Juri Paneli</a>
           </li>
           <li class="nav-item dropdown">

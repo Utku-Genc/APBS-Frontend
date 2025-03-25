@@ -123,6 +123,13 @@ input, textarea, select{
   color: white;
   font-weight: bold;
 }
+.admin-table-responsive {
+
+  overflow-y: auto;
+  padding: 20px;
+  background-color: var(--card-background-color);
+}
+
 
 .admin-table th,
 .admin-table td {

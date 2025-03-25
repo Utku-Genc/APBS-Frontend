@@ -1,4 +1,4 @@
-<h2 class="content-title">Alan ve Bölüm Yönetimi</h2>
+<h2 class="content-title">Bildirim Yönetimi</h2>
 
 <div class="admin-table-responsive">
     <!-- Sekme Başlıkları -->
@@ -26,6 +26,7 @@
                         <th><i class="fas fa-circle"></i> Durum</th>
                         <th><i class="fas fa-calendar-alt"></i> Tarih</th>
                         <th><i class="fas fa-tools"></i> İşlemler</th>
+                        <th></th>
                     </tr>
 
                 </thead>
@@ -52,6 +53,11 @@
                         </td>
                         <td>{{ notification.olusturmaTarihi | date: 'HH:mm dd/MM/yyyy' }}</td>
 
+                        <td>
+                            <button class="btn btn-primary me-2 mt-2 mb-2 w-100"
+                                (click)="editNotification(notification)">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
                         <td>
                             <button class="btn btn-danger me-2 mt-2 mb-2 w-100"
                                 (click)="deleteNotification(notification.id)">
