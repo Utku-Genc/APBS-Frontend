@@ -1,0 +1,60 @@
+<div class="notification-container">
+    <h2>Bildirim Gönder</h2>
+
+    <!-- Tab Menüsü -->
+    <div class="tabs">
+        <button [class.active]="selectedTab === 'all'" (click)="selectedTab = 'all'">Herkese</button>
+        <button [class.active]="selectedTab === 'user'" (click)="selectedTab = 'user'">Kullanıcıya Özel</button>
+    </div>
+
+    <!-- Başlık Girişi -->
+    <label>Başlık:</label>
+    <input type="text" [(ngModel)]="title" placeholder="Başlık girin" maxlength="70"/>
+
+    <!-- Açıklama Girişi -->
+    <label>Açıklama:</label>
+    <textarea [(ngModel)]="description" placeholder="Açıklama girin"></textarea>
+
+    <!-- Kullanıcı Seçimi (Sadece Kullanıcıya Özel Bildirim İçin Görünür) -->
+    <div *ngIf="selectedTab === 'user'">
+        <label>Kullanıcı Seç:</label>
+        
+        <!-- Kullanıcı Arama Kutusu -->
+        <input type="text" [(ngModel)]="searchTerm" (input)="filterUsers()" placeholder="Kullanıcı ara..." />
+
+        <select [(ngModel)]="selectedUser">
+            <option *ngFor="let user of filteredUsers" [value]="user.id">
+                #{{ user.id }} {{user.firstName}} {{user.lastName}}
+            </option>
+        </select>
+    </div>
+
+    <!-- Renk Seçimi -->
+    <label>Renk Seç:</label>
+    <input class="color-picker" type="color" [(ngModel)]="selectedColor" (input)="updateColor($event)" />
+
+    <!-- İkon Seçimi -->
+    <label>İkon Seç:</label>
+    <div class="icon-list">
+        <i *ngFor="let icon of icons" [class]="'fas ' + icon" (click)="updateIcon(icon)"
+            [ngStyle]="{'color': selectedIcon === icon ? selectedColor : 'inherit'}">
+        </i>
+    </div>
+
+    <button *ngIf="selectedTab !== 'user'" class="btn btn-primary mt-3 w-100" (click)="sendNotification()">Herkese Gönder</button>
+    <button *ngIf="selectedTab === 'user'" class="btn btn-primary mt-3 w-100" (click)="sendNotificationToUser()">Kullanıcıya Gönder</button>
+
+    <!-- Önizleme -->
+    <h3 class="mt-2">Önizleme</h3>
+    <div class="preview-card" [ngStyle]="{'backgroundColor': selectedColor}">
+        <div class="row d-flex align-items-center">
+            <div class="col-2">
+                <i [class]="'fas ' + selectedIcon"></i>
+            </div>
+            <div class="text-content col-10">
+                <h3>{{ title || 'Başlık' }}</h3>
+                <p>{{ description || 'Açıklama burada görünecek...' }}</p>
+            </div>
+        </div>
+    </div>
+</div>

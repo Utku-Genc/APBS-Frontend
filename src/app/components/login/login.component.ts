@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     password: ''
   };
   turnstileSiteKey = environment.turnstileSiteKey;
-  isCaptchaValid = false; // Butonun başlangıçta devre dışı olması için
+  isCaptchaValid = true; // Butonun başlangıçta devre dışı olması için
 
 
   
