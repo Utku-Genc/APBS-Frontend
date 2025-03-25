@@ -1,6 +1,6 @@
 <div class="notification-container" *ngIf="notification">
-  <div class="notification">
-    <div class="notification-icon" [style.backgroundColor]="notification.bgColor">
+  <div class="notification" [style.backgroundColor]="notification.bgColor">
+    <div class="notification-icon">
       <i [class]="notification.icon"></i>
     </div>
     <div class="notification-content">
@@ -9,3 +9,4 @@
     </div>
   </div>
 </div>
+ 

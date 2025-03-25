@@ -16,6 +16,8 @@ export class CardsDetailComponent {
   private ilanService = inject(IlanService);
 
   ilanDetailObj!: IlanDetailModel;
+  currentDate: Date = new Date();
+
 
   isLoggedIn = false; // Kullanıcı giriş yapmış mı?
 
@@ -23,6 +25,7 @@ export class CardsDetailComponent {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.isLoggedIn = !!localStorage.getItem('token'); // Eğer userToken varsa giriş yapmıştır.
     this.getIlanDetail(id);
+    console.log(this.currentDate);
   }
 
   getIlanDetail(id: number) {

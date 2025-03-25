@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'utk-notifications',
@@ -10,6 +11,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 })
 export class NotificationsComponent implements OnInit {
   private hubConnectionBuilder!: HubConnection;
+  private authService = inject(AuthService);
 
   notification: {
     title: string;
@@ -19,7 +21,7 @@ export class NotificationsComponent implements OnInit {
   } | null = null;
   private notificationSound!: HTMLAudioElement;
   private isSoundEnabled = false;
-
+  isLoggedIn= false;
   ngOnInit() {
     this.notificationSound = new Audio(
       '../../../assets/audio/notification.mp3'
@@ -33,26 +35,24 @@ export class NotificationsComponent implements OnInit {
       }
     });
 
-    // SignalR ile haberleş
-    this.hubConnectionBuilder = new HubConnectionBuilder()
-      .withUrl('https://localhost:44316/signalrhub')
-      .build();
-    this.hubConnectionBuilder
-      .start()
-      .then(() => console.log('SignalR Bağlantı Sağlandı.......!'))
-      .catch((err) => console.error('SignalR Bağlantı Hatası:', err));
+    // Token alma
+    this.isLoggedIn = this.authService.isAuthenticated();
+    if (this.isLoggedIn) {
+      console.log('Kullanıcı Giriş Yaptı Signal bağlantı');
+      // SignalR ile haberleş
+      this.hubConnectionBuilder = new HubConnectionBuilder()
+        .withUrl('https://localhost:44316/notificationHub')
+        .build();
+      this.hubConnectionBuilder
+        .start()
+        .then(() => console.log('SignalR Bağlantı Sağlandı.......!'))
+        .catch((err) => console.error('SignalR Bağlantı Hatası:', err));
 
-      this.hubConnectionBuilder.on('ReceiveNotification', (string: any) => {
-      this.showNotification(
-        string,
-        'Başvurunuz onaylandı!',
-        'fas fa-check-circle',
-        '#28a745',
-
-      );
+      this.hubConnectionBuilder.on('ReceiveNotification', (obj: any) => {
+        console.log('SignalR Mesajı:', obj);
+        this.showNotification(obj.title, obj.message, obj.icon, obj.bgColor);
+      });
     }
-    );
-    
   }
 
   showNotification(

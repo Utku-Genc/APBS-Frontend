@@ -17,6 +17,7 @@ import { UnauthorizedComponent } from './components/unauthorized/unauthorized.co
 import { AdminDepartmentManagementComponent } from './components/admin-department-management/admin-department-management.component';
 import { AdminUserManagementComponent } from './components/admin-user-management/admin-user-management.component';
 import { AdminRoleManagementComponent } from './components/admin-role-management/admin-role-management.component';
+import { AdminNotificationsComponent } from './components/admin-notifications/admin-notifications.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -47,6 +48,7 @@ export const routes: Routes = [
           {path: 'role', component: AdminRoleManagementComponent},
           { path: 'users', component: AdminUserManagementComponent }, 
           {path: 'ilan/ekle', component: CardsFormsComponent},
+          {path: 'bildirim', component:AdminNotificationsComponent},
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         ],
         canActivate: [LoginGuard, RoleGuard],
