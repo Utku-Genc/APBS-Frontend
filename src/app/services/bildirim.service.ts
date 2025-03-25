@@ -56,19 +56,23 @@ export class BildirimService {
       {}
     );
   }
-
+  update(data: SendNotificationModel) : Observable<SingleResponseModel<SendNotificationModel>> {
+    return this.apiService.put<SingleResponseModel<SendNotificationModel>>(
+      `${this.endpoint}UpdateNotification`,
+      data
+    );
+  }
   delete(id: number): Observable<SingleResponseModel<any>> {
     return this.apiService.delete(
       `${this.endpoint}DeleteNotification?id=${id}`
     );
   }
+
   deleteMyNotification(id: number): Observable<SingleResponseModel<any>> {
     return this.apiService.delete(
       `${this.endpoint}DeleteMyNotification?id=${id}`
     );
   }
-
-
 
   triggerNotificationUpdate() {
     this.notificationUpdated.next(true);

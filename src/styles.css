@@ -2,40 +2,63 @@
 
 /* Varsayılan olarak açık tema */
 [data-theme="light"] {
-    --background-color: #ffffff;
-    --text-color: #000000;
-    --primary-color: rgb(8, 162, 80);
-    --secondary-color: rgb(35, 173, 100);
-    --secondary-text-color: #666666;
-    --card-background-color: #ececec;
-    --input-background-color: #ffffff;
-    --input-hover-background-color: rgb(234, 250, 237);
-    --primary-hover-color: rgb(6, 142, 70);
-  }
-  
-  /* Koyu tema */
-  [data-theme="dark"] {
-    --background-color: rgb(40,43,48);
-    --text-color: #ffffff;
-    --primary-color: rgb(8, 162, 80);
-    --secondary-color: rgb(35, 173, 100);
-    --secondary-text-color: #bbbbbb;
-    --card-background-color: rgb(54,57,62);
-    --input-background-color: rgb(66,69,73);
-    --input-hover-background-color: #555555;
-    --primary-hover-color: rgb(6, 142, 70);
-  }
-  
-  /* Genel Stil */
-  body {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --primary-color: rgb(8, 162, 80);
+  --secondary-color: rgb(35, 173, 100);
+  --secondary-text-color: #666666;
+  --card-background-color: #ececec;
+  --input-background-color: #ffffff;
+  --input-hover-background-color: rgb(234, 250, 237);
+  --primary-hover-color: rgb(6, 142, 70);
+  --scrollbar-bg: #ddd;
+  --scrollbar-thumb: #aaa;
+}
 
-  /* SweetAlert2 Temaya Uyumlu Stil */
+/* Koyu tema */
+[data-theme="dark"] {
+  --background-color: rgb(40, 43, 48);
+  --text-color: #ffffff;
+  --primary-color: rgb(8, 162, 80);
+  --secondary-color: rgb(35, 173, 100);
+  --secondary-text-color: #bbbbbb;
+  --card-background-color: rgb(54, 57, 62);
+  --input-background-color: rgb(66, 69, 73);
+  --input-hover-background-color: #555555;
+  --primary-hover-color: rgb(6, 142, 70);
+  --scrollbar-bg: #333;
+  --scrollbar-thumb: #666;
+}
+
+/* Genel Stil */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Özel Kaydırma Çubuğu */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* SweetAlert2 Temaya Uyumlu Stil */
 .swal2-popup {
   background-color: var(--card-background-color) !important;
   color: var(--text-color) !important;

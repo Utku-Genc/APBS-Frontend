@@ -1,7 +1,7 @@
 /* Admin Panel Layout */
 .d-flex {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 86px);
 }
 
 /* Sol Menü */
@@ -11,7 +11,7 @@
   max-width: 250px;
   background-color: var(--primary-color);
   color: var(--text-color);
-  height: 100%;
+  height: calc(100vh - 86px);
   position: sticky;
   top: 0;
   left: 0;
@@ -112,7 +112,7 @@ nav button:hover {
     display: block;
     /* Menü butonu görünsün */
     width: max-content;
-    height: 100vh;
+    height: calc(100vh - 86px);
     margin-bottom: 10px;
   }
 

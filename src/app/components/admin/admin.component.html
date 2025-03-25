@@ -14,34 +14,48 @@
         </button>
       </li>
       <li class="nav-item">
-        <button class="btn btn-primary" (click)="navigateTo('alan')">
-          <i class="fas fa-cogs"></i> Alan Bölüm İşlemleri
-        </button>
-      </li>
-      <li class="nav-item">
         <button class="btn btn-primary" (click)="navigateTo('users')">
           <i class="fas fa-users"></i> Kullanıcılar
         </button>
       </li>
       <li class="nav-item">
         <button class="btn btn-primary" (click)="navigateTo('role')">
-          <i class="fa-solid fa-user-tag"></i> Roller
+          <i class="fa-solid fa-user-tag"></i> Rol ve Pozisyon
         </button>
       </li>
       <li class="nav-item">
+        <button class="btn btn-primary" (click)="navigateTo('alan')">
+          <i class="fas fa-cogs"></i> Alan ve Bölüm
+        </button>
+      </li>
+
+      <li class="nav-item">
         <button class="btn btn-primary" (click)="navigateTo('bildirim')">
-          <i class="fas fa-bell"></i> Bildirim
+          <i class="fas fa-bell"></i> Bildirimler 
         </button>
       <li class="nav-item">
         <button class="btn btn-primary" (click)="navigateTo('settings')">
           <i class="fas fa-cogs"></i> Ayarlar
         </button>
       </li>
+      <h4 class="mt-3 text-white">Diğer Paneller</h4>
+      <li class="nav-item">
+        <button class="btn btn-primary" routerLink="/yonetici">
+          <i class="fa-solid fa-user-gear"></i> Yönetici Paneli
+        </button>
+      <li class="nav-item">
+        <button class="btn btn-primary" routerLink="/juri">
+          <i class="fa-solid fa-user-pen"></i> Juri Paneli
+
+        </button>
+
+      </li>
     </ul>
   </div>
 
   <!-- Menü Butonu (Her Çözünürlükte Görünsün) -->
-  <button class="btn text-white menu-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+  <button class="btn text-white menu-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+    aria-controls="sidebar">
     Menü
   </button>
 

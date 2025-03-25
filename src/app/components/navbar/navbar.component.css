@@ -1,6 +1,7 @@
 /* Navbar Renk Düzenlemeleri */
 .navbar {
     background-color: var(--primary-color);
+    
 }
 
 .navbar .navbar-brand {
@@ -139,24 +140,6 @@
     .navbar .nav-item .navbar .form-control {
         width: 100%;
         margin: auto;
-
     }
 }
-@media screen and (max-width: 991px) {
-    .navbar .nav-item {
-        margin: 5px 0;
-        width: 100%;
-        background-color: none  !important;
-    }
-    .navbar .nav-item .nav-link {
-        background-color: var(--primary-color) !important;
-        margin: 0 16px;
-    }
 
-    .navbar .nav-item 
-    .navbar .form-control {
-        width: 100%;
-        margin: auto;
-
-    }
- }
