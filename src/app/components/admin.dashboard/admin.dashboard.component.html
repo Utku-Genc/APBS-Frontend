@@ -5,7 +5,7 @@
     <thead>
       <tr>
         <th><i class="fas fa-eye"></i> İlan</th>
-        <th scope="col"><i class="fas fa-id-badge"></i> ID</th>
+        <th scope="col"><i class="fa-solid fa-hashtag"></i> ID</th>
         <th scope="col"><i class="fas fa-heading"></i> Başlık</th>
         <th scope="col"><i class="fas fa-align-left"></i> Açıklama</th>
         <th scope="col"><i class="fa-solid fa-briefcase"></i> Bölüm</th>
@@ -25,12 +25,12 @@
             <i class="fas fa-eye"></i>
           </button></a>
         </td>
-        <td><i class="fas fa-id-badge"></i> {{ item.id }}</td>
+        <td><i class="fa-solid fa-hashtag"></i>{{ item.id }}</td>
         <td>{{ item.baslik | summary:15 }}</td>
         <td>{{ stripHtml(item.aciklama) | summary:30 }}</td>
         <td>{{ item.bolum.ad }}</td>
         <td>{{ item.pozisyon.ad }}</td>
-        <td>#{{ item.olusturan.id }} {{ item.olusturan.firstName }} {{ item.olusturan.lastName }}</td>
+        <td><i class="fa-solid fa-hashtag"></i>{{ item.olusturan.id }} {{ item.olusturan.firstName }} {{ item.olusturan.lastName }}</td>
         <td>
           <span [class]="item.status ? 'badge bg-success' : 'badge bg-secondary'">
             <i class="fas" [ngClass]="item.status ? 'fa-check-circle' : 'fa-times-circle'"></i>

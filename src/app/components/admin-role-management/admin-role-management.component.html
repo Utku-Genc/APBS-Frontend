@@ -19,7 +19,7 @@
       <table class="admin-table" *ngIf="roleModelObj != null">        
         <thead>
           <tr>
-            <th><i class="fas fa-id-badge"></i> ID</th>
+            <th><i class="fa-solid fa-hashtag"></i> ID</th>
             <th><i class="fas fa-heading "></i> Rol Adı</th>
             <th><i class="fas fa-tools"></i> İşlemler</th>
             <th></th>
@@ -28,7 +28,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let role of roleModelObj">
-            <td><i class="fas fa-id-badge"></i> {{ role.id }}</td>
+            <td><i class="fa-solid fa-hashtag"></i>{{ role.id }}</td>
             <td>{{ role.name }}</td>
             <td class="btn-margin">
               <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editRole(role)"><i class="fa-solid fa-pen"></i> Düzenle</button>
@@ -48,7 +48,7 @@
       <table class="admin-table" *ngIf="positionModelObj != null">
         <thead>
           <tr>
-            <th><i class="fas fa-id-badge"></i> ID</th>
+            <th><i class="fa-solid fa-hashtag"></i> ID</th>
             <th><i class="fas fa-heading"></i> Pozisyon Adı</th>
             <th><i class="fas fa-align-left"></i> Açıklama</th>
             <th><i class="fas fa-tools"></i> İşlemler</th>
@@ -57,7 +57,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let position of positionModelObj ">
-            <td><i class="fas fa-id-badge"></i> {{ position.id }}</td>
+            <td><i class="fa-solid fa-hashtag"></i>{{ position.id }}</td>
             <td>{{ position.ad }}</td>
             <td>{{ position.aciklama }}</td>
             <td>

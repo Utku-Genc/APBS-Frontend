@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
       console.log(isAlreadyLoggedIn+"  "+this.isLoggedIn)
       if(isAlreadyLoggedIn == true && isAlreadyLoggedIn != this.isLoggedIn){
         this.toastrService.info("Token süreniz doldu tekrardan giriş yapiniz","Lütfen Tekrardan Giriş Yapınız")
-        this.router.navigate(["login"])
+        window.location.href = "/login";
       }
       if (this.isLoggedIn) {
         this.getUser();

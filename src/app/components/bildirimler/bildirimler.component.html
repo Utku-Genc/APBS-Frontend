@@ -18,7 +18,7 @@
                     <tr *ngFor="let notification of notifications.slice().reverse()">
                         <td>
                             <!-- İkonu dinamik olarak göster -->
-                            <i class="fa" [ngClass]="notification.icon" [style.color]="notification.renk"></i>
+                            <i class="fa text-aligin-center" [ngClass]="notification.icon" [style.color]="notification.renk"></i>
                         </td>
                         <td>{{ notification.baslik }}</td>
                         <td>{{ notification.aciklama }}</td>
