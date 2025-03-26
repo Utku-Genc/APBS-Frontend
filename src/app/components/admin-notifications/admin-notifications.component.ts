@@ -155,7 +155,7 @@ export class AdminNotificationsComponent implements OnInit {
         <p>Mevcut Başlık: ${notification.baslik}</p>
         <p>Mevcut Açıklama: ${notification.aciklama}</p>
         <p>Mevcut Icon: <i id="selectedIcon" class="fa ${notification.icon}"></i></p>
-        <p>Mevcut Renk: <span class="color-box" style="background-color: ${notification.renk};"></span></p>
+        <div class="align-content-center ">Mevcut Renk: <span class="color-box" style="background-color: ${notification.renk};"></span></div>
         <hr>
         <p>Yeni Bildirimin Özellikleri:</p>
         <input id="bildirimBaslik" class="swal2-input" value="${notification.baslik}" placeholder="Bildirimi Adı">
@@ -182,7 +182,7 @@ export class AdminNotificationsComponent implements OnInit {
       confirmButtonText: 'Güncelle',
       cancelButtonText: 'İptal',
       customClass: {
-        popup: 'custom-swal-popup',
+        popup: 'custom-swal-popup-xl',
         confirmButton: 'custom-swal-confirm',
         cancelButton: 'custom-swal-cancel',
       },
