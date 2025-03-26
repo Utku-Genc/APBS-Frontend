@@ -206,7 +206,6 @@ toggleFilters() {
       confirmButtonText: 'Evet, engelle',
       cancelButtonText: 'İptal',
       customClass: {
-        confirmButton: 'custom-swal-confirm',
         cancelButton: 'custom-swal-cancel',
       },
     }).then((result) => {
@@ -233,7 +232,6 @@ toggleFilters() {
       confirmButtonText: 'Evet, kaldır',
       cancelButtonText: 'İptal',
       customClass: {
-        confirmButton: 'custom-swal-confirm',
         cancelButton: 'custom-swal-cancel',
       },
     }).then((result) => {

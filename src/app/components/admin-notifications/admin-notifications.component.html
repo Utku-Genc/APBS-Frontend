@@ -32,8 +32,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let notification of notifications">
-                        <td><i class="fas fa-id-badge"></i> {{ notification.id }}</td>
-                        <td>
+                        <td><b>#</b>{{ notification.id }}</td>
+                        <td style="font-size: 20px; text-align: center;">
                             <!-- İkonu dinamik olarak göster -->
                             <i class="fa" [ngClass]="notification.icon"></i>
                         </td>
@@ -105,30 +105,32 @@
                     </select>
                 </div>
 
-                <!-- Renk Seçimi -->
-                <div class="d-flex flex-column flex-md-row">
-                    <div class="col-md-6 me-2 mb-2 mb-md-0">
-                        <label class="mt-2" class="mt-2">Renk Seç:</label>
-                        <input class="color-picker" type="color" [(ngModel)]="selectedColor"
-                            (input)="updateColor($event)" />
+                <div class="d-flex flex-wrap align-items-center justify-content-between">
+                    <!-- İkon Seç -->
+                    <div class="d-flex align-items-center me-3">
+                        <div class="icon-list d-flex">
+                            <i *ngFor="let icon of icons" [class]="'fas ' + icon" (click)="updateIcon(icon)"
+                                [ngStyle]="{'color': selectedIcon === icon ? selectedColor : 'inherit'}">
+                            </i>
+                        </div>
                     </div>
-                    <!-- Öne Çıkan Renkler (Önceden Tanımlanmış) -->
-                    <div class="preset-colors col-md-6 ms-2">
-                        <label class="mt-2">Önceden Tanımlı Renkler:</label>
-                        <div class="color-options d-flex flex-wrap">
-                            <div *ngFor="let color of presetColors" class="color-box" [style.background-color]="color"
+                
+                    <!-- Öne Çıkan Renkler ve Renk Seçici -->
+                    <div class="d-flex align-items-center">
+                        <div class="color-options d-flex flex-wrap align-items-center">
+                            <div *ngFor="let color of presetColors" class="color-box me-1" [style.background-color]="color"
                                 (click)="selectedColor = color">
+                            </div>
+                            <div class="position-relative">
+                                <input class="color-picker" type="color" [(ngModel)]="selectedColor"
+                                    (input)="updateColor($event)" />
+                                <i class="fas fa-palette color-icon"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- İkon Seçimi -->
-                <label class="mt-2">İkon Seç:</label>
-                <div class="icon-list">
-                    <i *ngFor="let icon of icons" [class]="'fas ' + icon" (click)="updateIcon(icon)"
-                        [ngStyle]="{'color': selectedIcon === icon ? selectedColor : 'inherit'}">
-                    </i>
-                </div>
+                
+                
 
 
                 <button *ngIf="selectedTab !== 'user'" class="btn btn-primary mt-3 w-100"

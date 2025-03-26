@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     password: ''
   };
   turnstileSiteKey = environment.turnstileSiteKey;
-  isCaptchaValid = true; // Butonun başlangıçta devre dışı olması için
+  isCaptchaValid = false; // Butonun başlangıçta devre dışı olması için
 
 
   
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
             window.location.href = returnUrl;  // returnUrl varsa o sayfaya, yoksa ana sayfaya yönlendir
           }, 1000);  // 1 saniye sonra yönlendirme yapılacak
         } else {
-          console.log("Giriş başarısız:", response.message);
+          this.toastrService.error("Giriş başarısız:", response.message);
         }
       },
       error: (err) => {
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
             this.toastrService.error(message);
           });
         } else {
-          this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+          this.toastrService.error(err.error.message,"Giriş başarısız:");
         }
       }
     });

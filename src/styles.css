@@ -65,12 +65,19 @@ body {
   border-radius: 12px !important;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
 }
-
+.custom-swal-popup-xl {
+  background-color: var(--card-background-color) !important;
+  color: var(--text-color) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
+  width: 800px !important;
+}
 .custom-swal-confirm {
   background-color: var(--primary-color) !important;
   color: #ffffff !important;
   border-radius: 8px !important;
   padding: 10px 20px !important;
+  border-color: var(--secondary-color) !important;
 }
 
 .custom-swal-confirm:hover {
@@ -123,6 +130,14 @@ body {
   font-size: 0.5em;
 }
 
+.color-box {
+  width: 20px;
+  border-radius: 5px;
+  display: inline-block;
+  height: 20px; /* Kare köşeler için */
+  margin-bottom: -4px;
+
+}
 
 /* Light tema için filtre */
 [data-theme="light"] input[type="datetime-local"]::-webkit-calendar-picker-indicator {
