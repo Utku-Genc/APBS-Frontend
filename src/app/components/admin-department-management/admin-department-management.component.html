@@ -19,7 +19,7 @@
       <table class="admin-table" *ngIf="bolumModelObj != null">
         <thead>
           <tr>
-            <th><i class="fas fa-id-badge"></i> ID</th>
+            <th><i class="fa-solid fa-hashtag"></i> ID</th>
             <th><i class="fas fa-heading"></i> Bölüm Adı</th>
             <th><i class="fas fa-align-left"></i> Açıklama</th>
             <th><i class="fas fa-building"></i> Alan</th>
@@ -33,7 +33,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let bolum of bolumModelObj">
-            <td><i class="fas fa-id-badge"></i> {{ bolum.id }}</td>
+            <td><i class="fa-solid fa-hashtag"></i>{{ bolum.id }}</td>
             <td>{{ bolum.ad }}</td>
             <td>{{ bolum.aciklama }}</td>
             <td>{{ bolum.alan.ad }}</td>
@@ -60,7 +60,7 @@
       <table class="admin-table" *ngIf="alanModelObj != null">
         <thead>
           <tr>
-            <th><i class="fas fa-id-badge"></i> ID</th>
+            <th><i class="fa-solid fa-hashtag"></i> ID</th>
             <th><i class="fas fa-heading"></i> Alan Adı</th>
             <th><i class="fas fa-align-left"></i> Açıklama</th>
             <th><i class="fas fa-tools"></i> İşlemler</th>
@@ -69,7 +69,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let alan of alanModelObj">
-            <td><i class="fas fa-id-badge"></i> {{ alan.id }}</td>
+            <td><i class="fa-solid fa-hashtag"></i>{{ alan.id }}</td>
             <td>{{ alan.ad }}</td>
             <td>{{ alan.aciklama }}</td>
             <td>

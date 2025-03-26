@@ -5,6 +5,7 @@ import { UserModel } from '../models/auth/user.model';
 import { ListResponseModel } from '../models/response/list.response.model';
 import { SingleResponseModel } from '../models/response/single.response.model';
 import { UserListModel } from '../models/user/user-list.model';
+import { UserUpdateProfileModel } from '../models/user/user-update-profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -57,5 +58,9 @@ export class UserService {
   // Kullanıcı engelini kaldır
   activateUser(userId: number): Observable<any> {
     return this.apiService.put<any>(`${this.endpoint}activate/${userId}`, {});
+  }
+
+  updateProfile(data: UserUpdateProfileModel): Observable<any> {
+    return this.apiService.put<any>(`${this.endpoint}UpdateProfile`, data);
   }
 }
