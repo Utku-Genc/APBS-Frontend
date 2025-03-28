@@ -47,8 +47,6 @@ export class NavbarComponent implements OnInit {
       }
       if (this.isLoggedIn) {
         this.getUser();
-        this.fetchNotifications();
-
         this.bildirimService.notificationUpdated$.subscribe(() => {
           this.fetchNotifications();
         });

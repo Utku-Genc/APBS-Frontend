@@ -120,7 +120,7 @@ export class AdminRoleManagementComponent implements OnInit {
   editRole(role: OperationClaimModel){
         this.roleToUpdate = { ...role }; 
         Swal.fire({
-          title: `${role.id} ID'li roleı güncelliyorsunuz`,
+          title: `${role.id} ID'li rolü güncelliyorsunuz`,
           html: `
             <p>Mevcut Rol Adı: ${role.name}</p>
             <hr>

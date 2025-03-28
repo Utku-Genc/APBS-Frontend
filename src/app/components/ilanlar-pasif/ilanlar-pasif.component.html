@@ -1,0 +1,86 @@
+<!-- Filtreleme ve Sıralama Alanı -->
+<div class="container mt-4 ">
+
+    <!-- Filtreleme Bölümü (Solda) -->
+    <div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+            <div class="filter-container">
+                <button class="filter-toggle" (click)="toggleFilter()">
+                    <i class="fa fa-filter"></i> Filtreler
+                </button>
+            </div>
+            <div class=" text-md-end mt-3 mt-md-0">
+                <div class="sorting-container">
+                    <label for="sort-by" class="me-2">Sırala:</label>
+                    <select [(ngModel)]="sortBy" (change)="onSortChange()" class="form-select d-inline-block w-auto">
+                        <option value="id">ID</option>
+                        <option value="baslik">Başlık</option>
+                        <option value="pozisyonadi">Pozisyon</option>
+                        <option value="bolumadi">Bölüm</option>
+                    </select>
+
+                    <button (click)="toggleIsDescending()" class="btn btn-secondary ms-2">
+                        <i class="fa" [ngClass]="isDescending ? 'fa-arrow-down' : 'fa-arrow-up'"></i>
+                        {{ isDescending ? 'Azalan' : 'Artan' }}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="filter-form" [class.open]="filtersOpen">
+            <div>
+                <label>Başlık:</label>
+                <input type="text" [(ngModel)]="filters.baslik" (input)="onFilterChange(filters)"
+                    class="form-control" />
+            </div>
+
+            <div>
+                <label>Pozisyon:</label>
+                <select [(ngModel)]="filters.pozisyonId" (change)="onFilterChange(filters)" class="form-control">
+                    <option [value]="null">Seçiniz</option>
+                    <option *ngFor="let pos of positions" [value]="pos.id">{{ pos.ad }}</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Bölüm:</label>
+                <select [(ngModel)]="filters.bolumId" (change)="onFilterChange(filters)" class="form-control">
+                    <option [value]="null">Seçiniz</option>
+                    <option *ngFor="let bol of bolums" [value]="bol.id">{{ bol.ad }}</option>
+                </select>
+            </div>
+
+            <!-- Sıfırlama Butonu -->
+            <button (click)="resetFilters()" class="btn btn-secondary">
+                <i class="fa fa-refresh"></i> Filtreyi Sıfırla
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Sıralama Bölümü (Sağda) -->
+
+</div>
+
+
+<!-- Cards Component -->
+<utk-cards [status]="status" [filters]="filters" [pageSize]="pageSize" [pageNumber]="pageNumber" [sortBy]="sortBy"
+    [isDescending]="isDescending" (pageChange)="onPageChange($event)" (ilanSayisiChange)="onIlanSayisiChange($event)">
+</utk-cards>
+
+<div class="container mt-4 text-center">
+    <h2>
+        <span *ngIf="ilanSayisi === 0">Aradığınız kriterlere uygun ilan bulunamadı.</span>
+    </h2>
+</div>
+
+<!-- Sayfalama Butonları -->
+<div class="pagination-container">
+    <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1" class="btn btn-primary">
+        <i class="fa fa-chevron-left"></i> Önceki
+    </button>
+    <span>Sayfa: {{ pageNumber }}</span>
+    <button (click)="onPageChange(pageNumber + 1)" [disabled]="ilanSayisi < pageSize" class="btn btn-primary">
+        Sonraki <i class="fa fa-chevron-right"></i>
+    </button>
+</div>

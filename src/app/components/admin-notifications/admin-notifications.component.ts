@@ -57,6 +57,21 @@ export class AdminNotificationsComponent implements OnInit {
   description: string = '';
   selectedColor: string = '#08A250';
 
+  filters = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    nationalityId: '',
+    searchTerm: '',
+    status: undefined,
+    minDateOfBirth: '',
+    maxDateOfBirth: ''
+  };
+  pageNumber = 1;
+  pageSize = 10;
+  sortBy = 'id';
+  isDescending = false;
+
   sendNotificationUserObj: SendNotificationModel = {
     kullaniciId: 0,
     baslik: this.title,
@@ -132,6 +147,7 @@ export class AdminNotificationsComponent implements OnInit {
         .subscribe((response) => {
           if (response.isSuccess) {
             this.toastService.success(response.message);
+            this.bildirimService.triggerNotificationUpdate(); // Navbar'ı güncellemek için tetikleme
           } else {
             this.toastService.error(response.message);
           }
@@ -217,13 +233,14 @@ export class AdminNotificationsComponent implements OnInit {
             if (response.isSuccess) {
               this.toastService.success(response.message);
               this.getNotifications();
+              this.bildirimService.triggerNotificationUpdate(); // Navbar'ı güncellemek için tetikleme
             } else {
               this.toastService.error(response.message);
             }
           },
           error: (error) => {
             this.toastService.error(
-              'Alan güncellenirken bir hata oluştu: ' + error.message
+              'Güncellenirken bir hata oluştu: ' + error.message
             );
           },
         });
@@ -243,6 +260,7 @@ export class AdminNotificationsComponent implements OnInit {
         this.bildirimService.delete(id).subscribe((response) => {
           this.getNotifications();
           this.toastService.success(response.message);
+          this.bildirimService.triggerNotificationUpdate(); // Navbar'ı güncellemek için tetikleme
         });
       }
     });
@@ -250,7 +268,7 @@ export class AdminNotificationsComponent implements OnInit {
 
   getUsers() {
     this.userService
-      .getUsersByQuery(9999999, 1, 'id', false)
+      .getUsersByQuery(this.pageSize, this.pageNumber, this.sortBy, this.isDescending, this.filters)
       .subscribe((users) => {
         this.users = users.data;
         this.filteredUsers = users.data; // İlk başta tüm kullanıcıları göster
@@ -263,13 +281,12 @@ export class AdminNotificationsComponent implements OnInit {
       return;
     }
 
-    const searchTermLower = this.searchTerm.toLowerCase();
-
-    this.filteredUsers = this.users.filter(
-      (user) =>
-        user.firstName.toLowerCase().includes(searchTermLower) ||
-        user.lastName.toLowerCase().includes(searchTermLower) ||
-        user.id.toString().includes(searchTermLower) // Kullanıcı ID'yi de arama kriterine dahil et
-    );
+    this.filters.searchTerm = this.searchTerm.toLowerCase();
+    this.userService
+      .getUsersByQuery(this.pageSize, this.pageNumber, this.sortBy, this.isDescending, this.filters)
+      .subscribe((users) => {
+        this.users = users.data;
+        this.filteredUsers = users.data; // İlk başta tüm kullanıcıları göster
+      });
   }
 }

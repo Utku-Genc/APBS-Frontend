@@ -19,6 +19,8 @@ import { AdminUserManagementComponent } from './components/admin-user-management
 import { AdminRoleManagementComponent } from './components/admin-role-management/admin-role-management.component';
 import { AdminNotificationsComponent } from './components/admin-notifications/admin-notifications.component';
 import { BildirimlerComponent } from './components/bildirimler/bildirimler.component';
+import { IlanlarAktifComponent } from './components/ilanlar-aktif/ilanlar-aktif.component';
+import { IlanlarPasifComponent } from './components/ilanlar-pasif/ilanlar-pasif.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -36,6 +38,9 @@ export const routes: Routes = [
 
     // Card Detail Sayfası
     {path: 'detail/:id', component: CardsDetailComponent},
+
+    {path: 'ilanlar/aktif', component: IlanlarAktifComponent},
+    {path: 'ilanlar/gecmis', component: IlanlarPasifComponent},
 
 
 

@@ -35,21 +35,38 @@
           <i class="fa-solid fa-cake-candles"></i> <strong> Doğum Tarihi:</strong> {{ userObj.dateOfBirth |
           date:'dd/MM/yyyy' }}
         </li>
+        <li class="list-group-item d-flex align-items-center justify-content-between">
+          <i class="fa-solid fa-envelope"></i> <strong> Email: </strong>
+          <div class="w-100 d-flex">
+            <input type="email" [(ngModel)]="userObj.email" class="form-control w-75 ms-3 " required>
+            <button class="btn btn-primary w-25 ms-3" (click)="updateProfile()"><i class="fa-solid fa-rotate"></i> E-posta Güncelle</button>
+
+          </div>
+        </li>
         <li class="list-group-item">
-          <i class="fa-solid fa-envelope"></i> <strong> Email:</strong>
-          <input type="email" [(ngModel)]="userObj.email" class="form-control" required>
-        </li>
-        <li class="list-group-item"><i class="fa-solid fa-lock"></i> <strong> Mevcut Şifre:</strong>
-          <input type="password" id="currentPassword" [(ngModel)]="currentPassword" class="form-control" required>
-        </li>
-        <li class="list-group-item"><i class="fa-solid fa-unlock"></i> <strong> Yeni Şifre:</strong>
-          <input type="password" id="newPassword" [(ngModel)]="newPassword" class="form-control" required>
-        </li>
-        <li class="list-group-item"><i class="fa-solid fa-unlock"></i><strong> Yeni Şifre Tekrar:</strong>
-          <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" class="form-control" required>
+          <button class="btn btn-primary" type="button" (click)="togglePasswordUpdateCollapse()" aria-expanded="false" aria-controls="passwordUpdateCollapse">
+            <i class="fa-solid fa-lock"></i> <strong> Şifre Güncelleme </strong>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="collapse mt-3" [ngClass]="{'show': isPasswordUpdateCollapseOpen}" id="passwordUpdateCollapse">
+            <div class="mb-3">
+              <label for="currentPassword" class="form-label"><i class="fa-solid fa-lock"></i> Mevcut Şifre:</label>
+              <input type="password" id="currentPassword" [(ngModel)]="currentPassword" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="newPassword" class="form-label"><i class="fa-solid fa-unlock"></i> Yeni Şifre:</label>
+              <input type="password" id="newPassword" [(ngModel)]="newPassword" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label"><i class="fa-solid fa-unlock"></i> Yeni Şifre Tekrar:</label>
+              <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" class="form-control" required>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-primary" (click)="updatePassword()">Şifre Güncelle</button>
+            </div>
+          </div>
         </li>
       </ul>
-      <button class="btn btn-primary mt-3" (click)="updateProfile()">Kaydet</button>
     </div>
   </div>
 </div>

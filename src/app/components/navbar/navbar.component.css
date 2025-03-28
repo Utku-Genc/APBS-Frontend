@@ -132,6 +132,10 @@
         background-color: none !important;
     }
 
+    .start-100 {
+        left: 10% !important;
+        top: 15%!important;
+    }
     .navbar .nav-item .nav-link {
         background-color: var(--primary-color) !important;
         margin: 0 16px;
