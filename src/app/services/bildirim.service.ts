@@ -50,6 +50,12 @@ export class BildirimService {
       {}
     );
   }
+  markAllAsRead(): Observable<SingleResponseModel<any>> {
+    return this.apiService.put<SingleResponseModel<any>>(
+      `${this.endpoint}MarkAllAsRead`,
+      {}
+    );
+  }
   markAsUnRead(id: number): Observable<SingleResponseModel<any>> {
     return this.apiService.put<SingleResponseModel<any>>(
       `${this.endpoint}MarkAsUnRead?id=${id}`,
@@ -72,6 +78,9 @@ export class BildirimService {
     return this.apiService.delete(
       `${this.endpoint}DeleteMyNotification?id=${id}`
     );
+  }
+  deleteAllMyNotifications(): Observable<SingleResponseModel<any>> {
+    return this.apiService.delete(`${this.endpoint}DeleteAllMyNotifications`);
   }
 
   triggerNotificationUpdate() {

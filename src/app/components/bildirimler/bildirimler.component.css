@@ -9,6 +9,8 @@
     overflow-x: auto;
   }
 
+
+
 .bildirim-table {
     --bs-table-bg: var(--card-background-color) !important;
     /* Arka plan rengi */
@@ -85,3 +87,4 @@ i {
     cursor: pointer;
     transition: transform 0.2s;
 }
+

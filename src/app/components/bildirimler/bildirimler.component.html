@@ -1,31 +1,49 @@
 <div class="container">
     <div class="row">
         <h2 class="mt-2">Bildirimler</h2>
-        <div class="table-responsive">
+        <div *ngIf="notifications.length == 0">
+            <div class="alert alert-info">
+                Bildiriminiz yok.
+            </div>
+        </div>
+
+        <div *ngIf="notifications.length > 0" class="table-responsive">
             <table class="bildirim-table">
-                <thead>
-                    <tr>
-                        <th><i class="fas fa-icons"></i> İkon</th>
-                        <th><i class="fas fa-heading"></i> Başlık</th>
-                        <th><i class="fas fa-comment-alt"></i> Açıklama</th>
-                        <th><i class="fas fa-calendar-alt"></i> Tarih</th>
-                        <th><i class="fas fa-circle"></i> Durum</th>
-                        <th><i class="fas fa-tools"></i> İşlemler</th>
-                        <th></th>
-                    </tr>
-                </thead>
+            <thead>
+                <tr style="background-color: var(--background-color) !important;">
+                    <th  colspan="7" class="text-end" style="background-color: transparent !important; border: none;">
+                        <button class="btn btn-info me-2 mt-2 mb-2" (click)="markAllAsRead()">
+                            <i class="fas fa-eye"></i> Tümünü Okundu Olarak İşaretle
+                        </button>
+                        <button class="btn btn-danger me-2 mt-2 mb-2" (click)="deleteAllNotifications()">
+                            <i class="fas fa-trash-alt"></i> Tümünü Sil
+                        </button>
+                    </th>
+                </tr>
+                <tr>
+                    <th><i class="fas fa-icons"></i> İkon</th>
+                    <th><i class="fas fa-heading"></i> Başlık</th>
+                    <th><i class="fas fa-comment-alt"></i> Açıklama</th>
+                    <th><i class="fas fa-calendar-alt"></i> Tarih</th>
+                    <th><i class="fas fa-circle"></i> Durum</th>
+                    <th><i class="fas fa-tools"></i> İşlemler</th>
+                    <th></th>
+                </tr>
+            </thead>
                 <tbody>
                     <tr *ngFor="let notification of notifications.slice().reverse()">
                         <td>
                             <!-- İkonu dinamik olarak göster -->
-                            <i class="fa text-aligin-center" [ngClass]="notification.icon" [style.color]="notification.renk"></i>
+                            <i class="fa text-aligin-center" [ngClass]="notification.icon"
+                                [style.color]="notification.renk"></i>
                         </td>
                         <td>{{ notification.baslik }}</td>
                         <td>{{ notification.aciklama }}</td>
                         <td>{{ notification.olusturmaTarihi | date: 'HH:mm dd/MM/yyyy' }}</td>
                         <td>
                             <!-- Durumu true/false'a göre göster -->
-                            <span [ngClass]="{'status-read': notification.status, 'status-unread': !notification.status}">
+                            <span
+                                [ngClass]="{'status-read': notification.status, 'status-unread': !notification.status}">
                                 {{ notification.status ? 'Okundu' : 'Okunmadı' }}
                             </span>
                         </td>
@@ -40,7 +58,8 @@
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="deleteNotification(notification.id)">
+                            <button class="btn btn-danger me-2 mt-2 mb-2 w-100"
+                                (click)="deleteNotification(notification.id)">
                                 <i class="fas fa-trash-alt"></i> Sil
                             </button>
                         </td>

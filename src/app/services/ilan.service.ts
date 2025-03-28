@@ -20,6 +20,31 @@ export class IlanService {
         return this.apiService.get(`${this.endpoint}getbyid?id=${id}`);
     }
 
+    getilansbyquery(
+      pageSize: number,
+      pageNumber: number,
+      sortBy: string,
+      isDescending: boolean,
+      filters?: {
+        id?: number;
+        baslik?: string;
+        pozisyonId?: number;
+        bolumId?: number;
+        ilanTipi: string | null;
+      }
+      ): Observable<any> {
+        let queryParameters = `?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=${sortBy}&isDescending=${isDescending}`;
+        if (filters) {
+          if (filters.id) queryParameters += `&Id=${filters.id}`;
+          if (filters.baslik) queryParameters += `&Baslik=${encodeURIComponent(filters.baslik)}`;
+          if (filters.pozisyonId) queryParameters += `&PozisyonId=${filters.pozisyonId}`;
+          if (filters.bolumId) queryParameters += `&BolumId=${filters.bolumId}`;
+          if (filters.ilanTipi) queryParameters += `&IlanTipi=${filters.ilanTipi}`;
+        }
+        return this.apiService.get(`${this.endpoint}getilansbyquery${queryParameters}`);
+      }
+
+
     getAllActives(): Observable<any> {
       return this.apiService.get(`${this.endpoint}getallactives`);
     }

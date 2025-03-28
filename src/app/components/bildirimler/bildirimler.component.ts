@@ -36,6 +36,17 @@ export class BildirimlerComponent implements OnInit {
       },
     });
   }
+  markAllAsRead() {
+    this.bildirimService.markAllAsRead().subscribe({
+      next: (response) => {
+        if (response.isSuccess) {
+          this.toastService.success(response.message);
+          this.getMyNotifications();
+          this.bildirimService.triggerNotificationUpdate(); // Navbar'ı güncellemek için tetikleme
+        }
+      },
+    });
+  }
   markAsUnRead(id: number) {
     this.bildirimService.markAsUnRead(id).subscribe({
       next: (response) => {
@@ -50,6 +61,15 @@ export class BildirimlerComponent implements OnInit {
 
   deleteNotification(id: number) {
     this.bildirimService.delete(id).subscribe({
+      next: (response) => {
+        this.toastService.success(response.message);
+        this.getMyNotifications();
+        this.bildirimService.triggerNotificationUpdate(); // Navbar'ı güncellemek için tetikleme
+      },
+    });
+  }
+  deleteAllNotifications() {
+    this.bildirimService.deleteAllMyNotifications().subscribe({
       next: (response) => {
         this.toastService.success(response.message);
         this.getMyNotifications();

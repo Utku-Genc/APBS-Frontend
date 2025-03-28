@@ -5,7 +5,7 @@ import { UserModel } from '../models/auth/user.model';
 import { ListResponseModel } from '../models/response/list.response.model';
 import { SingleResponseModel } from '../models/response/single.response.model';
 import { UserListModel } from '../models/user/user-list.model';
-import { UserUpdateProfileModel } from '../models/user/user-update-profile.model';
+import { UserUpdateMailModel, UserUpdatePasswordModel } from '../models/user/user-update-profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +29,7 @@ export class UserService {
       firstName?: string;
       lastName?: string;
       nationalityId?: string;
+      searchTerm?: string;
       email?: string;
       minDateOfBirth?: string;
       maxDateOfBirth?: string;
@@ -42,6 +43,7 @@ export class UserService {
       if (filters.firstName) queryParams += `&FirstName=${encodeURIComponent(filters.firstName)}`;
       if (filters.lastName) queryParams += `&LastName=${encodeURIComponent(filters.lastName)}`;
       if (filters.nationalityId) queryParams += `&NationalityId=${filters.nationalityId}`;
+      if (filters.searchTerm) queryParams += `&SearchTerm=${encodeURIComponent(filters.searchTerm)}`;
       if (filters.email) queryParams += `&Email=${encodeURIComponent(filters.email)}`;
       if (filters.minDateOfBirth) queryParams += `&MinDateOfBirth=${filters.minDateOfBirth}`;
       if (filters.maxDateOfBirth) queryParams += `&MaxDateOfBirth=${filters.maxDateOfBirth}`;
@@ -60,7 +62,11 @@ export class UserService {
     return this.apiService.put<any>(`${this.endpoint}activate/${userId}`, {});
   }
 
-  updateProfile(data: UserUpdateProfileModel): Observable<any> {
+  updateProfile(data: UserUpdateMailModel): Observable<any> {
     return this.apiService.put<any>(`${this.endpoint}UpdateProfile`, data);
+  }
+
+  changePassword(data: UserUpdatePasswordModel): Observable<any> {
+    return this.apiService.put<any>(`${this.endpoint}ChangePassword`, data);
   }
 }

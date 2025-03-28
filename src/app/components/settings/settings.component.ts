@@ -7,6 +7,7 @@ import { UserModel } from '../../models/auth/user.model';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { TcMaskPipe } from "../../pipes/tcmask.pipe";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'utk-settings',
@@ -27,6 +28,7 @@ export class SettingsComponent implements OnInit {
   profileImage: string | ArrayBuffer | null = null;
   selectedProfileImage: string | ArrayBuffer | null = null;
   profileImageChanged: boolean = false;
+  isPasswordUpdateCollapseOpen: boolean = false;
 
   ngOnInit(): void {
     this.getUser();
@@ -74,34 +76,90 @@ export class SettingsComponent implements OnInit {
   }
   // Şifre ve e-posta güncelleme işlemleri
   updateProfile() {
-    let hasChanges = false;
-    this.userService.updateProfile({
-      email: this.userObj.email,
+    Swal.fire({
+      title: ``,
+      html: `
+        <p>Bu işlem için şifreye ihtiyaç vardır!</p>
+        <hr>
+        <p>Şifrenizi Giriniz: </p>
+        <input id="password" type="password" class="swal2-input" placeholder="Şifrenizi giriniz" required>
+      `,
+      showCancelButton: true,
+      icon: 'warning',
+      confirmButtonText: 'Onayla',
+      cancelButtonText: 'İptal',
+      customClass: {
+        popup: 'custom-swal-popup',
+        confirmButton: 'custom-swal-confirm',
+        cancelButton: 'custom-swal-cancel'
+      },
+      preConfirm: () => {
+        const password = (document.getElementById('password') as HTMLInputElement).value.trim();
+        if (!password) {
+          Swal.showValidationMessage('Şifre alanı boş bırakılamaz!');
+        }
+        return password;
+      },
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        this.userService.updateProfile({
+          email: this.userObj.email,
+          currentPassword: result.value,
+        }).subscribe({
+          next: (response) => {
+            if (response.isSuccess) {
+              this.toastService.success(response.message);
+              this.getUser();
+              this.userObj.email;
+            } else {
+              this.toastService.error(response.message);
+            }
+          },
+          error: (err) => {
+            if (err.error?.ValidationErrors) {
+              const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+              errorMessages.forEach((message: string | undefined) => {
+                this.toastrService.error(message);
+              });
+            } else {
+              this.toastrService.error(err.error.message, 'Giriş başarısız:');
+            }
+          },
+        });
+      }
+    });
+  }
+
+  togglePasswordUpdateCollapse(){
+    this.isPasswordUpdateCollapseOpen =!this.isPasswordUpdateCollapseOpen;
+  }
+  updatePassword() {
+    this.userService.changePassword({
       currentPassword: this.currentPassword,
       newPassword: this.newPassword,
-      confirmNewPassword: this.confirmPassword
-    }).subscribe({next: (response) => {
-      if(response.isSuccess) {
-      this.toastService.success(response.message);
-      hasChanges = true;
-      this.currentPassword = '';
-      this.newPassword = '';
-      this.confirmPassword = '';
-      this.getUser();
-      }
-      else {
-        this.toastService.error(response.message);
-      }
-    }, error: (err) => {
-      if (err.error?.ValidationErrors) {
-        const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
-        errorMessages.forEach((message: string | undefined) => {
-          this.toastrService.error(message);
-        });
-      } else {
-        this.toastrService.error(err.error.message, "Giriş başarısız:");
-      }
-    }});
+      confirmNewPassword: this.confirmPassword,
+    }).subscribe({
+      next: (response) => {
+        if (response.isSuccess) {
+          this.toastService.success(response.message);
+          this.currentPassword = '';
+          this.newPassword = '';
+          this.confirmPassword = '';
+        } else {
+          this.toastService.error(response.message);
+        }
+      },
+      error: (err) => {
+        if (err.error?.ValidationErrors) {
+          const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+          errorMessages.forEach((message: string | undefined) => {
+            this.toastrService.error(message);
+          });
+        } else {
+          this.toastrService.error(err.error.message, 'Giriş başarısız:');
+        }
+      },
+    });
   }
 }
 
