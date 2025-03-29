@@ -12,11 +12,11 @@ import * as bootstrap from 'bootstrap';
 import { QuillModule } from 'ngx-quill';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'utk-admin.dashboard',
-  imports: [CommonModule, FormsModule, QuillModule,RouterModule,SummaryPipe],
+  imports: [CommonModule, FormsModule, QuillModule, RouterModule, SummaryPipe],
   templateUrl: './admin.dashboard.component.html',
   styleUrls: ['./admin.dashboard.component.css'],
 })
@@ -28,12 +28,29 @@ export class AdminDashboardComponent implements OnInit {
   private toastService = inject(ToastService);
   private toastrService = inject(ToastrService);
   private cdRef = inject(ChangeDetectorRef);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   @ViewChild('editModal') editModal!: ElementRef;
   ilansModelObj: IlanDetailModel[] = [];
   formData: any = {}; 
   positions: any[] = [];
   bolums: any[] = [];
+  filtersOpen: boolean = false;
+  ilanSayisi: number = 0;
+  pageSize: number = 10;
+  pageNumber: number = 1;
+  sortBy: string = 'id';
+  isDescending: boolean = false;
+  filters: any = {
+    id: null,
+    baslik: '',
+    pozisyonId: null,
+    bolumId: null,
+    status: null,
+    ilanTipi: null,
+  };
+  private handlingUrlParams = false;
 
   editorConfig = {
     toolbar: [
@@ -45,29 +62,88 @@ export class AdminDashboardComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.getAllIlans();
+    // Önce route parametrelerini kontrol et
+    this.route.queryParams.subscribe(params => {
+      // URL'den parametreleri al
+      if (params['page']) {
+        this.pageNumber = parseInt(params['page']);
+      }
+      
+      if (params['sortBy']) {
+        this.sortBy = params['sortBy'];
+      }
+      
+      if (params['isDescending']) {
+        this.isDescending = params['isDescending'] === 'true';
+      }
+      
+      // Filtreleri URL'den al
+      if (params['baslik']) {
+        this.filters.baslik = params['baslik'];
+      }
+      
+      if (params['pozisyonId']) {
+        this.filters.pozisyonId = parseInt(params['pozisyonId']);
+      }
+      
+      if (params['bolumId']) {
+        this.filters.bolumId = parseInt(params['bolumId']);
+      }
+      
+      if (params['status'] !== undefined) {
+        this.filters.status = params['status'] === 'true';
+      }
+      
+      if (params['ilanTipi']) {
+        this.filters.ilanTipi = parseInt(params['ilanTipi']);
+      }
+      
+      // Parametreler alındıktan sonra verileri getir
+      this.getAllIlans();
+    });
+
     this.getPositions();
     this.getDepartments();
   }
+
   ngAfterViewInit(): void {
-    // Modal öğesi görüntüye yüklendikten sonra bir işlem yapmak
     this.cdRef.detectChanges();
   }
+
   getAllIlans() {
-    this.ilanService.getAll().subscribe((response) => {
-      this.ilansModelObj = response.data;
-    });
+    this.ilanService.getilansbyqueryforadmin(this.pageSize, this.pageNumber, this.sortBy, this.isDescending, this.filters)
+      .subscribe({
+        next: (response) => {
+          this.ilansModelObj = response.data;
+          this.ilanSayisi = response.totalCount || this.ilansModelObj.length; // API toplam sayıyı dönüyorsa onu al, yoksa mevcut veri sayısını kullan
+          this.cdRef.detectChanges(); // Değişiklikleri bildir
+        },
+        error: (error) => {
+          this.toastService.error('İlanlar yüklenirken bir hata oluştu.');
+          console.error('İlan yükleme hatası:', error);
+        }
+      });
   }
 
   getPositions() {
-    this.positionService.getAll().subscribe((response) => {
-      this.positions = response.data;
+    this.positionService.getAll().subscribe({
+      next: (response) => {
+        this.positions = response.data;
+      },
+      error: (error) => {
+        this.toastService.error('Pozisyonlar yüklenirken bir hata oluştu.');
+      }
     });
   }
 
   getDepartments() {
-    this.bolumService.getAll().subscribe((response) => {
-      this.bolums = response.data;
+    this.bolumService.getAll().subscribe({
+      next: (response) => {
+        this.bolums = response.data;
+      },
+      error: (error) => {
+        this.toastService.error('Bölümler yüklenirken bir hata oluştu.');
+      }
     });
   }
 
@@ -92,9 +168,14 @@ export class AdminDashboardComponent implements OnInit {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        this.ilanService.deactivate(ilanId).subscribe(() => {
-          this.getAllIlans();
-          this.toastService.success('İlan başarıyla gizlendi.');
+        this.ilanService.deactivate(ilanId).subscribe({
+          next: () => {
+            this.getAllIlans();
+            this.toastService.success('İlan başarıyla gizlendi.');
+          },
+          error: (error) => {
+            this.toastService.error('İlan gizlenirken bir hata oluştu.');
+          }
         });
       }
     });
@@ -114,22 +195,91 @@ export class AdminDashboardComponent implements OnInit {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        this.ilanService.activate(ilanId).subscribe(() => {
-          this.getAllIlans();
-          this.toastService.success('İlan başarıyla aktifleştirildi.');
+        this.ilanService.activate(ilanId).subscribe({
+          next: () => {
+            this.getAllIlans();
+            this.toastService.success('İlan başarıyla aktifleştirildi.');
+          },
+          error: (error) => {
+            this.toastService.error('İlan aktifleştirilirken bir hata oluştu.');
+          }
         });
       }
     });
   }
 
+  // İlan tipine göre etiket sınıfını belirler
+  getIlanTipiBadgeClass(item: IlanDetailModel): string {
+    const now = new Date();
+    const startDate = item.baslangicTarihi ? new Date(item.baslangicTarihi) : null;
+    const endDate = item.bitisTarihi ? new Date(item.bitisTarihi) : null;
+    
+    if (!item.status) {
+      return 'badge bg-secondary';
+    } else if (startDate && endDate) {
+      if (now < startDate) {
+        return 'badge bg-warning';  // Henüz başlamamış
+      } else if (now > endDate) {
+        return 'badge bg-danger';   // Süresi dolmuş
+      } else {
+        return 'badge bg-success';  // Aktif
+      }
+    }
+    
+    return 'badge bg-info';  // Varsayılan
+  }
+
+  // İlan tipine göre etiket metnini belirler
+  getIlanTipiLabel(item: IlanDetailModel): string {
+    const now = new Date();
+    const startDate = item.baslangicTarihi ? new Date(item.baslangicTarihi) : null;
+    const endDate = item.bitisTarihi ? new Date(item.bitisTarihi) : null;
+    
+    if (!item.status) {
+      return 'Pasif';
+    } else if (startDate && endDate) {
+      if (now < startDate) {
+        return 'Beklemede';
+      } else if (now > endDate) {
+        return 'Geçmiş İlan';
+      } else {
+        return 'Aktif İlan';
+      }
+    }
+    
+    return 'Belirtilmemiş';
+  }
+
   openModal(itemId: number) {
-    this.formData = this.ilansModelObj.find((item) => item.id === itemId);
+    const selectedItem = this.ilansModelObj.find((item) => item.id === itemId);
+    
+    if (selectedItem) {
+      // Veriyi doğru formatta ayarla
+      this.formData = {
+        id: selectedItem.id,
+        baslik: selectedItem.baslik,
+        aciklama: selectedItem.aciklama,
+        pozisyonId: selectedItem.pozisyon.id,
+        bolumId: selectedItem.bolum.id,
+        baslangicTarihi: selectedItem.baslangicTarihi,
+        bitisTarihi: selectedItem.bitisTarihi,
+        status: selectedItem.status
+      };
 
-    // Modal'ı açmak için Bootstrap modal'ını kullan
-    const modal = new bootstrap.Modal(this.editModal.nativeElement);
-    modal.show();
+      // Modal'ı aç
+      const modal = new bootstrap.Modal(this.editModal.nativeElement);
+      modal.show();
+    } else {
+      this.toastService.error('İlan bulunamadı.');
+    }
+  }
 
-
+  // Tarihi datetime-local inputu için formatlama
+  formatDateForDatetimeLocal(dateString: string): string {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString);
+    return date.toISOString().slice(0, 16); // "yyyy-MM-ddThh:mm" formatında
   }
 
   closeModal() {
@@ -140,6 +290,10 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   submitForm() {
+    if (!this.validateForm()) {
+      return;
+    }
+
     this.ilanService.update(this.formData).subscribe({
       next: (response) => {
         if (response.isSuccess) {
@@ -147,10 +301,38 @@ export class AdminDashboardComponent implements OnInit {
           this.getAllIlans();
           this.closeModal();
         } else {
-          this.toastService.error(response.message);
+          this.toastService.error(response.message || 'Güncelleme sırasında bir hata oluştu.');
         }
       },
+      error: (error) => {
+        this.toastService.error('İlan güncellenirken bir hata oluştu.');
+        console.error('Güncelleme hatası:', error);
+      }
     });
+  }
+
+  validateForm(): boolean {
+    if (!this.formData.baslik || this.formData.baslik.trim() === '') {
+      this.toastService.error('Başlık alanı zorunludur.');
+      return false;
+    }
+    
+    if (!this.formData.aciklama || this.formData.aciklama.trim() === '') {
+      this.toastService.error('Açıklama alanı zorunludur.');
+      return false;
+    }
+    
+    if (!this.formData.pozisyonId || this.formData.pozisyonId === 0) {
+      this.toastService.error('Pozisyon seçimi zorunludur.');
+      return false;
+    }
+    
+    if (!this.formData.bolumId || this.formData.bolumId === 0) {
+      this.toastService.error('Bölüm seçimi zorunludur.');
+      return false;
+    }
+    
+    return true;
   }
 
   edit(itemId: number) {
@@ -167,11 +349,123 @@ export class AdminDashboardComponent implements OnInit {
       cancelButtonText: 'İptal',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.ilanService.delete(itemId).subscribe(() => {
-          this.getAllIlans();
-          this.toastService.success('İlan başarıyla silindi.');
+        this.ilanService.delete(itemId).subscribe({
+          next: () => {
+            this.getAllIlans();
+            this.toastService.success('İlan başarıyla silindi.');
+          },
+          error: (error) => {
+            this.toastService.error('İlan silinirken bir hata oluştu.');
+            console.error('Silme hatası:', error);
+          }
         });
       }
     });
+  }
+
+  onFilterChange(newFilters: any) {
+    // URL parametreleri işleniyorsa çift API çağrısını önlemek için geri dön
+    if (this.handlingUrlParams) return;
+    
+    // Filtre değişikliğinde sayfa numarasını sıfırla
+    this.pageNumber = 1;
+    
+    // Boş stringleri ve 0/null değerleri temizle, Boolean değerleri koru
+    Object.keys(newFilters).forEach(key => {
+      if (key !== 'status' && (newFilters[key] === '' || newFilters[key] === 0 || newFilters[key] === null)) {
+        newFilters[key] = null;
+      }
+    });
+    
+    this.filters = { ...newFilters };
+    this.updateURL();
+    // this.getAllIlans(); // Bu satırı kaldır, URL değiştiğinde route subscription zaten getAllIlans() çağıracak
+  }
+
+  onPageChange(newPage: number) {
+    if (newPage < 1 || this.handlingUrlParams) return;
+    
+    this.pageNumber = newPage;
+    this.updateURL();
+    // Remove this: this.getAllIlans();
+  }
+  
+  onSortChange() {
+    if (this.handlingUrlParams) return;
+    
+    this.pageNumber = 1;  // Sayfa numarasını sıfırla
+    this.updateURL();
+    // Remove this: this.getAllIlans();
+  }
+  
+  toggleIsDescending() {
+    if (this.handlingUrlParams) return;
+    
+    this.isDescending = !this.isDescending;
+    this.updateURL();
+    // Remove this: this.getAllIlans();
+  }
+
+  private updateURL() {
+    const queryParams: any = {
+      page: this.pageNumber,
+      sortBy: this.sortBy,
+      isDescending: this.isDescending.toString()
+    };
+  
+    // Sadece değeri olan filtreleri URL'ye ekle (null olmayan değerler)
+    if (this.filters.baslik) {
+      queryParams.baslik = this.filters.baslik;
+    }
+  
+    if (this.filters.pozisyonId !== null && this.filters.pozisyonId !== undefined) {
+      queryParams.pozisyonId = this.filters.pozisyonId;
+    }
+  
+    if (this.filters.bolumId !== null && this.filters.bolumId !== undefined) {
+      queryParams.bolumId = this.filters.bolumId;
+    }
+    
+    if (this.filters.status !== null && this.filters.status !== undefined) {
+      queryParams.status = this.filters.status.toString();
+    }
+    
+    if (this.filters.ilanTipi !== null && this.filters.ilanTipi !== undefined) {
+      queryParams.ilanTipi = this.filters.ilanTipi;
+    }
+  
+    // Navigasyon sırasında mevcut parametreleri değil, tamamen yeni parametreleri kullan
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: queryParams
+    });
+  }
+
+  resetFilters() {
+    this.filters = {
+      id: null,
+      baslik: '',
+      pozisyonId: null,
+      bolumId: null,
+      status: null,
+      ilanTipi: null,
+    };
+    
+    this.pageNumber = 1;
+    this.sortBy = 'id';
+    this.isDescending = false;
+
+    // URL'yi temizle
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: 1, sortBy: 'id', isDescending: 'false' }
+    });
+    
+    // Verileri yeniden getir
+    this.getAllIlans();
+  }
+
+  toggleFilter() {
+    this.filtersOpen = !this.filtersOpen;
   }
 }
