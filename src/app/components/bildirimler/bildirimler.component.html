@@ -1,71 +1,140 @@
 <div class="container">
-    <div class="row">
-        <h2 class="mt-2">Bildirimler</h2>
-        <div *ngIf="notifications.length == 0">
-            <div class="alert alert-info">
-                Bildiriminiz yok.
-            </div>
-        </div>
-
-        <div *ngIf="notifications.length > 0" class="table-responsive">
-            <table class="bildirim-table">
-            <thead>
-                <tr style="background-color: var(--background-color) !important;">
-                    <th  colspan="7" class="text-end" style="background-color: transparent !important; border: none;">
-                        <button class="btn btn-info me-2 mt-2 mb-2" (click)="markAllAsRead()">
-                            <i class="fas fa-eye"></i> Tümünü Okundu Olarak İşaretle
-                        </button>
-                        <button class="btn btn-danger me-2 mt-2 mb-2" (click)="deleteAllNotifications()">
-                            <i class="fas fa-trash-alt"></i> Tümünü Sil
-                        </button>
-                    </th>
-                </tr>
-                <tr>
-                    <th><i class="fas fa-icons"></i> İkon</th>
-                    <th><i class="fas fa-heading"></i> Başlık</th>
-                    <th><i class="fas fa-comment-alt"></i> Açıklama</th>
-                    <th><i class="fas fa-calendar-alt"></i> Tarih</th>
-                    <th><i class="fas fa-circle"></i> Durum</th>
-                    <th><i class="fas fa-tools"></i> İşlemler</th>
-                    <th></th>
-                </tr>
-            </thead>
-                <tbody>
-                    <tr *ngFor="let notification of notifications.slice().reverse()">
-                        <td>
-                            <!-- İkonu dinamik olarak göster -->
-                            <i class="fa text-aligin-center" [ngClass]="notification.icon"
-                                [style.color]="notification.renk"></i>
-                        </td>
-                        <td>{{ notification.baslik }}</td>
-                        <td>{{ notification.aciklama }}</td>
-                        <td>{{ notification.olusturmaTarihi | date: 'HH:mm dd/MM/yyyy' }}</td>
-                        <td>
-                            <!-- Durumu true/false'a göre göster -->
-                            <span
-                                [ngClass]="{'status-read': notification.status, 'status-unread': !notification.status}">
-                                {{ notification.status ? 'Okundu' : 'Okunmadı' }}
-                            </span>
-                        </td>
-                        <td *ngIf="notification.status === false">
-                            <button class="btn btn-primary me-2 mt-2 mb-2 w-100" (click)="markAsRead(notification.id)">
-                                <i class="fa-solid fa-eye-low-vision"></i> Okundu Olarak İşaretle
-                            </button>
-                        </td>
-                        <td *ngIf="notification.status === true">
-                            <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="markAsUnRead(notification.id)">
-                                <i class="fas fa-eye"></i> Okunmadı Olarak İşaretle
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger me-2 mt-2 mb-2 w-100"
-                                (click)="deleteNotification(notification.id)">
-                                <i class="fas fa-trash-alt"></i> Sil
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <div class="row">
+    <h2 class="mt-2">Bildirimler</h2>
+    <div *ngIf="notifications.length == 0">
+      <div class="alert alert-info">
+        Bildiriminiz yok.
+      </div>
     </div>
+
+    <div>
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+        <div class="filter-container">
+          <button class="filter-toggle" (click)="toggleFilter()">
+            <i class="fa fa-filter"></i> Filtreler
+            <span *ngIf="filtersOpen" class="ms-1"><i class="fa fa-chevron-up"></i></span>
+            <span *ngIf="!filtersOpen" class="ms-1"><i class="fa fa-chevron-down"></i></span>
+          </button>
+        </div>
+        <div class="text-md-end mt-3 mt-md-0">
+          <div class="sorting-container">
+            <label for="sort-by" class="me-2">Sırala:</label>
+            <select [(ngModel)]="sortBy" (change)="onSortChange()" class="form-select d-inline-block w-auto">
+              <option value="tarih">Tarih</option>
+              <option value="baslik">Başlık</option>
+              <option value="status">Durum</option>
+            </select>
+    
+            <button (click)="toggleIsDescending()" class="btn btn-secondary ms-2">
+              <i class="fa" [ngClass]="isDescending ? 'fa-arrow-down' : 'fa-arrow-up'"></i>
+              {{ isDescending ? 'Azalan' : 'Artan' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    
+      <div class="filter-form" [class.open]="filtersOpen">
+        <div class="row">
+          <div class="col-md mb-3">
+            <label>Başlık:</label>
+            <input type="text" [(ngModel)]="filters.baslik" (input)="onFilterChange(filters)" class="form-control"
+              placeholder="Başlık ara..." />
+          </div>
+          <div class="col-md mb-3">
+            <label>Durum:</label>
+            <select [(ngModel)]="filters.status" (change)="onFilterChange(filters)" class="form-control">
+              <option [ngValue]="null">Tümü</option>
+              <option [ngValue]="true">Okundu</option>
+              <option [ngValue]="false">Okunmadı</option>
+            </select>
+          </div>
+        </div>
+    
+        <div class="row">
+          <div class="col-md mb-3">
+            <label>Başlangıç Tarihi:</label>
+            <input type="date" [(ngModel)]="filters.minTarih" (change)="onFilterChange(filters)" class="form-control" />
+          </div>
+          <div class="col-md mb-3">
+            <label>Bitiş Tarihi:</label>
+            <input type="date" [(ngModel)]="filters.maxTarih" (change)="onFilterChange(filters)" class="form-control" />
+          </div>
+        </div>
+    
+        <!-- Sıfırlama Butonu -->
+        <button (click)="resetFilters()" class="btn btn-secondary mt-2">
+          <i class="fa fa-refresh"></i> Filtreyi Sıfırla
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="notifications.length > 0" class="table-responsive mt-3">
+      <table class="bildirim-table">
+        <thead>
+          <tr style="background-color: var(--background-color) !important;">
+            <th colspan="7" class="text-end" style="background-color: transparent !important; border: none;">
+              <button class="btn btn-info me-2 mt-2 mb-2" (click)="markAllAsRead()">
+                <i class="fas fa-eye"></i> Tümünü Okundu Olarak İşaretle
+              </button>
+              <button class="btn btn-danger me-2 mt-2 mb-2" (click)="deleteAllNotifications()">
+                <i class="fas fa-trash-alt"></i> Tümünü Sil
+              </button>
+            </th>
+          </tr>
+          <tr>
+            <th><i class="fas fa-icons"></i> İkon</th>
+            <th><i class="fas fa-heading"></i> Başlık</th>
+            <th><i class="fas fa-comment-alt"></i> Açıklama</th>
+            <th><i class="fas fa-calendar-alt"></i> Tarih</th>
+            <th><i class="fas fa-circle"></i> Durum</th>
+            <th><i class="fas fa-tools"></i> İşlemler</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let notification of notifications.slice().reverse()">
+            <td class="text-center">
+              <!-- İkonu dinamik olarak göster -->
+              <i class="fa" [ngClass]="notification.icon || 'fa-bell'" [style.color]="notification.renk || '#007bff'"></i>
+            </td>
+            <td>{{ notification.baslik }}</td>
+            <td>{{ notification.aciklama }}</td>
+            <td>{{ notification.olusturmaTarihi | date: 'HH:mm dd/MM/yyyy' }}</td>
+            <td>
+              <!-- Durumu true/false'a göre göster -->
+              <span [ngClass]="{'status-read': notification.status, 'status-unread': !notification.status}">
+                {{ notification.status ? 'Okundu' : 'Okunmadı' }}
+              </span>
+            </td>
+            <td *ngIf="notification.status === false">
+              <button class="btn btn-primary me-2 mt-2 mb-2 w-100" (click)="markAsRead(notification.id)">
+                <i class="fas fa-eye"></i> Okundu Olarak İşaretle
+              </button>
+            </td>
+            <td *ngIf="notification.status === true">
+              <button class="btn btn-secondary me-2 mt-2 mb-2 w-100" (click)="markAsUnRead(notification.id)">
+                <i class="fas fa-eye-slash"></i> Okunmadı Olarak İşaretle
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="deleteNotification(notification.id)">
+                <i class="fas fa-trash-alt"></i> Sil
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Sayfalama Butonları -->
+    <div *ngIf="notifications.length > 0" class="pagination-container mt-3">
+      <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1" class="btn btn-primary-page">
+        <i class="fa fa-chevron-left"></i> Önceki
+      </button>
+      <span>Sayfa: {{ pageNumber }}</span>
+      <button (click)="onPageChange(pageNumber + 1)" [disabled]="notifications.length < pageSize" class="btn btn-primary-page">
+        Sonraki <i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
 </div>

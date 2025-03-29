@@ -243,3 +243,304 @@ input, textarea, select{
     transform: translateY(0);
   }
 }
+
+
+/* Filtreleme ve Sıralama Alanı - Ana Konteyner */
+.d-flex.flex-column.flex-md-row.justify-content-between.align-items-center.mb-3 {
+display: flex !important;
+flex-direction: row !important; /* Yan yana dizilim */
+justify-content: space-between !important;
+align-items: center !important;
+margin-bottom: 20px !important;
+flex-wrap: nowrap !important; /* Sarmayı engelle */
+gap: 15px;
+}
+
+/* Filtre Konteyner */
+.filter-container {
+flex: 0 0 auto; /* Genişliği içeriğe göre ayarla */
+width: auto !important; /* Otomatik genişlik */
+margin-bottom: 0 !important;
+}
+
+/* Sıralama Konteyner */
+.text-md-end.mt-3.mt-md-0 {
+flex: 0 0 auto; /* Genişliği içeriğe göre ayarla */
+width: auto !important;
+margin-top: 0 !important;
+text-align: right !important;
+}
+
+/* Filtre Açma/Kapama Düğmesi */
+.filter-toggle {
+background-color: var(--primary-color);
+color: white;
+border: none;
+border-radius: 8px;
+padding: 10px 16px;
+font-size: 15px;
+font-weight: 600;
+cursor: pointer;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+white-space: nowrap; /* Metin satır kesmesini engelle */
+}
+
+.filter-toggle:hover {
+background-color: var(--primary-hover-color);
+transform: translateY(-2px);
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.filter-toggle i {
+margin-right: 8px;
+}
+
+/* Sıralama Konteyner İçeriği */
+.sorting-container {
+display: flex;
+align-items: center;
+white-space: nowrap; /* Metin satır kesmesini engelle */
+}
+
+.sorting-container label {
+margin-right: 8px;
+font-weight: 600;
+color: var(--text-color);
+}
+
+.sorting-container select.form-select {
+padding: 8px 12px;
+border-radius: 6px;
+border: 1px solid rgba(0, 0, 0, 0.15);
+background-color: var(--input-background-color);
+color: var(--text-color);
+margin-right: 10px;
+min-width: 120px;
+}
+
+.sorting-container .btn {
+background-color: var(--primary-color);
+color: white;
+border: none;
+border-radius: 6px;
+padding: 8px 12px;
+font-size: 14px;
+font-weight: 600;
+display: flex;
+align-items: center;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease;
+}
+
+.sorting-container .btn:hover {
+background-color: var(--primary-hover-color);
+transform: translateY(-2px);
+}
+
+.sorting-container .btn i {
+margin-right: 5px;
+}
+
+/* Filtre Form Alanı */
+.filter-form {
+display: none;
+margin-top: 15px;
+background-color: var(--card-background-color);
+border: 1px solid rgba(0, 0, 0, 0.1);
+border-radius: 10px;
+padding: 20px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+transition: all 0.3s ease;
+width: 100%; /* Tam genişlik */
+position: relative;
+z-index: 10; /* Diğer içeriklerin üzerinde göster */
+}
+
+.filter-form.open {
+display: block;
+animation: fadeInDown 0.4s ease;
+}
+
+@keyframes fadeInDown {
+from {
+  opacity: 0;
+  transform: translateY(-15px);
+}
+to {
+  opacity: 1;
+  transform: translateY(0);
+}
+}
+
+/* Form Elemanları */
+.filter-form label {
+display: block;
+font-weight: bold;
+margin-bottom: 8px;
+color: var(--text-color);
+font-size: 14px;
+}
+
+.filter-form .form-control {
+width: 100%;
+padding: 10px 15px;
+border-radius: 8px;
+border: 1px solid rgba(0, 0, 0, 0.15);
+background-color: var(--input-background-color);
+color: var(--text-color);
+font-size: 14px;
+margin-bottom: 15px;
+transition: all 0.25s ease;
+}
+
+.filter-form .form-control:focus {
+border-color: var(--primary-color);
+box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.15);
+background-color: var(--input-hover-background-color);
+}
+
+.filter-form select.form-control {
+appearance: none;
+background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+background-repeat: no-repeat;
+background-position: right 15px center;
+background-size: 15px;
+padding-right: 40px;
+}
+
+/* Filtreyi Sıfırla Butonu */
+.filter-form .btn-secondary {
+background-color: var(--primary-color);
+color: white;
+border: none;
+border-radius: 8px;
+padding: 10px 18px;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+margin-top: 5px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-form .btn-secondary:hover {
+background-color: var(--primary-hover-color);
+transform: translateY(-2px);
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.filter-form .btn-secondary i {
+margin-right: 8px;
+}
+
+/* Özel Row ve Col Stilleri */
+.filter-form .row {
+display: flex;
+flex-wrap: wrap;
+margin: 0 -10px;
+margin-bottom: 15px;
+}
+
+.filter-form .col-md-3, 
+.filter-form .col-md-4 {
+padding: 0 10px;
+margin-bottom: 10px;
+}
+
+/* Mobil Optimizasyonu */
+@media screen and (max-width: 991px) {
+.d-flex.flex-column.flex-md-row.justify-content-between.align-items-center.mb-3 {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 15px;
+}
+
+.filter-container,
+.text-md-end.mt-3.mt-md-0 {
+  width: 100% !important;
+  flex: 0 0 100% !important;
+}
+
+.filter-toggle {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.sorting-container {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sorting-container select.form-select {
+  flex: 1;
+  margin-right: 10px;
+}
+}
+
+@media screen and (max-width: 768px) {
+.sorting-container {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sorting-container label {
+  width: 100%;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.sorting-container select.form-select {
+  flex: 1;
+  min-width: 0;
+}
+
+.sorting-container .btn {
+  flex: 0 0 auto;
+}
+}
+
+@media screen and (max-width: 576px) {
+.sorting-container {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.sorting-container select.form-select,
+.sorting-container .btn {
+  width: 100%;
+  margin-right: 0;
+  margin-bottom: 10px;
+}
+}
+
+/* Sayfalama Butonları */
+.pagination-container {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 15px;
+}
+
+.pagination-container button {
+background-color: var(--primary-color);
+color: white;
+padding: 8px 16px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+.pagination-container button:disabled {
+background-color: #ccc;
+cursor: not-allowed;
+}
+
+.pagination-container button i {
+margin-right: 8px;
+}
+
