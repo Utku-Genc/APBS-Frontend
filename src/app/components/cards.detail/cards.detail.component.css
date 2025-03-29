@@ -117,3 +117,29 @@
     width: 100%;
   }
 }
+
+.application-status {
+  position: absolute;
+  bottom: 20px;
+  right: 20px; /* Sol yerine sağ kenardan hizalama */
+  max-width: 60%; /* Genişliğini sınırlandırın */
+  text-align: right; /* İçeriği sağa yasla */
+}
+
+.alert {
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border-radius: 4px;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+  color: #0c5460;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}

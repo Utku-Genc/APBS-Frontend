@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
-import { filter } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { UserModel } from '../../models/auth/user.model';
 import { NotificationListModel } from '../../models/bildirim/notification-list.model';
 import { BildirimService } from '../../services/bildirim.service';
@@ -15,7 +15,7 @@ import { BildirimService } from '../../services/bildirim.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   private toastrService = inject(ToastrService);
   private authService = inject(AuthService);
@@ -31,28 +31,41 @@ export class NavbarComponent implements OnInit {
   isDarkTheme: boolean = false;  // Tema durumunu takip etmek için değişken
   unreadCount: number = 0;
 
-
   userObj!: UserModel;
-
+  private notificationSubscription?: Subscription;
+  private routerSubscription?: Subscription;
 
   ngOnInit() {
-    this.router.events.pipe(filter(event=>event instanceof NavigationEnd)).subscribe(()=>{
-      console.log(this.isLoggedIn + " Navbar");
-      const isAlreadyLoggedIn = this.isLoggedIn
-      this.isLoggedIn = this.authService.isAuthenticated();
-      console.log(isAlreadyLoggedIn+"  "+this.isLoggedIn)
-      if(isAlreadyLoggedIn == true && isAlreadyLoggedIn != this.isLoggedIn){
-        this.toastrService.info("Token süreniz doldu tekrardan giriş yapiniz","Lütfen Tekrardan Giriş Yapınız")
-        window.location.href = "/login";
-      }
-      if (this.isLoggedIn) {
-        this.getUser();
-        this.bildirimService.notificationUpdated$.subscribe(() => {
-          this.fetchNotifications();
-        });
+    // Check authentication status once on init
+    this.isLoggedIn = this.authService.isAuthenticated();
 
-      }
-    })
+    // Listen to router events to check authentication status
+    this.routerSubscription = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        console.log(this.isLoggedIn + " Navbar");
+        const isAlreadyLoggedIn = this.isLoggedIn;
+        this.isLoggedIn = this.authService.isAuthenticated();
+        console.log(isAlreadyLoggedIn + "  " + this.isLoggedIn);
+        
+        // If user was logged in but now isn't, show message and redirect
+        if (isAlreadyLoggedIn === true && isAlreadyLoggedIn !== this.isLoggedIn) {
+          this.toastrService.info("Token süreniz doldu tekrardan giriş yapiniz", "Lütfen Tekrardan Giriş Yapınız");
+          window.location.href = "/login";
+        }
+
+        // If user just logged in, get user info and set up notification handling
+        if (this.isLoggedIn && !isAlreadyLoggedIn) {
+          this.getUser();
+          this.setupNotifications();
+        }
+      });
+
+    // Initial setup if already logged in
+    if (this.isLoggedIn) {
+      this.getUser();
+      this.setupNotifications();
+    }
 
     // localStorage'dan tema bilgisini al
     const storedTheme = localStorage.getItem('theme');
@@ -67,18 +80,40 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    // Clean up subscriptions to prevent memory leaks
+    if (this.notificationSubscription) {
+      this.notificationSubscription.unsubscribe();
+    }
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+  }
+
+  setupNotifications() {
+    // Fetch notifications initially
+    this.fetchNotifications();
+    
+    // Set up notification update subscription if not already done
+    if (!this.notificationSubscription) {
+      this.notificationSubscription = this.bildirimService.notificationUpdated$.subscribe(updated => {
+        if (updated) {
+          this.fetchNotifications();
+        }
+      });
+    }
+  }
+
   getUser() {
     console.log("---------------------------------");
     this.authService.getUserByToken().subscribe(response => {
       console.log(response.data);
       this.userObj = response.data;
-    })
+    });
     this.userRole = this.authService.getUserRole();
     console.log("Tepe Rol:", this.userRole);
     console.log("---------------------------------");
   }
-
-  
 
   toggleProfileMenu() {
     this.profileMenuActive = !this.profileMenuActive;
@@ -107,14 +142,11 @@ export class NavbarComponent implements OnInit {
       window.location.href = "/";  // Sayfayı yönlendiriyoruz
     }, 1000);  // 1 saniye sonra yönlendirme yapılacak
   }
+
   fetchNotifications() {
     this.bildirimService.getMyNotifications().subscribe(response => {
       this.notifications = response.data.filter(n => !n.status);
       this.unreadCount = this.notifications.length;
     });
   }
-
-  
-
-
 }
