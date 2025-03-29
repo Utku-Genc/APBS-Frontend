@@ -43,7 +43,7 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
               <li *ngIf="notifications.length === 0" class="dropdown-item text-muted">Yeni bildiriminiz yok</li>
           
-                <ng-container *ngFor="let notification of notifications.slice(-3); let i = index">
+                <ng-container *ngFor="let notification of notifications.slice(0, 3); let i = index">
                 <li>
                   <a class="dropdown-item d-flex align-items-center">
                   <!-- Bildirim İkonu -->

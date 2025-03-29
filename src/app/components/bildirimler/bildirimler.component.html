@@ -92,7 +92,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let notification of notifications.slice().reverse()">
+          <tr *ngFor="let notification of notifications">
             <td class="text-center">
               <!-- İkonu dinamik olarak göster -->
               <i class="fa" [ngClass]="notification.icon || 'fa-bell'" [style.color]="notification.renk || '#007bff'"></i>

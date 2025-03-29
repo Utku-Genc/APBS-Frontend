@@ -144,7 +144,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   fetchNotifications() {
-    this.bildirimService.getMyNotifications().subscribe(response => {
+    this.bildirimService.getMyPaginatedNotifications(1,12,"tarih", true).subscribe(response => {
       this.notifications = response.data.filter(n => !n.status);
       this.unreadCount = this.notifications.length;
     });

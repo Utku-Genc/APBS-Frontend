@@ -45,14 +45,17 @@ export class BildirimlerComponent implements OnInit {
       // Sayfa ve sıralama parametrelerini al
       this.pageNumber = params['page'] ? parseInt(params['page']) : 1;
       this.sortBy = params['sortBy'] || 'tarih';
-      this.isDescending = params['isDescending'] === 'true';
+      if (params['isDescending']) {
+        this.isDescending = params['isDescending'] === 'true';
+      } else {
+        this.isDescending = true; // Varsayılan değer
+      }
       
       // Filtre parametrelerini al
       this.filters = {
         id: null,
         baslik: params['baslik'] || '',
         status: params['status'] !== undefined ? params['status'] === 'true' : null,
-        ilanTipi: params['ilanTipi'] ? parseInt(params['ilanTipi']) : null,
         minTarih: params['minTarih'] || null,
         maxTarih: params['maxTarih'] || null
       };
