@@ -3,7 +3,7 @@
 <div class="admin-table-responsive">
     <!-- Sekme Başlıkları -->
     <ul class="tab-header">
-        <li [class.active]="activeTab === 'list'" (click)="switchTab('list'); getNotifications();">
+        <li [class.active]="activeTab === 'list'" (click)="switchTab('list'); getPaginatedNotifications();">
             Bildirimler
         </li>
         <li [class.active]="activeTab === 'send'" (click)="switchTab('send');">
@@ -14,6 +14,78 @@
     <div class="tab-content .table-responsive">
         <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'list' }">
             <h3>Bildirim Yönetimi</h3>
+            <div>
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+                  <div class="filter-container">
+                    <button class="filter-toggle" (click)="toggleFilter()">
+                      <i class="fa fa-filter"></i> Filtreler
+                      <span *ngIf="filtersOpen" class="ms-1"><i class="fa fa-chevron-up"></i></span>
+                      <span *ngIf="!filtersOpen" class="ms-1"><i class="fa fa-chevron-down"></i></span>
+                    </button>
+                  </div>
+                  <div class="text-md-end mt-3 mt-md-0">
+                    <div class="sorting-container">
+                      <label for="sort-by" class="me-2">Sırala:</label>
+                      <select [(ngModel)]="sortBy" (change)="onSortChange()" class="form-select d-inline-block w-auto">
+                        <option value="id">ID</option>
+                        <option value="tarih">Tarih</option>
+                        <option value="baslik">Başlık</option>
+                        <option value="status">Durum</option>
+                      </select>
+              
+                      <button (click)="toggleIsDescending()" class="btn btn-secondary ms-2">
+                        <i class="fa" [ngClass]="isDescending ? 'fa-arrow-down' : 'fa-arrow-up'"></i>
+                        {{ isDescending ? 'Azalan' : 'Artan' }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="filter-form" [class.open]="filtersOpen">
+                  <div class="row">
+                    <div class="col-md mb-3">
+                      <label>Başlık:</label>
+                      <input type="text" [(ngModel)]="filters.baslik" (input)="onFilterChange(filters)" class="form-control"
+                        placeholder="Başlık ile ara..." />
+                    </div>
+                    <div class="col-md mb-3">
+                        <label>ID:</label>
+                        <input type="number" [(ngModel)]="filters.id" (input)="onFilterChange(filters)" class="form-control"
+                          placeholder="Bildirim ID ile ara..." />
+                      </div>
+                      <div class="col-md mb-3">
+                        <label>Alıcı ID:</label>
+                        <input type="number" [(ngModel)]="filters.kullaniciId" (input)="onFilterChange(filters)" class="form-control"
+                          placeholder="Alıcı ID ile ara..." />
+                      </div>
+
+                  </div>
+              
+                  <div class="row">
+                    <div class="col-md mb-3">
+                        <label>Durum:</label>
+                        <select [(ngModel)]="filters.status" (change)="onFilterChange(filters)" class="form-control">
+                          <option [ngValue]="null">Tümü</option>
+                          <option [ngValue]="true">Okundu</option>
+                          <option [ngValue]="false">Okunmadı</option>
+                        </select>
+                      </div>
+                    <div class="col-md mb-3">
+                      <label>Başlangıç Tarihi:</label>
+                      <input type="date" [(ngModel)]="filters.minTarih" (change)="onFilterChange(filters)" class="form-control" />
+                    </div>
+                    <div class="col-md mb-3">
+                      <label>Bitiş Tarihi:</label>
+                      <input type="date" [(ngModel)]="filters.maxTarih" (change)="onFilterChange(filters)" class="form-control" />
+                    </div>
+                  </div>
+              
+                  <!-- Sıfırlama Butonu -->
+                  <button (click)="resetFilters()" class="btn btn-secondary mt-2">
+                    <i class="fa fa-refresh"></i> Filtreyi Sıfırla
+                  </button>
+                </div>
+              </div>
             <table class="admin-table" *ngIf="notifications != null">
                 <thead>
                     <tr>
@@ -155,4 +227,14 @@
             </div>
         </div>
     </div>
+        <!-- Sayfalama Butonları -->
+        <div *ngIf="notifications.length > 0" class="pagination-container mt-3">
+            <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1" class="btn btn-primary-page">
+              <i class="fa fa-chevron-left"></i> Önceki
+            </button>
+            <span>Sayfa: {{ pageNumber }}</span>
+            <button (click)="onPageChange(pageNumber + 1)" [disabled]="notifications.length < pageSize" class="btn btn-primary-page">
+              Sonraki <i class="fa fa-chevron-right"></i>
+            </button>
+          </div>
 </div>

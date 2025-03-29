@@ -36,6 +36,7 @@ export class AdminDashboardComponent implements OnInit {
   formData: any = {}; 
   positions: any[] = [];
   bolums: any[] = [];
+  
   filtersOpen: boolean = false;
   ilanSayisi: number = 0;
   pageSize: number = 10;
