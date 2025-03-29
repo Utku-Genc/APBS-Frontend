@@ -51,12 +51,12 @@
                     <div class="col-md mb-3">
                         <label>ID:</label>
                         <input type="number" [(ngModel)]="filters.id" (input)="onFilterChange(filters)" class="form-control"
-                          placeholder="Bildirim ID ile ara..." />
+                          placeholder="Bildirim ID ile ara..." min="0"/>
                       </div>
                       <div class="col-md mb-3">
                         <label>Alıcı ID:</label>
                         <input type="number" [(ngModel)]="filters.kullaniciId" (input)="onFilterChange(filters)" class="form-control"
-                          placeholder="Alıcı ID ile ara..." />
+                          placeholder="Alıcı ID ile ara..." min="0"/>
                       </div>
 
                   </div>
@@ -141,6 +141,16 @@
 
                 </tbody>
             </table>
+                    <!-- Sayfalama Butonları -->
+        <div *ngIf="notifications.length > 0" class="pagination-container mt-3">
+            <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1" class="btn btn-primary-page">
+              <i class="fa fa-chevron-left"></i> Önceki
+            </button>
+            <span>Sayfa: {{ pageNumber }}</span>
+            <button (click)="onPageChange(pageNumber + 1)" [disabled]="notifications.length < pageSize" class="btn btn-primary-page">
+              Sonraki <i class="fa fa-chevron-right"></i>
+            </button>
+          </div>
         </div>
 
         <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'send' }">
@@ -227,14 +237,5 @@
             </div>
         </div>
     </div>
-        <!-- Sayfalama Butonları -->
-        <div *ngIf="notifications.length > 0" class="pagination-container mt-3">
-            <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1" class="btn btn-primary-page">
-              <i class="fa fa-chevron-left"></i> Önceki
-            </button>
-            <span>Sayfa: {{ pageNumber }}</span>
-            <button (click)="onPageChange(pageNumber + 1)" [disabled]="notifications.length < pageSize" class="btn btn-primary-page">
-              Sonraki <i class="fa fa-chevron-right"></i>
-            </button>
-          </div>
+
 </div>
