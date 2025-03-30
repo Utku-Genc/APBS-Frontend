@@ -35,24 +35,20 @@ export class NotificationsComponent implements OnInit {
       }
     });
 
-      console.log('Kullanıcı Giriş Yaptı Signal bağlantı');
       // SignalR ile haberleş
       this.hubConnectionBuilder = new HubConnectionBuilder()
         .withUrl('https://localhost:44316/notificationHub', {
           accessTokenFactory: () => {
             const token = this.authService.getToken(); // Get the token from your auth service
-            console.log(token);
             return token ? token : ''; // If no token, return an empty string (not null)
           }
         })
         .build();
       this.hubConnectionBuilder
         .start()
-        .then(() => console.log('SignalR Bağlantı Sağlandı.......!'))
         .catch((err) => console.error('SignalR Bağlantı Hatası:', err));
 
       this.hubConnectionBuilder.on('ReceiveNotification', (obj: any) => {
-        console.log('SignalR Mesajı:', obj);
         this.showNotification(obj.baslik, obj.aciklama, obj.icon, obj.renk);
       });
   }

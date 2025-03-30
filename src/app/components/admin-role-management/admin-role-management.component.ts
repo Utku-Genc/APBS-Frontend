@@ -41,14 +41,12 @@ export class AdminRoleManagementComponent implements OnInit {
 
   switchTab(tab: string) {
     this.activeTab = tab;
-    console.log('Aktif sekme: ', tab);
   }
 
   loadRoles() {
     this.operationClaimService.getAll().subscribe({
       next: (response) => {
         if (response.isSuccess) {
-          console.log('Tüm roller: ', response.data);
           this.roleModelObj = response.data;
         } else {
           this.toastService.error('Alanlar getirilirken bir hata oluştu: ' + (response.message ?? ''));
@@ -92,7 +90,6 @@ export class AdminRoleManagementComponent implements OnInit {
           if (result.isConfirmed) {
             if (result.value) {
               this.roleAddObj = { name: result.value.ad };
-              console.log('Eklenecek role: ', this.roleAddObj);
               this.operationClaimService.add(this.roleAddObj).subscribe({
                 next: (response) => {
                   if (response.isSuccess) {
@@ -207,7 +204,6 @@ export class AdminRoleManagementComponent implements OnInit {
     this.positionService.getAll().subscribe({
       next: (response) => {
         if (response.isSuccess) {
-          console.log('Tüm pozisyonlar: ', response.data);
           this.positionModelObj = response.data;
 
         } else {
@@ -260,7 +256,6 @@ export class AdminRoleManagementComponent implements OnInit {
               ad: result.value.ad,
               aciklama: result.value.aciklama,
             };
-            console.log('Eklenecek pozisyon: ', positionAddObj);
             this.positionService.add(positionAddObj).subscribe({
               next: (response) => {
                 if (response.isSuccess) {

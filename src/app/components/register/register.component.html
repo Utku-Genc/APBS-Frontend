@@ -41,7 +41,8 @@
                 <!-- Cloudflare Turnstile CAPTCHA -->
                 <div class="cf-turnstile" 
                      [attr.data-sitekey]="turnstileSiteKey"
-                     data-callback="onCaptchaSuccess">
+                     data-callback="onCaptchaSuccess"
+                     [attr.data-theme]="captchaTheme">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary w-100 btn-sm" [disabled]="!isCaptchaValid">

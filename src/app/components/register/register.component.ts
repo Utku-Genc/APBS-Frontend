@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 
+declare var turnstile: any; // Cloudflare Turnstile için global değişken
+
 @Component({
   selector: 'utk-register',
   imports: [FormsModule, RouterLink],
@@ -23,6 +25,7 @@ export class RegisterComponent implements OnInit {
     password: '',
     confirmPassword: ''
   };
+  
 
   turnstileSiteKey = environment.turnstileSiteKey;
   isCaptchaValid = false; 
@@ -30,12 +33,28 @@ export class RegisterComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private toastrService = inject(ToastrService);
+  captchaTheme = 'dark'; // Default theme
+
 
   ngOnInit() {
+
+    const savedTheme = localStorage.getItem('theme');
+    this.captchaTheme = savedTheme === 'dark' ? 'dark' : 'light';
+
     (window as any).onCaptchaSuccess = (token: string) => {
       this.isCaptchaValid = true;
       this.cdr.detectChanges();
     };
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'theme') {
+        this.captchaTheme = event.newValue === 'dark' ? 'dark' : 'light';
+        this.cdr.detectChanges();
+        if (turnstile) {
+          turnstile.reset();
+        }
+      }
+    });
   }
 
   onSubmit() {

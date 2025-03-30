@@ -17,7 +17,7 @@
                 <input type="password" class="form-control" placeholder="Şifre" [(ngModel)]="loginObj.password"
                     name="password" required>
             </div>
-            <div class="cf-turnstile" [attr.data-sitekey]="turnstileSiteKey" data-callback="onCaptchaSuccess">
+            <div class="cf-turnstile" [attr.data-sitekey]="turnstileSiteKey" data-callback="onCaptchaSuccess" [attr.data-theme]="captchaTheme">
             </div>
 
             <button type="submit" class="btn btn-primary w-100" [disabled]="!isCaptchaValid">

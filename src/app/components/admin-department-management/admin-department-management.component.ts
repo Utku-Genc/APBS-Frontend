@@ -42,14 +42,12 @@ export class AdminDepartmentManagementComponent implements OnInit {
 
   switchTab(tab: string) {
     this.activeTab = tab;
-    console.log('Aktif sekme: ', tab);
   }
 
   getAllAlanlar() {
     this.alanService.getAll().subscribe({
       next: (response) => {
         if (response.isSuccess) {
-          console.log('Tüm alanlar: ', response.data);
           this.alanModelObj = response.data;
 
         } else {
@@ -89,7 +87,6 @@ export class AdminDepartmentManagementComponent implements OnInit {
       if (result.isConfirmed) {
         if (result.value) {
           this.alanAddObj = { ad: result.value.ad, aciklama: result.value.aciklama };
-          console.log('Eklenecek alan: ', this.alanAddObj);
           this.alanService.add(this.alanAddObj).subscribe({
             next: (response) => {
               if (response.isSuccess) {
@@ -251,7 +248,6 @@ export class AdminDepartmentManagementComponent implements OnInit {
           email: result.value.bolumEmail,
           adres: result.value.bolumAdres
         };
-        console.log('Eklenecek bölüm: ', bolumAddObj);
         this.bolumService.add(bolumAddObj).subscribe({
           next: (response) => {
             if (response.isSuccess) {
@@ -271,7 +267,6 @@ export class AdminDepartmentManagementComponent implements OnInit {
   
   editBolum(bolum: BolumModel) {
    this.getAllAlanlar();
-    console.log(bolum);
     Swal.fire({
       title: `${bolum.id} ID'li bölümü güncelliyorsunuz`,
       html: `
