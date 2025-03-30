@@ -56,7 +56,6 @@ export class CardsFormsComponent implements OnInit {
   }
 
   submitForm() {
-    console.log('Form Gönderildi:', this.formData);
 
     // İlan modelini oluşturma ve API'ye gönderme
     this.ilanService.add(this.formData).subscribe({

@@ -120,9 +120,6 @@ export class BildirimlerComponent implements OnInit {
       maxTarih: this.formatDateForAPI(this.filters.maxTarih, true)   
     };
 
-    // Debug için
-    console.log('API Filters:', apiFilters);
-
     this.bildirimService.getMyPaginatedNotifications(
       this.pageNumber,
       this.pageSize,

@@ -38,35 +38,43 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Check authentication status once on init
     this.isLoggedIn = this.authService.isAuthenticated();
-
+  
     // Listen to router events to check authentication status
     this.routerSubscription = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
-        console.log(this.isLoggedIn + " Navbar");
         const isAlreadyLoggedIn = this.isLoggedIn;
         this.isLoggedIn = this.authService.isAuthenticated();
-        console.log(isAlreadyLoggedIn + "  " + this.isLoggedIn);
         
         // If user was logged in but now isn't, show message and redirect
         if (isAlreadyLoggedIn === true && isAlreadyLoggedIn !== this.isLoggedIn) {
+          // Token süresi dolmadan önce mevcut sayfanın URL'sini kaydet
+          const currentUrl = this.router.url;
+          localStorage.setItem('redirectUrl', currentUrl);
+          
           this.toastrService.info("Token süreniz doldu tekrardan giriş yapiniz", "Lütfen Tekrardan Giriş Yapınız");
           window.location.href = "/login";
         }
-
-        // If user just logged in, get user info and set up notification handling
+  
         if (this.isLoggedIn && !isAlreadyLoggedIn) {
           this.getUser();
           this.setupNotifications();
+          
+          // Token yenilendikten sonra, kaydedilen URL'ye yönlendir (eğer varsa)
+          const redirectUrl = localStorage.getItem('redirectUrl');
+          if (redirectUrl) {
+            localStorage.removeItem('redirectUrl'); // URL'yi kullandıktan sonra temizle
+            this.router.navigateByUrl(redirectUrl);
+          }
         }
       });
-
-    // Initial setup if already logged in
+  
+    // Diğer kodlar aynı kalacak
     if (this.isLoggedIn) {
       this.getUser();
       this.setupNotifications();
     }
-
+  
     // localStorage'dan tema bilgisini al
     const storedTheme = localStorage.getItem('theme');
     
@@ -81,7 +89,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Clean up subscriptions to prevent memory leaks
     if (this.notificationSubscription) {
       this.notificationSubscription.unsubscribe();
     }
@@ -89,12 +96,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.routerSubscription.unsubscribe();
     }
   }
+  
 
   setupNotifications() {
-    // Fetch notifications initially
     this.fetchNotifications();
-    
-    // Set up notification update subscription if not already done
     if (!this.notificationSubscription) {
       this.notificationSubscription = this.bildirimService.notificationUpdated$.subscribe(updated => {
         if (updated) {
@@ -105,14 +110,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   getUser() {
-    console.log("---------------------------------");
     this.authService.getUserByToken().subscribe(response => {
-      console.log(response.data);
       this.userObj = response.data;
     });
     this.userRole = this.authService.getUserRole();
-    console.log("Tepe Rol:", this.userRole);
-    console.log("---------------------------------");
   }
 
   toggleProfileMenu() {

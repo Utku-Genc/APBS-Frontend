@@ -7,8 +7,8 @@
         <div class="card">
             <img src="../../../assets/site-img/random_shapes.jpg" alt="Card image cap" class="card-img-top card-img">
           <div class="card-body">
-            <h5 class="card-title">{{ card.baslik | summary:30 }}</h5>
-            <p class="card-text">
+            <h5 class="card-title text-truncate" style="max-width: 100%;">{{ card.baslik | summary:40 }}</h5>
+            <p class="card-text text-truncate">
               <strong>Bölüm:</strong> {{ card.bolum.ad }}<br>
               <strong>Rol:</strong> {{ card.pozisyon.ad }}<br>
               <strong>Son Başvuru:</strong> {{ card.bitisTarihi | date: 'HH:mm dd/MM/yyyy' }}

@@ -150,7 +150,6 @@ export class AdminNotificationsComponent implements OnInit {
 
   switchTab(tab: string) {
     this.activeTab = tab;
-    console.log('Aktif sekme: ', tab);
   }
 
   updateIcon(icon: string) {
@@ -210,9 +209,6 @@ export class AdminNotificationsComponent implements OnInit {
       minTarih: this.formatDateForAPI(this.filters.minTarih, false), 
       maxTarih: this.formatDateForAPI(this.filters.maxTarih, true)   
     };
-
-    // Debug için
-    console.log('API Filters:', apiFilters);
 
     this.bildirimService.getPaginatedNotifications(
       this.pageNumber,
