@@ -1,0 +1,124 @@
+<h2 class="content-title">Kriter, Alan ve Puan Yönetimi</h2>
+
+<div class="admin-table-responsive">
+  <!-- Sekme Başlıkları -->
+  <ul class="tab-header">
+    <li [class.active]="activeTab === 'kriter'" (click)="switchTab('kriter')">
+      Kriterler
+    </li>
+    <li [class.active]="activeTab === 'kriterAlan'" (click)="switchTab('kriterAlan')">
+      Alan Kriterleri
+    </li>
+    <li [class.active]="activeTab === 'kriterPuan'" (click)="switchTab('kriterPuan')">
+      Kriter Puanları
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- Kriter Tab -->
+    <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'kriter' }">
+      <h3>Kriter Yönetimi</h3>
+      <button class="btn btn-primary mb-3" (click)="addKriter()">Yeni Kriter Ekle</button>
+      <p *ngIf="kriterModelObj.length === 0">Herhangi bir kriter mevcut değil!</p>
+      <table class="admin-table" *ngIf="kriterModelObj.length > 0">
+        <thead>
+          <tr>
+            <th><i class="fa-solid fa-hashtag"></i> ID</th>
+            <th><i class="fas fa-heading"></i> Kriter Adı</th>
+            <th><i class="fas fa-align-left"></i> Açıklama</th>
+            <th><i class="fas fa-tools"></i> İşlemler</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let kriter of kriterModelObj">
+            <td><i class="fa-solid fa-hashtag"></i>{{ kriter.id }}</td>
+            <td>{{ kriter.ad }}</td>
+            <td>{{ kriter.aciklama }}</td>
+            <td>
+              <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editKriter(kriter)"><i
+                  class="fa-solid fa-pen"></i> Düzenle</button>
+            </td>
+            <td>
+              <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="deleteKriter(kriter.id)"><i
+                  class="fas fa-trash-alt"></i> Sil</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Kriter Alan Tab -->
+    <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'kriterAlan' }">
+      <h3>Kriter Alan Yönetimi</h3>
+      <button class="btn btn-primary mb-3" (click)="addKriterAlan()">Yeni Alan Kriteri Ekle</button>
+      <p *ngIf="kriterAlanModelObj.length === 0">Herhangi bir alan kriteri mevcut değil!</p>
+      <table class="admin-table" *ngIf="kriterAlanModelObj.length > 0">
+        <thead>
+          <tr>
+            <th><i class="fa-solid fa-hashtag"></i> ID</th>
+            <th><i class="fas fa-heading"></i> Kriter</th>
+            <th><i class="fas fa-building"></i> Alan</th>
+            <th><i class="fas fa-user-tie"></i> Pozisyon</th>
+            <th><i class="fas fa-sort-numeric-up"></i> Min Adet</th>
+            <th colspan="2"><i class="fas fa-tools"></i> İşlemler</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let kriterAlan of kriterAlanModelObj">
+            <td><i class="fa-solid fa-hashtag"></i>{{ kriterAlan.id }}</td>
+            <td>{{ getKriterName(kriterAlan.kriterId) }}</td>
+            <td>{{ getAlanName(kriterAlan.alanId) }}</td>
+            <td>{{ getPozisyonName(kriterAlan.pozisyonId) }}</td>
+            <td>{{ kriterAlan.minAdet !== null ? kriterAlan.minAdet : 'Gerekmiyor'}}</td>
+            <td>
+              <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editKriterAlan(kriterAlan)"><i
+                  class="fa-solid fa-pen"></i> Düzenle</button>
+            </td>
+            <td>
+              <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="deleteKriterAlan(kriterAlan.id)"><i
+                  class="fas fa-trash-alt"></i> Sil</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Kriter Puan Tab -->
+<!-- Kriter Puan Tab -->
+<div class="tab-pane" [ngClass]="{ 'active': activeTab === 'kriterPuan' }">
+  <h3>Kriter Puan Yönetimi</h3>
+  <button class="btn btn-primary mb-3" (click)="addKriterPuan()">Yeni Puan Kriteri Ekle</button>
+  <p *ngIf="kriterPuanModelObj.length === 0">Herhangi bir puan kriteri mevcut değil!</p>
+  <table class="admin-table" *ngIf="kriterPuanModelObj.length > 0">
+    <thead>
+      <tr>
+        <th><i class="fa-solid fa-hashtag"></i> ID</th>
+        <th><i class="fas fa-heading"></i> Kriter</th>
+        <th><i class="fas fa-building"></i> Alan</th>
+        <th><i class="fas fa-user-tie"></i> Pozisyon</th>
+        <th><i class="fas fa-sort-numeric-down"></i> Min Puan</th>
+        <th><i class="fas fa-sort-numeric-up"></i> Max Puan</th>
+        <th colspan="2"><i class="fas fa-tools"></i> İşlemler</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let kriterPuan of kriterPuanModelObj">
+        <td><i class="fa-solid fa-hashtag"></i>{{ kriterPuan.id }}</td>
+        <td>{{ getKriterName(kriterPuan.kriterId) }}</td>
+        <td>{{ getAlanName(kriterPuan.alanId) }}</td>
+        <td>{{ getPozisyonName(kriterPuan.pozisyonId) }}</td>
+        <td>{{ kriterPuan.minPuan !== null && kriterPuan.minPuan !== 0 ? kriterPuan.minPuan : 'Gerekmiyor' }}</td>
+        <td>{{ kriterPuan.maxPuan !== null && kriterPuan.maxPuan !== 0 ? kriterPuan.maxPuan : 'Gerekmiyor' }}</td>
+        <td>
+          <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editKriterPuan(kriterPuan)">
+            <i class="fa-solid fa-pen"></i> Düzenle</button>
+        </td>
+        <td>
+          <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="deleteKriterPuan(kriterPuan.id)">
+            <i class="fas fa-trash-alt"></i> Sil</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

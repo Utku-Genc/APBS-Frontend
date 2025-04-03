@@ -22,6 +22,7 @@ import { BildirimlerComponent } from './components/bildirimler/bildirimler.compo
 import { IlanlarAktifComponent } from './components/ilanlar-aktif/ilanlar-aktif.component';
 import { IlanlarPasifComponent } from './components/ilanlar-pasif/ilanlar-pasif.component';
 import { IlanKriterBasvuruComponent } from './components/ilan-kriter-basvuru/ilan-kriter-basvuru.component';
+import { AdminKriterManagementComponent } from './components/admin-kriter-management/admin-kriter-management.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -54,10 +55,11 @@ export const routes: Routes = [
         children: [
           { path: 'dashboard', component: AdminDashboardComponent },
           { path: 'alan', component: AdminDepartmentManagementComponent },
-          {path: 'role', component: AdminRoleManagementComponent},
+          { path: 'role', component: AdminRoleManagementComponent},
           { path: 'users', component: AdminUserManagementComponent }, 
-          {path: 'ilan/ekle', component: CardsFormsComponent},
-          {path: 'bildirim', component:AdminNotificationsComponent},
+          { path: 'ilan/ekle', component: CardsFormsComponent},
+          { path: 'kriter', component: AdminKriterManagementComponent},
+          { path: 'bildirim', component:AdminNotificationsComponent},
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         ],
         canActivate: [LoginGuard, RoleGuard],
