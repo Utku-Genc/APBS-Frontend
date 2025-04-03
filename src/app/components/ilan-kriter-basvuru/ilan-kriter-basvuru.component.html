@@ -1,0 +1,73 @@
+<div class="ilan-kriter-container">
+    <h2>İlan Başvuru Formu</h2>
+    
+    <!-- İlerleme çubuğu -->
+    <div class="progress-bar">
+      <div class="progress" [style.width]="(aktifKriterIndex + 1) * 100 / aktifAlanKriterleri.length + '%'"></div>
+    </div>
+    <div class="step-info">
+      <span>Adım {{ aktifKriterIndex + 1 }}/{{ aktifAlanKriterleri.length }}</span>
+    </div>
+  
+    <!-- Hata mesajı alanı -->
+    <div *ngIf="hataMesaji" class="hata-mesaji">
+      {{ hataMesaji }}
+    </div>
+  
+    <form [formGroup]="basvuruForm">
+      <div class="kriter-form" *ngIf="aktifAlanKriterleri.length > 0">
+        <div class="kriter-baslik">
+          <h3>{{ aktifAlanKriterleri[aktifKriterIndex].baslik }}</h3>
+          <p>Bu kriter için en az {{ aktifAlanKriterleri[aktifKriterIndex].minDosyaSayisi }} dosya yüklemelisiniz.</p>
+          <p>Bu kriterden alabileceğiniz maksimum puan: {{ aktifAlanKriterleri[aktifKriterIndex].maxPuan }}</p>
+          <p *ngIf="getirilmisDosyaSayisi(aktifKriterIndex) >= aktifAlanKriterleri[aktifKriterIndex].minDosyaSayisi" class="kriterDurumu karsilandi">
+            ✓ Minimum dosya sayısı karşılandı ({{ getirilmisDosyaSayisi(aktifKriterIndex) }}/{{ aktifAlanKriterleri[aktifKriterIndex].minDosyaSayisi }})
+          </p>
+          <p *ngIf="getirilmisDosyaSayisi(aktifKriterIndex) < aktifAlanKriterleri[aktifKriterIndex].minDosyaSayisi" class="kriterDurumu karsilanmadi">
+            ✗ Minimum dosya sayısı karşılanmadı ({{ getirilmisDosyaSayisi(aktifKriterIndex) }}/{{ aktifAlanKriterleri[aktifKriterIndex].minDosyaSayisi }})
+          </p>
+        </div>
+  
+        <div class="dosyalar-container" formArrayName="kriterler">
+          <div [formGroupName]="aktifKriterIndex">
+            <div formArrayName="dosyalar">
+              <div class="dosya-form" *ngFor="let dosya of getDosyalarFormArray(aktifKriterIndex).controls; let dosyaIndex = index" [formGroupName]="dosyaIndex">
+                <div class="dosya-satir" [ngClass]="{'dosya-yuklu': dosyaYukluMu(aktifKriterIndex, dosyaIndex)}">
+                  <div class="dosya-bilgi">
+                    <span class="dosya-no">{{ dosyaIndex + 1 }}</span>
+                    <input type="text" formControlName="dosyaAdi" readonly placeholder="Dosya seçilmedi" class="dosya-adi">
+                  </div>
+                  
+                  <div class="dosya-islemler">
+                    <input type="file" [id]="'dosya-' + aktifKriterIndex + '-' + dosyaIndex" (change)="dosyaSec($event, aktifKriterIndex, dosyaIndex)" style="display: none;">
+                    <button type="button" class="btn-dosya-sec" (click)="triggerFileInputClick('dosya-' + aktifKriterIndex + '-' + dosyaIndex)">
+                      {{ dosyaYukluMu(aktifKriterIndex, dosyaIndex) ? 'Değiştir' : 'Dosya Seç' }}
+                    </button>
+                    <button type="button" class="btn-dosya-sil" (click)="dosyaSil(aktifKriterIndex, dosyaIndex)">Sil</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="ekstra-dosya">
+              <button type="button" class="btn-dosya-ekle" (click)="dosyaEkle(aktifKriterIndex)">+ Ekstra Dosya Ekle</button>
+            </div>
+          </div>
+        </div>
+  
+        <div class="adim-butonlari">
+          <button type="button" class="btn-onceki" (click)="oncekiAdim()" [disabled]="aktifKriterIndex === 0">Önceki</button>
+          <button type="button" class="btn-sonraki" *ngIf="aktifKriterIndex < aktifAlanKriterleri.length - 1" 
+                  (click)="sonrakiAdim()" 
+                  [disabled]="!aktifKriterGecerli()">
+            Sonraki
+          </button>
+          <button type="button" class="btn-gonder" *ngIf="aktifKriterIndex === aktifAlanKriterleri.length - 1" 
+                  (click)="formGonder()" 
+                  [disabled]="!aktifKriterGecerli()">
+            Başvuruyu Tamamla
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>

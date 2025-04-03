@@ -21,6 +21,7 @@ import { AdminNotificationsComponent } from './components/admin-notifications/ad
 import { BildirimlerComponent } from './components/bildirimler/bildirimler.component';
 import { IlanlarAktifComponent } from './components/ilanlar-aktif/ilanlar-aktif.component';
 import { IlanlarPasifComponent } from './components/ilanlar-pasif/ilanlar-pasif.component';
+import { IlanKriterBasvuruComponent } from './components/ilan-kriter-basvuru/ilan-kriter-basvuru.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -38,6 +39,7 @@ export const routes: Routes = [
 
     // Card Detail Sayfası
     {path: 'detail/:id', component: CardsDetailComponent},
+    {path: 'ilan/basvuru/:id', component: IlanKriterBasvuruComponent},
 
     {path: 'ilanlar/aktif', component: IlanlarAktifComponent},
     {path: 'ilanlar/gecmis', component: IlanlarPasifComponent},
