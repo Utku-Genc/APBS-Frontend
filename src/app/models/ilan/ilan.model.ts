@@ -1,15 +1,15 @@
 export interface Ilan {
-    id?: number;  // ID opsiyonel çünkü yeni oluşturulurken henüz bilinmez
-    olusturanId: number; // Kullanıcı ID'si (admin veya yetkili kişi)
-    pozisyonId: number | null;  // İlanın ait olduğu pozisyon
-    bolumId: number | null;  // İlgili bölüm ID'si
-    baslik: string;  // İlan başlığı
-    aciklama: string;  // HTML destekli ilan açıklaması
-    baslangicTarihi?: Date;  // Başlangıç tarihi opsiyonel olabilir
-    bitisTarihi?: Date;  // Bitiş tarihi
-    status: boolean;  // Aktif/Pasif durumu
-    olusturulmaTarihi?: Date;  // Default olarak otomatik atanır
+    id?: number;  
+    olusturanId: number;
+    pozisyonId: number | null;  
+    bolumId: number | null;  
+    baslik: string;  
+    aciklama: string; 
+    baslangicTarihi?: Date;
+    bitisTarihi?: Date; 
+    status: boolean;  
+    olusturulmaTarihi?: Date;  
     guncellenmeTarihi?: Date;
-    silinmeTarihi?: Date | null;  // Silinmişse tarih atanır, yoksa `null`
+    silinmeTarihi?: Date | null;
   }
   

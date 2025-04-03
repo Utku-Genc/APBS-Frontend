@@ -1,67 +1,114 @@
-<div class="d-flex">
-  <!-- Sol Menü (Sidebar) -->
-  <div class="sidebar p-3" id="sidebar">
-    <h3 class="text-white">Admin Paneli</h3>
-    <ul class="nav flex-column">
-      <li class="nav-item">
-        <button class="btn btn-primary" (click)="navigateTo('dashboard')">
-          <i class="fas fa-tachometer-alt"></i> Dashboard
-        </button>
-      </li>
-      <li class="nav-item">
-        <button class="btn btn-primary" (click)="navigateTo('ilan/ekle')">
-          <i class="fa-solid fa-user-tag"></i> İlan Ekle
-        </button>
-      </li>
-      <li class="nav-item">
-        <button class="btn btn-primary" (click)="navigateTo('users')">
-          <i class="fas fa-users"></i> Kullanıcılar
-        </button>
-      </li>
-      <li class="nav-item">
-        <button class="btn btn-primary" (click)="navigateTo('role')">
-          <i class="fa-solid fa-user-tag"></i> Rol ve Pozisyon
-        </button>
-      </li>
-      <li class="nav-item">
-        <button class="btn btn-primary" (click)="navigateTo('alan')">
-          <i class="fas fa-cogs"></i> Alan ve Bölüm
-        </button>
-      </li>
-
-      <li class="nav-item">
-        <button class="btn btn-primary" (click)="navigateTo('bildirim')">
-          <i class="fas fa-bell"></i> Bildirimler 
-        </button>
-      <li class="nav-item">
-        <button class="btn btn-primary" (click)="navigateTo('settings')">
-          <i class="fas fa-cogs"></i> Ayarlar
-        </button>
-      </li>
-      <h4 class="mt-3 text-white">Diğer Paneller</h4>
-      <li class="nav-item">
-        <button class="btn btn-primary" routerLink="/yonetici">
-          <i class="fa-solid fa-user-gear"></i> Yönetici Paneli
-        </button>
-      <li class="nav-item">
-        <button class="btn btn-primary" routerLink="/juri">
-          <i class="fa-solid fa-user-pen"></i> Juri Paneli
-
-        </button>
-
-      </li>
-    </ul>
+<div class="admin-layout">
+  <!-- Mobile menu header - visible only on small screens -->
+  <div class="mobile-menu-header" *ngIf="isMobileView">
+    <button class="mobile-menu-toggle" (click)="toggleSidebar()">
+      <i class="fas" [ngClass]="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+    </button>
+    <h3 class="mobile-header-title">Admin Paneli</h3>
   </div>
 
-  <!-- Menü Butonu (Her Çözünürlükte Görünsün) -->
-  <button class="btn text-white menu-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-    aria-controls="sidebar">
-    Menü
-  </button>
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed && !isMobileView" [class.mobile-open]="isMobileMenuOpen">
+    <div class="sidebar-header">
+      <h3 class="logo">Admin Paneli</h3>
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <i class="fas" [ngClass]="isSidebarCollapsed && !isMobileView ? 'fa-bars' : 'fa-times'"></i>
+      </button>
+    </div>
 
-  <!-- Sağ Kısım: İçerik Alanı -->
-  <div class="content-area flex-grow-1 p-3">
-    <!-- Başlık Dinamik Olarak Değişir -->
-    <router-outlet></router-outlet>
-  </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <h4 class="nav-section-title">Ana Menü</h4>
+        <ul class="nav-list">
+          <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/dashboard']" data-toggle="tooltip" data-placement="right" title="Dashboard">
+              <i class="fas fa-tachometer-alt"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/ilan/ekle']" data-toggle="tooltip" data-placement="right" title="İlan Ekle">
+              <i class="fa-solid fa-plus-circle"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">İlan Ekle</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/users']" data-toggle="tooltip" data-placement="right" title="Kullanıcılar">
+              <i class="fas fa-users"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Kullanıcılar</span>
+            </a>
+          </li>
+          
+          <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/role']" data-toggle="tooltip" data-placement="right" title="Rol ve Pozisyon">
+              <i class="fa-solid fa-user-tag"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Rol ve Pozisyon</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/alan']" data-toggle="tooltip" data-placement="right" title="Alan ve Bölüm">
+              <i class="fas fa-sitemap"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Alan ve Bölüm</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/kriter']" data-toggle="tooltip" data-placement="right" title="Kriter">
+              <i class="fa-solid fa-list-check"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Kriter</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <h4 class="nav-section-title">Sistem</h4>
+        <ul class="nav-list">
+          <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/bildirim']" data-toggle="tooltip" data-placement="right" title="Bildirimler">
+              <i class="fas fa-bell"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Bildirimler</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/settings']" data-toggle="tooltip" data-placement="right" title="Ayarlar">
+              <i class="fas fa-cogs"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Ayarlar</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <h4 class="nav-section-title">Diğer Paneller</h4>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a [routerLink]="['/yonetici']" data-toggle="tooltip" data-placement="right" title="Yönetici Paneli">
+              <i class="fa-solid fa-user-gear"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Yönetici Paneli</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/juri']" data-toggle="tooltip" data-placement="right" title="Juri Paneli">
+              <i class="fa-solid fa-user-pen"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Juri Paneli</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Mobile sidebar overlay -->
+  <div class="sidebar-overlay" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
+
+  <!-- Main Content -->
+  <main class="main-content" [class.expanded]="isSidebarCollapsed && !isMobileView" [class.with-mobile-header]="isMobileView">
+    <!-- Content Area -->
+    <div class="content">
+      <!-- Router outlet for child routes -->
+      <router-outlet></router-outlet>
+      <!-- Optional: Keep ng-content for backward compatibility -->
+      <ng-content></ng-content>
+    </div>
+  </main>
 </div>
