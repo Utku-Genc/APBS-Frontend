@@ -11,6 +11,7 @@ import { SendNotificationAllModel } from '../../models/bildirim/send-notificatio
 import { NotificationListModel } from '../../models/bildirim/notification-list.model';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'utk-admin-notifications',
@@ -22,6 +23,7 @@ export class AdminNotificationsComponent implements OnInit {
   private userService = inject(UserService);
   private bildirimService = inject(BildirimService);
   private toastService = inject(ToastService);
+  private toastrService = inject(ToastrService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -173,34 +175,47 @@ export class AdminNotificationsComponent implements OnInit {
         if (response.isSuccess) {
           this.toastService.success(response.message);
         } else {
-          alert('Bildirim gönderme başarısız.');
+          this.toastService.error(response.message);
         }
       });
   }
 
   sendNotificationToUser() {
     if (!this.selectedUser) {
-      alert('Lütfen bir kullanıcı seçin.');
+      this.toastService.error('Lütfen bir kullanıcı seçin!');
       return;
-    } else {
-      this.sendNotificationUserObj = {
-        kullaniciId: this.selectedUser,
-        baslik: this.title,
-        aciklama: this.description,
-        icon: this.selectedIcon,
-        renk: this.selectedColor,
-      };
-      this.bildirimService
-        .sendNotification(this.sendNotificationUserObj)
-        .subscribe((response) => {
-          if (response.isSuccess) {
-            this.toastService.success(response.message);
-            this.bildirimService.triggerNotificationUpdate(); // Navbar'ı güncellemek için tetikleme
-          } else {
-            this.toastService.error(response.message);
-          }
-        });
     }
+
+    this.sendNotificationUserObj = {
+      kullaniciId: this.selectedUser,
+      baslik: this.title,
+      aciklama: this.description,
+      icon: this.selectedIcon,
+      renk: this.selectedColor,
+    };
+
+    this.bildirimService.sendNotification(this.sendNotificationUserObj).subscribe({
+      next: (response) => {
+        if (response.isSuccess) {
+          this.toastService.success(response.message);
+          this.bildirimService.triggerNotificationUpdate(); // Navbar'ı güncellemek için tetikleme
+        } else {
+          this.toastService.error(response.message);
+        }
+      },
+      error: (err) => {
+        if (err.error?.ValidationErrors) {
+          const errorMessages = err.error.ValidationErrors.map(
+            (error: { ErrorMessage: string }) => error.ErrorMessage
+          );
+          errorMessages.forEach((message: string | undefined) => {
+            this.toastrService.error(message);
+          });
+        } else {
+          this.toastrService.error(err.error.message, 'Giriş başarısız:');
+        }
+      },
+    });
   }
 
   getPaginatedNotifications() {

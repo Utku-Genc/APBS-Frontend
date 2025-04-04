@@ -38,7 +38,7 @@
               <span [class.hidden]="isSidebarCollapsed && !isMobileView">Kullanıcılar</span>
             </a>
           </li>
-          
+
           <li class="nav-item" routerLinkActive="active">
             <a [routerLink]="['/admin/role']" data-toggle="tooltip" data-placement="right" title="Rol ve Pozisyon">
               <i class="fa-solid fa-user-tag"></i>
@@ -67,6 +67,12 @@
             <a [routerLink]="['/admin/bildirim']" data-toggle="tooltip" data-placement="right" title="Bildirimler">
               <i class="fas fa-bell"></i>
               <span [class.hidden]="isSidebarCollapsed && !isMobileView">Bildirimler</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/email']" data-toggle="tooltip" data-placement="right" title="E-Mail">
+              <i class="fa-solid fa-envelope"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">E-Mail</span>
             </a>
           </li>
           <li class="nav-item" routerLinkActive="active">
@@ -102,7 +108,8 @@
   <div class="sidebar-overlay" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
 
   <!-- Main Content -->
-  <main class="main-content" [class.expanded]="isSidebarCollapsed && !isMobileView" [class.with-mobile-header]="isMobileView">
+  <main class="main-content" [class.expanded]="isSidebarCollapsed && !isMobileView"
+    [class.with-mobile-header]="isMobileView">
     <!-- Content Area -->
     <div class="content">
       <!-- Router outlet for child routes -->

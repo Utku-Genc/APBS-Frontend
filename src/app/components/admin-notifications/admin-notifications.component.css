@@ -544,3 +544,18 @@ cursor: not-allowed;
 margin-right: 8px;
 }
 
+.select-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: auto;
+  margin: 0;
+}
+
+.select-button:hover {
+  background-color: var(--primary-hover-color);
+}

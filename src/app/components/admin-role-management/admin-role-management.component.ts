@@ -234,7 +234,7 @@ export class AdminRoleManagementComponent implements OnInit {
           confirmButtonText: 'Ekle',
           cancelButtonText: 'İptal',
           customClass: {
-            popup: 'custom-swal-popup',
+            popup: 'custom-swal-popup-xl',
             confirmButton: 'custom-swal-confirm',
             cancelButton: 'custom-swal-cancel'
           },
@@ -295,7 +295,7 @@ export class AdminRoleManagementComponent implements OnInit {
       confirmButtonText: 'Güncelle',
       cancelButtonText: 'İptal',
       customClass: {
-        popup: 'custom-swal-popup',
+        popup: 'custom-swal-popup-xl',
         confirmButton: 'custom-swal-confirm',
         cancelButton: 'custom-swal-cancel'
       },

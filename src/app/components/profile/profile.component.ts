@@ -49,9 +49,13 @@ export class ProfileComponent implements OnInit {
 
     getUserById(id: number): void {
       this.userService.getUserById(id).subscribe(response => {
-        this.userObj = response.data;
-        this.userObj.showFullTc = false;
+        if (response.isSuccess && response.data === null) {
+          // Redirect to unauthorized page
+          this.router.navigate(['/unauthorized']);
+        } else {
+          this.userObj = response.data;
+          this.userObj.showFullTc = false;
+        }
       })
     }
-
 }
