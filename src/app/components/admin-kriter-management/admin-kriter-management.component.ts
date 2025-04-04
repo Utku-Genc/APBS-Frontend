@@ -63,6 +63,7 @@ export class AdminKriterManagementComponent implements OnInit {
   ngOnInit(): void {
     this.getAllKriter();
     this.loadDropdownOptions();
+
   }
 
   switchTab(tab: string) {
@@ -193,6 +194,7 @@ export class AdminKriterManagementComponent implements OnInit {
               if (response.isSuccess) {
                 this.toastService.success(response.message);
                 this.getAllKriter();
+                this.loadDropdownOptions(); // Add this line to refresh dropdown options
               } else {
                 this.toastService.error(response.message);
               }
@@ -260,6 +262,7 @@ export class AdminKriterManagementComponent implements OnInit {
             if (response.isSuccess) {
               this.toastService.success(response.message);
               this.getAllKriter();
+              this.loadDropdownOptions();
             } else {
               this.toastService.error(response.message);
             }
@@ -296,6 +299,7 @@ export class AdminKriterManagementComponent implements OnInit {
             if (response.isSuccess) {
               this.toastService.success(response.message);
               this.getAllKriter();
+              this.loadDropdownOptions();
             } else {
               this.toastService.error(response.message);
             }

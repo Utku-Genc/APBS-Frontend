@@ -71,7 +71,8 @@
 
 
     <div class="table-responsive mt-4">
-        <table class="user-table">
+        <p *ngIf="users && users.length === 0">Herhangi bir kullanıcı mevcut değil!</p>
+        <table class="user-table" *ngIf="users && users.length > 0">
             <thead>
                 <tr class="table-header">
                     <th><i class="fas fa-eye"></i> Profil</th>
