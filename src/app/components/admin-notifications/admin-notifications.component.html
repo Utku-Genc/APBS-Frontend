@@ -16,141 +16,150 @@
             <h3>Bildirim Yönetimi</h3>
             <div>
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
-                  <div class="filter-container">
-                    <button class="filter-toggle" (click)="toggleFilter()">
-                      <i class="fa fa-filter"></i> Filtreler
-                      <span *ngIf="filtersOpen" class="ms-1"><i class="fa fa-chevron-up"></i></span>
-                      <span *ngIf="!filtersOpen" class="ms-1"><i class="fa fa-chevron-down"></i></span>
-                    </button>
-                  </div>
-                  <div class="text-md-end mt-3 mt-md-0">
-                    <div class="sorting-container">
-                      <label for="sort-by" class="me-2">Sırala:</label>
-                      <select [(ngModel)]="sortBy" (change)="onSortChange()" class="form-select d-inline-block w-auto">
-                        <option value="id">ID</option>
-                        <option value="tarih">Tarih</option>
-                        <option value="baslik">Başlık</option>
-                        <option value="status">Durum</option>
-                      </select>
-              
-                      <button (click)="toggleIsDescending()" class="btn btn-secondary ms-2">
-                        <i class="fa" [ngClass]="isDescending ? 'fa-arrow-down' : 'fa-arrow-up'"></i>
-                        {{ isDescending ? 'Azalan' : 'Artan' }}
-                      </button>
+                    <div class="filter-container">
+                        <button class="filter-toggle" (click)="toggleFilter()">
+                            <i class="fa fa-filter"></i> Filtreler
+                            <span *ngIf="filtersOpen" class="ms-1"><i class="fa fa-chevron-up"></i></span>
+                            <span *ngIf="!filtersOpen" class="ms-1"><i class="fa fa-chevron-down"></i></span>
+                        </button>
                     </div>
-                  </div>
+                    <div class="text-md-end mt-3 mt-md-0">
+                        <div class="sorting-container">
+                            <label for="sort-by" class="me-2">Sırala:</label>
+                            <select [(ngModel)]="sortBy" (change)="onSortChange()"
+                                class="form-select d-inline-block w-auto">
+                                <option value="id">ID</option>
+                                <option value="tarih">Tarih</option>
+                                <option value="baslik">Başlık</option>
+                                <option value="status">Durum</option>
+                            </select>
+
+                            <button (click)="toggleIsDescending()" class="btn btn-secondary ms-2">
+                                <i class="fa" [ngClass]="isDescending ? 'fa-arrow-down' : 'fa-arrow-up'"></i>
+                                {{ isDescending ? 'Azalan' : 'Artan' }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-              
+
                 <div class="filter-form" [class.open]="filtersOpen">
-                  <div class="row">
-                    <div class="col-md mb-3">
-                      <label>Başlık:</label>
-                      <input type="text" [(ngModel)]="filters.baslik" (input)="onFilterChange(filters)" class="form-control"
-                        placeholder="Başlık ile ara..." />
-                    </div>
-                    <div class="col-md mb-3">
-                        <label>ID:</label>
-                        <input type="number" [(ngModel)]="filters.id" (input)="onFilterChange(filters)" class="form-control"
-                          placeholder="Bildirim ID ile ara..." min="0"/>
-                      </div>
-                      <div class="col-md mb-3">
-                        <label>Alıcı ID:</label>
-                        <input type="number" [(ngModel)]="filters.kullaniciId" (input)="onFilterChange(filters)" class="form-control"
-                          placeholder="Alıcı ID ile ara..." min="0"/>
-                      </div>
+                    <div class="row">
+                        <div class="col-md mb-3">
+                            <label>Başlık:</label>
+                            <input type="text" [(ngModel)]="filters.baslik" (input)="onFilterChange(filters)"
+                                class="form-control" placeholder="Başlık ile ara..." />
+                        </div>
+                        <div class="col-md mb-3">
+                            <label>ID:</label>
+                            <input type="number" [(ngModel)]="filters.id" (input)="onFilterChange(filters)"
+                                class="form-control" placeholder="Bildirim ID ile ara..." min="0" />
+                        </div>
+                        <div class="col-md mb-3">
+                            <label>Alıcı ID:</label>
+                            <input type="number" [(ngModel)]="filters.kullaniciId" (input)="onFilterChange(filters)"
+                                class="form-control" placeholder="Alıcı ID ile ara..." min="0" />
+                        </div>
 
-                  </div>
-              
-                  <div class="row">
-                    <div class="col-md mb-3">
-                        <label>Durum:</label>
-                        <select [(ngModel)]="filters.status" (change)="onFilterChange(filters)" class="form-control">
-                          <option [ngValue]="null">Tümü</option>
-                          <option [ngValue]="true">Okundu</option>
-                          <option [ngValue]="false">Okunmadı</option>
-                        </select>
-                      </div>
-                    <div class="col-md mb-3">
-                      <label>Başlangıç Tarihi:</label>
-                      <input type="date" [(ngModel)]="filters.minTarih" (change)="onFilterChange(filters)" class="form-control" />
                     </div>
-                    <div class="col-md mb-3">
-                      <label>Bitiş Tarihi:</label>
-                      <input type="date" [(ngModel)]="filters.maxTarih" (change)="onFilterChange(filters)" class="form-control" />
+
+                    <div class="row">
+                        <div class="col-md mb-3">
+                            <label>Durum:</label>
+                            <select [(ngModel)]="filters.status" (change)="onFilterChange(filters)"
+                                class="form-control">
+                                <option [ngValue]="null">Tümü</option>
+                                <option [ngValue]="true">Okundu</option>
+                                <option [ngValue]="false">Okunmadı</option>
+                            </select>
+                        </div>
+                        <div class="col-md mb-3">
+                            <label>Başlangıç Tarihi:</label>
+                            <input type="date" [(ngModel)]="filters.minTarih" (change)="onFilterChange(filters)"
+                                class="form-control" />
+                        </div>
+                        <div class="col-md mb-3">
+                            <label>Bitiş Tarihi:</label>
+                            <input type="date" [(ngModel)]="filters.maxTarih" (change)="onFilterChange(filters)"
+                                class="form-control" />
+                        </div>
                     </div>
-                  </div>
-              
-                  <!-- Sıfırlama Butonu -->
-                  <button (click)="resetFilters()" class="btn btn-secondary mt-2">
-                    <i class="fa fa-refresh"></i> Filtreyi Sıfırla
-                  </button>
+
+                    <!-- Sıfırlama Butonu -->
+                    <button (click)="resetFilters()" class="btn btn-secondary mt-2">
+                        <i class="fa fa-refresh"></i> Filtreyi Sıfırla
+                    </button>
                 </div>
-              </div>
-            <table class="admin-table" *ngIf="notifications != null">
-                <thead>
-                    <tr>
-                        <th><i class="fa-solid fa-hashtag"></i> ID</th>
-                        <th><i class="fas fa-icons"></i> İkon</th>
-                        <th><i class="fas fa-heading"></i> Başlık</th>
-                        <th><i class="fas fa-comment-alt"></i> Açıklama</th>
-                        <th><i class="fas fa-palette"></i> Renk</th>
-                        <th><i class="fas fa-users"></i> Alıcı ID</th>
-                        <th><i class="fas fa-circle"></i> Durum</th>
-                        <th><i class="fas fa-calendar-alt"></i> Tarih</th>
-                        <th><i class="fas fa-tools"></i> İşlemler</th>
-                        <th></th>
-                    </tr>
+            </div>
+            <div class="admin-table-responsive">
+                <p *ngIf="notifications.length === 0">Herhangi bir bildirim mevcut değil!</p>
+                <table class="admin-table" *ngIf="notifications.length > 0">
+                    <thead>
+                        <tr>
+                            <th><i class="fa-solid fa-hashtag"></i> ID</th>
+                            <th><i class="fas fa-icons"></i> İkon</th>
+                            <th><i class="fas fa-heading"></i> Başlık</th>
+                            <th><i class="fas fa-comment-alt"></i> Açıklama</th>
+                            <th><i class="fas fa-palette"></i> Renk</th>
+                            <th><i class="fas fa-users"></i> Alıcı ID</th>
+                            <th><i class="fas fa-circle"></i> Durum</th>
+                            <th><i class="fas fa-calendar-alt"></i> Tarih</th>
+                            <th><i class="fas fa-tools"></i> İşlemler</th>
+                            <th></th>
+                        </tr>
 
-                </thead>
-                <tbody>
-                    <tr *ngFor="let notification of notifications">
-                        <td><i class="fa-solid fa-hashtag"></i>{{ notification.id }}</td>
-                        <td style="font-size: 20px; text-align: center;">
-                            <!-- İkonu dinamik olarak göster -->
-                            <i class="fa" [ngClass]="notification.icon"></i>
-                        </td>
-                        <td>{{ notification.baslik }}</td>
-                        <td>{{ notification.aciklama }}</td>
-                        <td>
-                            <!-- Rengi dinamik olarak göster -->
-                            <span class="color-box" [style.background-color]="notification.renk"></span>
-                        </td>
-                        <td><i class="fa-solid fa-hashtag"></i>{{ notification.kullaniciId }}</td>
-                        <td>
-                            <!-- Durumu true/false'a göre göster -->
-                            <span
-                                [ngClass]="{'status-read': notification.status, 'status-unread': !notification.status}">
-                                {{ notification.status ? 'Okundu' : 'Okunmadı' }}
-                            </span>
-                        </td>
-                        <td>{{ notification.olusturmaTarihi | date: 'HH:mm dd/MM/yyyy' }}</td>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let notification of notifications">
+                            <td><i class="fa-solid fa-hashtag"></i>{{ notification.id }}</td>
+                            <td style="font-size: 20px; text-align: center;">
+                                <!-- İkonu dinamik olarak göster -->
+                                <i class="fa" [ngClass]="notification.icon"></i>
+                            </td>
+                            <td>{{ notification.baslik }}</td>
+                            <td>{{ notification.aciklama }}</td>
+                            <td>
+                                <!-- Rengi dinamik olarak göster -->
+                                <span class="color-box" [style.background-color]="notification.renk"></span>
+                            </td>
+                            <td><i class="fa-solid fa-hashtag"></i>{{ notification.kullaniciId }}</td>
+                            <td>
+                                <!-- Durumu true/false'a göre göster -->
+                                <span
+                                    [ngClass]="{'status-read': notification.status, 'status-unread': !notification.status}">
+                                    {{ notification.status ? 'Okundu' : 'Okunmadı' }}
+                                </span>
+                            </td>
+                            <td>{{ notification.olusturmaTarihi | date: 'HH:mm dd/MM/yyyy' }}</td>
 
-                        <td>
-                            <button class="btn btn-primary me-2 mt-2 mb-2 w-100"
-                                (click)="editNotification(notification)">
-                                <i class="fas fa-edit"></i> Düzenle
-                            </button>
-                        <td>
-                            <button class="btn btn-danger me-2 mt-2 mb-2 w-100"
-                                (click)="deleteNotification(notification.id)">
-                                <i class="fas fa-trash-alt"></i> Sil
-                            </button>
-                        </td>
-                    </tr>
+                            <td>
+                                <button class="btn btn-primary me-2 mt-2 mb-2 w-100"
+                                    (click)="editNotification(notification)">
+                                    <i class="fas fa-edit"></i> Düzenle
+                                </button>
+                            <td>
+                                <button class="btn btn-danger me-2 mt-2 mb-2 w-100"
+                                    (click)="deleteNotification(notification.id)">
+                                    <i class="fas fa-trash-alt"></i> Sil
+                                </button>
+                            </td>
+                        </tr>
 
 
-                </tbody>
-            </table>
-                    <!-- Sayfalama Butonları -->
-        <div *ngIf="notifications.length > 0" class="pagination-container mt-3">
-            <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1" class="btn btn-primary-page">
-              <i class="fa fa-chevron-left"></i> Önceki
-            </button>
-            <span>Sayfa: {{ pageNumber }}</span>
-            <button (click)="onPageChange(pageNumber + 1)" [disabled]="notifications.length < pageSize" class="btn btn-primary-page">
-              Sonraki <i class="fa fa-chevron-right"></i>
-            </button>
-          </div>
+                    </tbody>
+                </table>
+            </div> 
+            <!-- Sayfalama Butonları -->
+            <div *ngIf="notifications.length > 0" class="pagination-container mt-3">
+                <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1"
+                    class="btn btn-primary-page">
+                    <i class="fa fa-chevron-left"></i> Önceki
+                </button>
+                <span>Sayfa: {{ pageNumber }}</span>
+                <button (click)="onPageChange(pageNumber + 1)" [disabled]="notifications.length < pageSize"
+                    class="btn btn-primary-page">
+                    Sonraki <i class="fa fa-chevron-right"></i>
+                </button>
+            </div>
         </div>
 
         <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'send' }">
@@ -196,12 +205,12 @@
                             </i>
                         </div>
                     </div>
-                
+
                     <!-- Öne Çıkan Renkler ve Renk Seçici -->
                     <div class="d-flex align-items-center">
                         <div class="color-options d-flex flex-wrap align-items-center">
-                            <div *ngFor="let color of presetColors" class="color-box me-1" [style.background-color]="color"
-                                (click)="selectedColor = color">
+                            <div *ngFor="let color of presetColors" class="color-box me-1"
+                                [style.background-color]="color" (click)="selectedColor = color">
                             </div>
                             <div class="position-relative">
                                 <input class="color-picker" type="color" [(ngModel)]="selectedColor"
@@ -211,8 +220,8 @@
                         </div>
                     </div>
                 </div>
-                
-                
+
+
 
 
                 <button *ngIf="selectedTab !== 'user'" class="btn btn-primary mt-3 w-100"

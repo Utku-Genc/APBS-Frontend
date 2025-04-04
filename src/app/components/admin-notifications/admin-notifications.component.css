@@ -13,6 +13,7 @@
   margin-bottom: 15px;
 }
 
+
 .tabs button {
   background-color: var(--input-background-color);
   color: var(--text-color);
@@ -152,7 +153,6 @@ input, textarea, select{
 .admin-table-responsive {
 
   overflow-y: auto;
-  padding: 20px;
   background-color: var(--card-background-color);
 }
 

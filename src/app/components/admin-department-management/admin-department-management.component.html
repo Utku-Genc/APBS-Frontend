@@ -15,72 +15,80 @@
     <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'bolum' }">
       <h3>Bölüm Yönetimi</h3>
       <button class="btn btn-primary mb-3" (click)="addBolum()">Yeni Bölüm Ekle</button>
-      <p *ngIf="bolumModelObj == null">Herhangi bir bölüm mevcut değil!</p>
-      <table class="admin-table" *ngIf="bolumModelObj != null">
-        <thead>
-          <tr>
-            <th><i class="fa-solid fa-hashtag"></i> ID</th>
-            <th><i class="fas fa-heading"></i> Bölüm Adı</th>
-            <th><i class="fas fa-align-left"></i> Açıklama</th>
-            <th><i class="fas fa-building"></i> Alan</th>
-            <th><i class="fas fa-phone"></i> Telefon</th>
-            <th><i class="fas fa-envelope"></i> E-Posta</th>
-            <th><i class="fas fa-map"></i> Adres</th>
-            <th><i class="fas fa-tools"></i> İşlemler</th>
-            <th></th>
+      <p *ngIf="bolumModelObj.length === 0">Herhangi bir bölüm mevcut değil!</p>
+      <div class="admin-table-responsive">
+        <table class="admin-table" *ngIf="bolumModelObj.length > 0">
+          <thead>
+            <tr>
+              <th><i class="fa-solid fa-hashtag"></i> ID</th>
+              <th><i class="fas fa-heading"></i> Bölüm Adı</th>
+              <th><i class="fas fa-align-left"></i> Açıklama</th>
+              <th><i class="fas fa-building"></i> Alan</th>
+              <th><i class="fas fa-phone"></i> Telefon</th>
+              <th><i class="fas fa-envelope"></i> E-Posta</th>
+              <th><i class="fas fa-map"></i> Adres</th>
+              <th><i class="fas fa-tools"></i> İşlemler</th>
+              <th></th>
 
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let bolum of bolumModelObj">
-            <td><i class="fa-solid fa-hashtag"></i>{{ bolum.id }}</td>
-            <td>{{ bolum.ad }}</td>
-            <td>{{ bolum.aciklama }}</td>
-            <td>{{ bolum.alan.ad }}</td>
-            <td>{{ bolum.telefon }}</td>
-            <td>{{ bolum.email }}</td>
-            <td>{{ bolum.adres }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let bolum of bolumModelObj">
+              <td><i class="fa-solid fa-hashtag"></i>{{ bolum.id }}</td>
+              <td>{{ bolum.ad }}</td>
+              <td>{{ bolum.aciklama }}</td>
+              <td>{{ bolum.alan.ad }}</td>
+              <td>{{ bolum.telefon }}</td>
+              <td>{{ bolum.email }}</td>
+              <td>{{ bolum.adres }}</td>
 
 
-            <td>
-              <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editBolum(bolum)"><i class="fa-solid fa-pen"></i> Düzenle</button>
-            </td>
-            <td>
-              <button class="btn btn-danger me-2 mt-2 mb-2  w-100" (click)="deleteBolum(bolum.id)"><i class="fas fa-trash-alt"></i> Sil</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <td>
+                <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editBolum(bolum)"><i
+                    class="fa-solid fa-pen"></i> Düzenle</button>
+              </td>
+              <td>
+                <button class="btn btn-danger me-2 mt-2 mb-2  w-100" (click)="deleteBolum(bolum.id)"><i
+                    class="fas fa-trash-alt"></i> Sil</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'alan' }">
       <h3>Alan Yönetimi</h3>
       <button class="btn btn-primary mb-3" (click)="addAlan()">Yeni Alan Ekle</button>
-      <p *ngIf="alanModelObj == null">Herhangi bir alan mevcut değil!</p>
-      <table class="admin-table" *ngIf="alanModelObj != null">
-        <thead>
-          <tr>
-            <th><i class="fa-solid fa-hashtag"></i> ID</th>
-            <th><i class="fas fa-heading"></i> Alan Adı</th>
-            <th><i class="fas fa-align-left"></i> Açıklama</th>
-            <th><i class="fas fa-tools"></i> İşlemler</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let alan of alanModelObj">
-            <td><i class="fa-solid fa-hashtag"></i>{{ alan.id }}</td>
-            <td>{{ alan.ad }}</td>
-            <td>{{ alan.aciklama }}</td>
-            <td>
-              <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editAlan(alan)"> <i class="fa-solid fa-pen"></i>Düzenle</button>
-            </td>
-            <td>
-              <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="deleteAlan(alan.id)"><i class="fas fa-trash-alt"></i> Sil</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <p *ngIf="alanModelObj.length === 0">Herhangi bir alan mevcut değil!</p>
+      <div class="admin-table-responsive">
+        <table class="admin-table" *ngIf="alanModelObj.length > 0">
+          <thead>
+            <tr>
+              <th><i class="fa-solid fa-hashtag"></i> ID</th>
+              <th><i class="fas fa-heading"></i> Alan Adı</th>
+              <th><i class="fas fa-align-left"></i> Açıklama</th>
+              <th><i class="fas fa-tools"></i> İşlemler</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let alan of alanModelObj">
+              <td><i class="fa-solid fa-hashtag"></i>{{ alan.id }}</td>
+              <td>{{ alan.ad }}</td>
+              <td>{{ alan.aciklama }}</td>
+              <td>
+                <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editAlan(alan)"> <i
+                    class="fa-solid fa-pen"></i>Düzenle</button>
+              </td>
+              <td>
+                <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="deleteAlan(alan.id)"><i
+                    class="fas fa-trash-alt"></i> Sil</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

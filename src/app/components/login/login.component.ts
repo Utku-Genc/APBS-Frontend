@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit {
       } else {
         // Hem redirectUrl hem de returnUrl yoksa varsayılan sayfaya yönlendir
         setTimeout(() => {
-          this.router.navigate(['/anasayfa']); // varsayılan sayfa
+          this.router.navigate(['/homepage']); // varsayılan sayfa
         }, 500);
       }
     }
