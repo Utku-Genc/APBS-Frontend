@@ -11,7 +11,8 @@
     <div class="card-body">
       <div class="card-header">
         <h2 class="card-title">{{ ilanDetailObj.baslik }}</h2>
-        <p class="card-text deadline"><strong>Başvuru Tarihi: </strong>{{ilanDetailObj.baslangicTarihi | date: 'HH:mm dd/MM/yyyy'}} - {{ ilanDetailObj.bitisTarihi | date: 'HH:mm dd/MM/yyyy'}}</p>
+        <p class="card-text deadline"><strong>Başvuru Tarihi: </strong>{{ilanDetailObj.baslangicTarihi | date: 'HH:mm
+          dd/MM/yyyy'}} - {{ ilanDetailObj.bitisTarihi | date: 'HH:mm dd/MM/yyyy'}}</p>
       </div>
 
       <div class="card-details">
@@ -23,16 +24,26 @@
         <p [innerHTML]="ilanDetailObj.aciklama | newline"></p>
       </div>
 
+
+      <ng-container *ngIf="ilanDetailObj.alanKriterleri && ilanDetailObj.alanKriterleri.length > 0">
+        <p class="card-text"><strong class="card-primary">Başvuru Şartları:</strong></p>
+        <p *ngFor="let item of ilanDetailObj.alanKriterleri" class="card-text">
+          • {{ item.kriter.ad }} isimli kriter için
+          <span *ngIf="item.minAdet && item.minAdet > 0">asgari {{ item.minAdet }} Yayın/Etkinlik yapmış
+        olmalısınız.</span>
+          <span *ngIf="!item.minAdet || item.minAdet === 0">herhangi bir Yayın/Etkinlik şartı bulunmamaktadır.</span>
+        </p>
+      </ng-container>
+
+
       <div class="additional-info">
         <div class="info-row">
           <p class="card-text"><strong class="card-primary">İletişim: </strong> <br>
-            <i class="fa-solid fa-phone"></i> {{ ilanDetailObj.bolum.telefon }} <br> 
+            <i class="fa-solid fa-phone"></i> {{ ilanDetailObj.bolum.telefon }} <br>
             <i class="fa-solid fa-envelope"></i> {{ ilanDetailObj.bolum.email }}
           </p>
           <p class="card-text"><strong class="card-primary">Adres:</strong> {{ ilanDetailObj.bolum.adres }}</p>
         </div>
-        <p class="card-text"><strong class="card-primary">Başvuru Şartları:</strong> {{ ilanDetailObj.status }}</p>
-        <p class="card-text"><strong class="card-primary">Öğretim Türü:</strong> {{ ilanDetailObj.status }}</p>
       </div>
 
       <!-- Başvuru durum mesajları ve buton -->
@@ -41,16 +52,14 @@
         <div *ngIf="isBeforeStartDate()" class="alert alert-info">
           Başvuru başlamasına {{ remainingTimeText }} kaldı
         </div>
-        
+
         <!-- Şuanki tarih bitiş tarihinden büyükse başvuruyu kaçırdınız mesajı -->
         <div *ngIf="isAfterEndDate()" class="alert alert-danger">
           Başvuruyu kaçırdınız
         </div>
-        
+
         <!-- Kullanıcı giriş yapmışsa ve başvuru süresi içindeyse başvur butonu göster -->
-        <button 
-          *ngIf="isLoggedIn && isApplicationPeriodActive()" 
-          class="btn btn-success apply-button">
+        <button *ngIf="isLoggedIn && isApplicationPeriodActive()" class="btn btn-success apply-button">
           Başvur
         </button>
       </div>
