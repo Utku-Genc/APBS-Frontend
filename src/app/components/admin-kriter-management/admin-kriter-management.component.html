@@ -10,7 +10,7 @@
       Alan Kriterleri
     </li>
     <li [class.active]="activeTab === 'kriterPuan'" (click)="switchTab('kriterPuan')">
-      Kriter Puanları
+       Puan Kriterleri
     </li>
   </ul>
 
@@ -52,7 +52,7 @@
 
     <!-- Kriter Alan Tab -->
     <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'kriterAlan' }">
-      <h3>Kriter Alan Yönetimi</h3>
+      <h3>Alan Kriteri Yönetimi</h3>
       <button class="btn btn-primary mb-3" (click)="addKriterAlan()">Yeni Alan Kriteri Ekle</button>
       <p *ngIf="kriterAlanModelObj.length === 0">Herhangi bir alan kriteri mevcut değil!</p>
       <div class="admin-table-responsive">
@@ -89,9 +89,8 @@
     </div>
 
     <!-- Kriter Puan Tab -->
-    <!-- Kriter Puan Tab -->
     <div class="tab-pane" [ngClass]="{ 'active': activeTab === 'kriterPuan' }">
-      <h3>Kriter Puan Yönetimi</h3>
+      <h3>Puan Kriteri Yönetimi</h3>
       <button class="btn btn-primary mb-3" (click)="addKriterPuan()">Yeni Puan Kriteri Ekle</button>
       <p *ngIf="kriterPuanModelObj.length === 0">Herhangi bir puan kriteri mevcut değil!</p>
       <div class="admin-table-responsive">

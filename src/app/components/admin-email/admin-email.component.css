@@ -1,0 +1,380 @@
+/* Root variables - will use the ones defined in your theme */
+:root {
+    --primary-color: #08a250;
+    --primary-hover-color: #078544;
+    --background-color: #f5f5f5;
+    --card-background-color: #ffffff;
+    --text-color: #333333;
+    --secondary-text-color: #888888;
+    --input-background-color: #ffffff;
+    --input-hover-background-color: #f9f9f9;
+  }
+  
+  /* Container */
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  /* Card */
+  .card {
+    background-color: var(--card-background-color);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px;
+    box-sizing: border-box;
+  }
+  
+  /* Heading */
+  h2 {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: bold;
+  }
+  
+  /* Tab Menu */
+  .tab-menu {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .tab-menu button {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    margin-right: 10px;
+    margin-top: 0;
+    width: auto;
+    font-weight: bold;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .tab-menu button.active {
+    color: var(--primary-color);
+    background-color: rgba(8, 162, 80, 0.1);
+    border-bottom: 3px solid var(--primary-color);
+  }
+  
+  .tab-menu button:hover:not(.active) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Tab Content */
+  .tab-content {
+    padding: 10px 0;
+  }
+  
+  /* Form Groups */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 8px;
+  }
+  
+  /* Form Elements */
+  input[type="text"],
+  input[type="email"],
+  select {
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(8, 162, 80, 0.3);
+  }
+  
+  input[type="text"]:hover,
+  input[type="email"]:hover,
+  select:hover {
+    border-color: var(--primary-color);
+    background-color: var(--input-hover-background-color);
+  }
+  
+  input::placeholder {
+    color: var(--secondary-text-color);
+  }
+  
+  /* Search Section */
+  .search-section {
+    margin-bottom: 20px;
+  }
+  
+  .search-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .search-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    min-width: 100px;
+  }
+  
+  .search-button:hover {
+    background-color: var(--primary-hover-color);
+  }
+  
+  /* User List Table */
+  .user-list {
+    margin: 20px 0;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  th {
+    background-color: rgba(8, 162, 80, 0.1);
+    color: var(--text-color);
+    font-weight: bold;
+  }
+  
+  tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  
+/* Button Styles */
+button {
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: var(--primary-hover-color);
+  }
+  
+  /* Disabled button styles */
+  button:disabled {
+    background-color: var(--secondary-text-color);
+    color: var(--input-hover-background-color);
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  .select-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    width: auto;
+    margin: 0;
+  }
+  
+  .select-button:hover {
+    background-color: var(--primary-hover-color);
+  }
+  
+  /* Quill Editor Styles */
+  :host ::ng-deep .ql-container {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: var(--input-background-color);
+    width: 100%;
+    color: var(--text-color);
+
+  }
+  :host ::ng-deep svg {
+    fill: var(--text-color);
+    color: var(--text-color);
+
+  }
+  
+  :host ::ng-deep .ql-toolbar {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: var(--card-background-color);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  
+  :host ::ng-deep .ql-editor {
+    min-height: 200px;
+    font-size: 1rem;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .card {
+      padding: 20px;
+    }
+    
+    .search-container {
+      flex-direction: column;
+    }
+    
+    .search-button {
+      width: 100%;
+    }
+    
+    .tab-menu {
+      flex-direction: column;
+    }
+    
+    .tab-menu button {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 5px;
+      border-radius: 8px;
+    }
+    
+    .tab-menu button.active {
+      border-bottom: none;
+      border-left: 3px solid var(--primary-color);
+    }
+    
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .card {
+      padding: 15px;
+      width: 100%;
+    }
+    
+    h2 {
+      font-size: 1.4rem;
+    }
+    
+    th, td {
+      padding: 8px;
+    }
+  }
+
+  quill-editor {
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  /* Focus ve Hover Efektleri */
+  input:focus,
+  select:focus,
+  quill-editor:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(8, 162, 80, 0.3);
+  }
+  
+  input:hover,
+  select:hover,
+  quill-editor:hover {
+    border-color: var(--primary-color);
+    background-color: var(--input-hover-background-color);
+  }
+  
+  input::placeholder {
+    color: var(--secondary-text-color); /* Gri placeholder */
+  }
+  
+  /* Quill editörü için genel stil güncellemeleri */
+  quill-editor::ng-deep .ql-container {
+    background-color: var(--input-background-color) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--primary-color) !important;
+  }
+  
+  quill-editor::ng-deep .ql-editor {
+    font-size: 1rem !important;
+    color: var(--text-color) !important;
+    min-height: 200px;
+  }
+  
+  /* Quill Toolbar için butonları hedefle */
+  quill-editor::ng-deep .ql-toolbar {
+    background-color: var(--card-background-color) !important;
+    border: 1px solid var(--primary-color) !important;
+  }
+  
+  /* Quill Button ve Icon Renkleri */
+  quill-editor::ng-deep .ql-toolbar button,
+  quill-editor::ng-deep .ql-toolbar .ql-picker-item {
+    color: var(--text-color) !important;
+    border-color: var(--primary-color) !important;
+  }
+  
+  quill-editor::ng-deep .ql-snow .ql-stroke,
+  quill-editor::ng-deep .ql-snow .ql-fill {
+    color: var(--text-color) !important;
+    stroke: var(--text-color) !important;
+  }
+  quill-editor::ng-deep .ql-toolbar.ql-snow .ql-picker-label {
+    color: var(--text-color) !important;
+  }
+  quill-editor::ng-deep .ql-toolbar.ql-snow .ql-picker-options {
+    background-color: var(--card-background-color) !important;
+    color: var(--text-color) !important;
+    border: none !important;
+  }
+  
+  /* Quill Placeholder Rengi */
+  quill-editor::ng-deep .ql-editor::before {
+    color: var(--secondary-text-color) !important;
+  }
+  

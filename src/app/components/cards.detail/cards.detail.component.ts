@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NewlinePipe } from '../../pipes/newline.pipe';
 import { IlanDetailModel } from '../../models/ilan/ilan-detail.model';
 import { IlanService } from '../../services/ilan.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'utk-cards-detail',
@@ -13,18 +14,20 @@ import { IlanService } from '../../services/ilan.service';
 })
 export class CardsDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private ilanService = inject(IlanService);
-  
+  private toastService = inject(ToastService);
+
   ilanDetailObj!: IlanDetailModel;
   currentDate: Date = new Date();
   isLoggedIn = false;
   remainingTimeText = '';
-  
+
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.isLoggedIn = !!localStorage.getItem('token');
     this.getIlanDetail(id);
-    
+
     // Her saniye kalan zamanı güncelle
     setInterval(() => {
       this.currentDate = new Date();
@@ -33,30 +36,43 @@ export class CardsDetailComponent implements OnInit {
       }
     }, 1000);
   }
-  
+
   getIlanDetail(id: number) {
-    this.ilanService.getById(id).subscribe((res) => {
-      this.ilanDetailObj = res.data;
-      if (this.isBeforeStartDate()) {
-        this.calculateRemainingTime();
-      }
+    this.ilanService.getById(id).subscribe({
+      next: (res) => {
+        if (!res.data.status) {
+          this.toastService.info(
+            'Bu ilan şu anda pasif durumda. Yalnızca yetkiniz dahilinde görüntüleyebilirsiniz.'
+          );
+        }
+        this.ilanDetailObj = res.data;
+        if (this.isBeforeStartDate()) {
+          this.calculateRemainingTime();
+        }
+      },
+      error: (err) => {
+        // 403 hata kodu gelirse unauthorized sayfasına yönlendir
+        if (err.status === 403 || err.status === 400) {
+          this.router.navigate(['/unauthorized']);
+        }
+      },
     });
   }
-  
+
   // Başvuru süresi başlamadan önceki durum kontrolü
   isBeforeStartDate(): boolean {
     if (!this.ilanDetailObj) return false;
     const startDate = new Date(this.ilanDetailObj.baslangicTarihi);
     return this.currentDate < startDate;
   }
-  
+
   // Başvuru süresi bitmiş durum kontrolü
   isAfterEndDate(): boolean {
     if (!this.ilanDetailObj) return false;
     const endDate = new Date(this.ilanDetailObj.bitisTarihi);
     return this.currentDate > endDate;
   }
-  
+
   // Başvuru süresi aktif mi kontrolü
   isApplicationPeriodActive(): boolean {
     if (!this.ilanDetailObj) return false;
@@ -64,18 +80,20 @@ export class CardsDetailComponent implements OnInit {
     const endDate = new Date(this.ilanDetailObj.bitisTarihi);
     return this.currentDate >= startDate && this.currentDate <= endDate;
   }
-  
+
   // Kalan süreyi hesaplama fonksiyonu
   calculateRemainingTime(): void {
     const startDate = new Date(this.ilanDetailObj.baslangicTarihi);
     const timeDiff = startDate.getTime() - this.currentDate.getTime();
-    
+
     // Millisaniyeyi gün, saat, dakika ve saniyeye çevirme
     const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const hours = Math.floor(
+      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-    
+
     // Kalan süre metni oluşturma
     let timeText = '';
     if (days > 0) {
@@ -88,10 +106,10 @@ export class CardsDetailComponent implements OnInit {
       timeText += `${minutes} dakika `;
     }
     timeText += `${seconds} saniye`;
-    
+
     this.remainingTimeText = timeText;
   }
-  
+
   goBack() {
     window.history.back();
   }

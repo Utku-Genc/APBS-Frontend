@@ -1,0 +1,70 @@
+<div class="container mt-5">
+    <div class="card">
+      <h2>E-posta Gönderimi</h2>
+      
+      <!-- Tab menü -->
+      <div class="tab-menu">
+        <button [ngClass]="{'active': activeTab === 'user'}" (click)="activeTab = 'user'">Kullanıcıya Gönder</button>
+        <button [ngClass]="{'active': activeTab === 'email'}" (click)="activeTab = 'email'">E-posta İle Gönder</button>
+      </div>
+  
+      <!-- Kullanıcıya gönderme formu (default) -->
+      <div *ngIf="activeTab === 'user'" class="tab-content">
+        <div class="search-section">
+          <div class="form-group">
+            <label for="searchTerm">Kullanıcı Ara:</label>
+            <div class="search-container">
+              <input type="text" id="searchTerm" [(ngModel)]="filtersForUser.searchTerm" name="searchTerm" placeholder="Ad, soyad veya e-posta ile ara...">
+              <button class="search-button" (click)="getUsers()">Ara</button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Kullanıcı seçimi dropdown -->
+        <div class="form-group" *ngIf="users && users.length > 0">
+          <label for="userId">Kullanıcı Seçin:</label>
+          <select id="userId" [(ngModel)]="sendMailToUserObj.userId" name="userId" required>
+            <option value="" disabled selected>Kullanıcı seçin</option>
+            <option *ngFor="let user of users" [value]="user.id">{{ user.firstName }} {{ user.lastName }} ({{ user.email }})</option>
+          </select>
+        </div>
+  
+        <!-- Mesaj için form -->
+        <form (ngSubmit)="sendMailToUser()">
+          <div class="form-group">
+            <label for="userSubject">Başlık:</label>
+            <input type="text" id="userSubject" [(ngModel)]="sendMailToUserObj.subject" name="userSubject" required placeholder="E-posta başlığı">
+          </div>
+  
+          <div class="form-group">
+            <label for="userMailBody">Açıklama:</label>
+            <quill-editor [(ngModel)]="sendMailToUserObj.body" [modules]="editorConfig" name="userMailBody" placeholder="E-posta açıklamasını buraya yazın"></quill-editor>
+          </div>
+  
+          <button type="submit" [disabled]="!isUserEmailFormValid()">Kullanıcıya E-posta Gönder</button>
+        </form>
+      </div>
+  
+      <!-- E-posta ile gönderme formu -->
+      <div *ngIf="activeTab === 'email'" class="tab-content">
+        <form (ngSubmit)="sendMail()">
+          <div class="form-group">
+            <label for="email">Alıcı E-posta:</label>
+            <input type="email" id="email" [(ngModel)]="sendMailObj.email" name="email" required placeholder="örnek@mail.com">
+          </div>
+  
+          <div class="form-group">
+            <label for="subject">Başlık:</label>
+            <input type="text" id="subject" [(ngModel)]="sendMailObj.subject" name="subject" required placeholder="E-posta başlığı">
+          </div>
+  
+          <div class="form-group">
+            <label for="mailBody">Açıklama:</label>
+            <quill-editor [(ngModel)]="sendMailObj.body" [modules]="editorConfig" name="mailBody" placeholder="E-posta açıklamasını buraya yazın"></quill-editor>
+          </div>
+  
+          <button type="submit" [disabled]="!isEmailFormValid()">E-posta Gönder</button>
+        </form>
+      </div>
+    </div>
+  </div>

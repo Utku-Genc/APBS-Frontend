@@ -23,6 +23,7 @@ import { IlanlarAktifComponent } from './components/ilanlar-aktif/ilanlar-aktif.
 import { IlanlarPasifComponent } from './components/ilanlar-pasif/ilanlar-pasif.component';
 import { IlanKriterBasvuruComponent } from './components/ilan-kriter-basvuru/ilan-kriter-basvuru.component';
 import { AdminKriterManagementComponent } from './components/admin-kriter-management/admin-kriter-management.component';
+import { AdminEmailComponent } from './components/admin-email/admin-email.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -60,6 +61,7 @@ export const routes: Routes = [
           { path: 'ilan/ekle', component: CardsFormsComponent},
           { path: 'kriter', component: AdminKriterManagementComponent},
           { path: 'bildirim', component:AdminNotificationsComponent},
+          { path: 'email', component: AdminEmailComponent},
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         ],
         canActivate: [LoginGuard, RoleGuard],

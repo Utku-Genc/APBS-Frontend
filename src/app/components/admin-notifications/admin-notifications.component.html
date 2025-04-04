@@ -183,18 +183,23 @@
                 <textarea [(ngModel)]="description" placeholder="Açıklama girin"></textarea>
 
                 <!-- Kullanıcı Seçimi (Sadece Kullanıcıya Özel Bildirim İçin Görünür) -->
-                <div *ngIf="selectedTab === 'user'">
-                    <label class="mt-2">Kullanıcı Seç:</label>
-                    <!-- Kullanıcı Arama Kutusu -->
-                    <input type="text" [(ngModel)]="searchTerm" (input)="filterUsers()"
-                        placeholder="Kullanıcı ara..." />
+                    <div *ngIf="selectedTab === 'user'">
+                        <label class="mt-2">Kullanıcı Ara:</label>
+                        <!-- Kullanıcı Arama Kutusu ve Butonu -->
+                        <div class="d-flex">
+                            <input type="text" [(ngModel)]="searchTerm" placeholder="Kullanıcı ara..." class="flex-grow-1" />
+                            <button class="btn select-button ms-2" (click)="filterUsers()">
+                                <i class="fa fa-search"></i> Ara
+                            </button>
+                        </div>
+                        <label class="mt-2">Kullanıcı Seç:</label>
 
-                    <select [(ngModel)]="selectedUser">
-                        <option *ngFor="let user of filteredUsers" [value]="user.id">
-                            #{{ user.id }} {{user.firstName}} {{user.lastName}}
-                        </option>
-                    </select>
-                </div>
+                        <select [(ngModel)]="selectedUser" class="form-select mb-2">
+                            <option *ngFor="let user of filteredUsers" [value]="user.id">
+                                #{{ user.id }} {{user.firstName}} {{user.lastName}}
+                            </option>
+                        </select>
+                    </div>
 
                 <div class="d-flex flex-wrap align-items-center justify-content-between">
                     <!-- İkon Seç -->
