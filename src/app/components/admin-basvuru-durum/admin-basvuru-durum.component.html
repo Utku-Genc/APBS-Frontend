@@ -1,0 +1,38 @@
+<h2 class="content-title">Başvuru Durumları Yönetimi</h2>
+
+<div class="admin-table-responsive">
+  <div class="tab-content">
+    <!-- basvuruDurum Tab -->
+         <button class="btn btn-primary mb-3" (click)="addBasvurDurum()">Yeni Başvuru Durumu Ekle</button>
+      <p *ngIf="basvurDurumModelObj.length === 0">Herhangi bir başvuru durumu mevcut değil!</p>
+      <div class="admin-table-responsive">
+        <table class="admin-table" *ngIf="basvurDurumModelObj.length > 0">
+          <thead>
+            <tr>
+              <th><i class="fa-solid fa-hashtag"></i> ID</th>
+              <th><i class="fas fa-heading"></i> basvuruDurum Adı</th>
+              <th><i class="fas fa-align-left"></i> Açıklama</th>
+              <th><i class="fas fa-tools"></i> İşlemler</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let basvuruDurum of basvurDurumModelObj">
+              <td><i class="fa-solid fa-hashtag"></i>{{ basvuruDurum.id }}</td>
+              <td>{{ basvuruDurum.ad }}</td>
+              <td>{{ basvuruDurum.aciklama }}</td>
+              <td>
+                <button class="btn btn-warning me-2 mt-2 mb-2 w-100" (click)="editBasvurDurum(basvuruDurum)"><i
+                    class="fa-solid fa-pen"></i> Düzenle</button>
+              </td>
+              <td>
+                <button class="btn btn-danger me-2 mt-2 mb-2 w-100" (click)="deleteBasvurDurum(basvuruDurum.id)"><i
+                    class="fas fa-trash-alt"></i> Sil</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+   

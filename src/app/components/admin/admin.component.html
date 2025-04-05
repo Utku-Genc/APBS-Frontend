@@ -58,6 +58,12 @@
             </a>
           </li>
           <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/basvuru/durumlari']" data-toggle="tooltip" data-placement="right" title="Başvuru Durumları">
+              <i class="fa-solid fa-file-alt"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">Başvuru Durumları</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
             <a [routerLink]="['/admin/kriter']" data-toggle="tooltip" data-placement="right" title="Kriter">
               <i class="fa-solid fa-list-check"></i>
               <span [class.hidden]="isSidebarCollapsed && !isMobileView">Kriter</span>

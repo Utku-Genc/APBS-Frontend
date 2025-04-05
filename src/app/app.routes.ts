@@ -25,6 +25,7 @@ import { IlanKriterBasvuruComponent } from './components/ilan-kriter-basvuru/ila
 import { AdminKriterManagementComponent } from './components/admin-kriter-management/admin-kriter-management.component';
 import { AdminEmailComponent } from './components/admin-email/admin-email.component';
 import { AdminIlanManagementComponent } from './components/admin-ilan-management/admin-ilan-management.component';
+import { AdminBasvuruDurumComponent } from './components/admin-basvuru-durum/admin-basvuru-durum.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -62,6 +63,7 @@ export const routes: Routes = [
           { path: 'ilan/yonetim', component: AdminIlanManagementComponent},
           { path: 'ilan/ekle', component: CardsFormsComponent},
           { path: 'kriter', component: AdminKriterManagementComponent},
+          { path: 'basvuru/durumlari', component: AdminBasvuruDurumComponent},
           { path: 'bildirim', component:AdminNotificationsComponent},
           { path: 'email', component: AdminEmailComponent},
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
