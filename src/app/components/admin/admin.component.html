@@ -27,6 +27,12 @@
             </a>
           </li>
           <li class="nav-item" routerLinkActive="active">
+            <a [routerLink]="['/admin/ilan/yonetim']" data-toggle="tooltip" data-placement="right" title="İlan Yönetimi">
+              <i class="fas fa-th-list"></i>
+              <span [class.hidden]="isSidebarCollapsed && !isMobileView">İlan Yönetimi</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
             <a [routerLink]="['/admin/ilan/ekle']" data-toggle="tooltip" data-placement="right" title="İlan Ekle">
               <i class="fa-solid fa-plus-circle"></i>
               <span [class.hidden]="isSidebarCollapsed && !isMobileView">İlan Ekle</span>

@@ -36,8 +36,11 @@
             <a class="nav-link dropdown-toggle position-relative" id="notificationDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
               <i class="fas fa-bell"></i>
-              <span *ngIf="unreadCount > 0" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle bildirim-btn">
+              <span *ngIf="unreadCount < 9 && unreadCount != 0" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle bildirim-btn">
                 {{ unreadCount }}
+              </span>
+              <span *ngIf="unreadCount == 9" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle bildirim-btn">
+                {{ unreadCount }}+
               </span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">

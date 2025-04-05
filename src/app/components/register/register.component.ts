@@ -11,7 +11,7 @@ declare var turnstile: any; // Cloudflare Turnstile için global değişken
 
 @Component({
   selector: 'utk-register',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
