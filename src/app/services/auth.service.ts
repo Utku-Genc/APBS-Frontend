@@ -29,11 +29,8 @@ export class AuthService {
     localStorage.removeItem('expiration');
   }
 
-  getUserByToken(): Observable<SingleResponseModel<UserModel>> {
-    return this.apiService.get<SingleResponseModel<UserModel>>(`${this.endpoint}getUserByToken`);
-  }
-  
 
+  
   getToken(): string | null {
     return localStorage.getItem('token');
   }

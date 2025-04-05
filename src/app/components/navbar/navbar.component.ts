@@ -7,6 +7,7 @@ import { filter, Subscription } from 'rxjs';
 import { UserModel } from '../../models/auth/user.model';
 import { NotificationListModel } from '../../models/bildirim/notification-list.model';
 import { BildirimService } from '../../services/bildirim.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   private toastrService = inject(ToastrService);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private router = inject(Router);
   private bildirimService = inject(BildirimService);
 
@@ -36,7 +38,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private routerSubscription?: Subscription;
 
   ngOnInit() {
-    // Check authentication status once on init
+    // İlk olarak tema ayarlarını uygula
+    this.applyThemeSettings();
+    
+    // Sonra kullanıcı kimlik doğrulama kontrolü
     this.isLoggedIn = this.authService.isAuthenticated();
   
     // Listen to router events to check authentication status
@@ -69,12 +74,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
       });
   
-    // Diğer kodlar aynı kalacak
     if (this.isLoggedIn) {
       this.getUser();
       this.setupNotifications();
     }
-  
+  }
+
+  // Tema ayarlarını uygulamak için ayrı bir metod
+  applyThemeSettings() {
     // localStorage'dan tema bilgisini al
     const storedTheme = localStorage.getItem('theme');
     
@@ -97,7 +104,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
   
-
   setupNotifications() {
     this.fetchNotifications();
     if (!this.notificationSubscription) {
@@ -110,7 +116,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   getUser() {
-    this.authService.getUserByToken().subscribe(response => {
+    this.userService.getUserByToken().subscribe(response => {
       this.userObj = response.data;
     });
     this.userRole = this.authService.getUserRole();
@@ -145,7 +151,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   fetchNotifications() {
-    this.bildirimService.getMyPaginatedNotifications(1,9,"tarih", true).subscribe(response => {
+    this.bildirimService.getMyPaginatedNotifications(1,10,"tarih", true).subscribe(response => {
       this.notifications = response.data.filter(n => !n.status);
       this.unreadCount = this.notifications.length;
     });

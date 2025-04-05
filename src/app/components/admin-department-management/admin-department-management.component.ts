@@ -11,34 +11,30 @@ import { BolumAddModel } from '../../models/bolum/bolum-add.model';
 import { BolumModel } from '../../models/bolum/bolum.model';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'utk-admin-department-management',
   imports: [CommonModule],
   templateUrl: './admin-department-management.component.html',
-  styleUrl: './admin-department-management.component.css'
+  styleUrl: './admin-department-management.component.css',
 })
 export class AdminDepartmentManagementComponent implements OnInit {
-
   private alanService = inject(AlanService);
   private bolumService = inject(BolumService);
   private toastService = inject(ToastService);
   private toastrService = inject(ToastrService);
   private http = inject(HttpClient);
-  
-  alanModelObj !: AlanModel[];
-  alanAddObj !: AlanAddModel;
-  alanToUpdate !: AlanModel;
-  bolumModelObj !: BolumModel[];
-  bolumAddObj !: BolumAddModel;
-  activeTab: string = 'bolum';
 
+  alanModelObj!: AlanModel[];
+  alanAddObj!: AlanAddModel;
+  alanToUpdate!: AlanModel;
+  bolumModelObj!: BolumModel[];
+  bolumAddObj!: BolumAddModel;
+  activeTab: string = 'bolum';
 
   ngOnInit() {
     this.getAllBolumler();
     this.getAllAlanlar();
   }
-
 
   switchTab(tab: string) {
     this.activeTab = tab;
@@ -49,14 +45,15 @@ export class AdminDepartmentManagementComponent implements OnInit {
       next: (response) => {
         if (response.isSuccess) {
           this.alanModelObj = response.data;
-
         } else {
           this.toastService.error(response.message);
         }
       },
       error: (error) => {
-        this.toastService.error('Alanlar getirilirken bir hata oluştu: ' + error.message);
-      }
+        this.toastService.error(
+          'Alanlar getirilirken bir hata oluştu: ' + error.message
+        );
+      },
     });
   }
   addAlan() {
@@ -72,21 +69,28 @@ export class AdminDepartmentManagementComponent implements OnInit {
       customClass: {
         popup: 'custom-swal-popup-xl',
         confirmButton: 'custom-swal-confirm',
-        cancelButton: 'custom-swal-cancel'
+        cancelButton: 'custom-swal-cancel',
       },
       preConfirm: () => {
-        const alanAd = (document.getElementById('alanAd') as HTMLInputElement).value.trim();
-        const alanAciklama = (document.getElementById('alanAciklama') as HTMLInputElement).value.trim();
+        const alanAd = (
+          document.getElementById('alanAd') as HTMLInputElement
+        ).value.trim();
+        const alanAciklama = (
+          document.getElementById('alanAciklama') as HTMLInputElement
+        ).value.trim();
         if (!alanAd || !alanAciklama) {
           Swal.showValidationMessage('Tüm alanları doldurmalısınız!');
-          return false; 
+          return false;
         }
         return { ad: alanAd, aciklama: alanAciklama };
-      }
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         if (result.value) {
-          this.alanAddObj = { ad: result.value.ad, aciklama: result.value.aciklama };
+          this.alanAddObj = {
+            ad: result.value.ad,
+            aciklama: result.value.aciklama,
+          };
           this.alanService.add(this.alanAddObj).subscribe({
             next: (response) => {
               if (response.isSuccess) {
@@ -97,17 +101,18 @@ export class AdminDepartmentManagementComponent implements OnInit {
               }
             },
             error: (error) => {
-              this.toastService.error('Alan eklenirken bir hata oluştu: ' + error.message);
-            }
+              this.toastService.error(
+                'Alan eklenirken bir hata oluştu: ' + error.message
+              );
+            },
           });
         }
       }
     });
   }
-  
 
   editAlan(alan: AlanModel) {
-    this.alanToUpdate = { ...alan }; 
+    this.alanToUpdate = { ...alan };
     Swal.fire({
       title: `${alan.id} ID'li alanı güncelliyorsunuz`,
       html: `
@@ -124,32 +129,42 @@ export class AdminDepartmentManagementComponent implements OnInit {
       customClass: {
         popup: 'custom-swal-popup-xl',
         confirmButton: 'custom-swal-confirm',
-        cancelButton: 'custom-swal-cancel'
+        cancelButton: 'custom-swal-cancel',
       },
       preConfirm: () => {
-        const alanAd = (document.getElementById('alanAd') as HTMLInputElement).value.trim();
-        const alanAciklama = (document.getElementById('alanAciklama') as HTMLInputElement).value.trim();
+        const alanAd = (
+          document.getElementById('alanAd') as HTMLInputElement
+        ).value.trim();
+        const alanAciklama = (
+          document.getElementById('alanAciklama') as HTMLInputElement
+        ).value.trim();
         if (!alanAd || !alanAciklama) {
           Swal.showValidationMessage('Tüm alanları doldurmalısınız!');
           return false;
         }
         return { ad: alanAd, aciklama: alanAciklama };
-      }
+      },
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const updatedAlan: AlanModel = { ...this.alanToUpdate, ad: result.value.ad, aciklama: result.value.aciklama };
+        const updatedAlan: AlanModel = {
+          ...this.alanToUpdate,
+          ad: result.value.ad,
+          aciklama: result.value.aciklama,
+        };
         this.alanService.update(updatedAlan).subscribe({
           next: (response) => {
             if (response.isSuccess) {
               this.toastService.success(response.message);
-              this.getAllAlanlar(); 
+              this.getAllAlanlar();
             } else {
               this.toastService.error(response.message);
             }
           },
           error: (error) => {
-            this.toastService.error('Alan güncellenirken bir hata oluştu: ' + error.message);
-          }
+            this.toastService.error(
+              'Alan güncellenirken bir hata oluştu: ' + error.message
+            );
+          },
         });
       }
     });
@@ -169,20 +184,20 @@ export class AdminDepartmentManagementComponent implements OnInit {
           next: (response) => {
             if (response.isSuccess) {
               this.toastService.success(response.message);
-              this.getAllAlanlar(); 
+              this.getAllAlanlar();
             } else {
               this.toastService.error(response.message);
             }
           },
           error: (error) => {
-            this.toastService.error('Alan silinirken bir hata oluştu: ' + error.message);
-          }
+            this.toastService.error(
+              'Alan silinirken bir hata oluştu: ' + error.message
+            );
+          },
         });
       }
     });
   }
-
-
 
   /*-------------------------------------------------------------------------------------------------*/
 
@@ -196,12 +211,13 @@ export class AdminDepartmentManagementComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.toastService.error('Bölümler getirilirken bir hata oluştu: ' + error.message);
-      }
+        this.toastService.error(
+          'Bölümler getirilirken bir hata oluştu: ' + error.message
+        );
+      },
     });
   }
   addBolum() {
-  
     Swal.fire({
       title: 'Yeni Bölüm Ekle',
       html: `
@@ -209,9 +225,11 @@ export class AdminDepartmentManagementComponent implements OnInit {
         <input id="bolumAciklama" class="swal2-input" placeholder="Açıklama">
         <select id="alanId" class="swal2-input">
           <option value="" disabled selected>Bir Alan Seçin</option>
-          ${this.alanModelObj.map(alan => `<option value="${alan.id}">${alan.ad}</option>`).join('')}
+          ${this.alanModelObj
+            .map((alan) => `<option value="${alan.id}">${alan.ad}</option>`)
+            .join('')}
         </select>
-        <input id="bolumTelefon" class="swal2-input" placeholder="Telefon">
+        <input id="bolumTelefon" class="swal2-input" placeholder="Telefon" type="tel" pattern="[0-9]{10,11}" title="Lütfen geçerli bir telefon numarası girin (10-11 rakam)">
         <input id="bolumEmail" class="swal2-input" placeholder="Email">
         <input id="bolumAdres" class="swal2-input" placeholder="Adres">
       `,
@@ -221,23 +239,49 @@ export class AdminDepartmentManagementComponent implements OnInit {
       customClass: {
         popup: 'custom-swal-popup-xl',
         confirmButton: 'custom-swal-confirm',
-        cancelButton: 'custom-swal-cancel'
+        cancelButton: 'custom-swal-cancel',
       },
       preConfirm: () => {
-        const bolumAd = (document.getElementById('bolumAd') as HTMLInputElement).value.trim();
-        const bolumAciklama = (document.getElementById('bolumAciklama') as HTMLInputElement).value.trim();
-        const alanId = (document.getElementById('alanId') as HTMLSelectElement).value;
-        const bolumTelefon = (document.getElementById('bolumTelefon') as HTMLInputElement).value.trim();
-        const bolumEmail = (document.getElementById('bolumEmail') as HTMLInputElement).value.trim();
-        const bolumAdres = (document.getElementById('bolumAdres') as HTMLInputElement).value.trim();
-  
+        const bolumAd = (
+          document.getElementById('bolumAd') as HTMLInputElement
+        ).value.trim();
+        const bolumAciklama = (
+          document.getElementById('bolumAciklama') as HTMLInputElement
+        ).value.trim();
+        const alanId = (document.getElementById('alanId') as HTMLSelectElement)
+          .value;
+        const bolumTelefon = (
+          document.getElementById('bolumTelefon') as HTMLInputElement
+        ).value.trim();
+        const bolumEmail = (
+          document.getElementById('bolumEmail') as HTMLInputElement
+        ).value.trim();
+        const bolumAdres = (
+          document.getElementById('bolumAdres') as HTMLInputElement
+        ).value.trim();
+
         if (!bolumAd || !bolumAciklama || !alanId) {
           Swal.showValidationMessage('Tüm alanları doldurmalısınız!');
           return false;
         }
-  
-        return { ad: bolumAd, aciklama: bolumAciklama, alanId: alanId, bolumTelefon: bolumTelefon, bolumEmail: bolumEmail, bolumAdres: bolumAdres };
-      }
+
+        const phoneRegex = /^[0-9]{10,11}$/;
+        if (bolumTelefon && !phoneRegex.test(bolumTelefon)) {
+          Swal.showValidationMessage(
+            'Lütfen geçerli bir telefon numarası girin (10-11 rakam)'
+          );
+          return false;
+        }
+
+        return {
+          ad: bolumAd,
+          aciklama: bolumAciklama,
+          alanId: alanId,
+          bolumTelefon: bolumTelefon,
+          bolumEmail: bolumEmail,
+          bolumAdres: bolumAdres,
+        };
+      },
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         const bolumAddObj = {
@@ -246,27 +290,29 @@ export class AdminDepartmentManagementComponent implements OnInit {
           alanId: Number(result.value.alanId),
           telefon: result.value.bolumTelefon,
           email: result.value.bolumEmail,
-          adres: result.value.bolumAdres
+          adres: result.value.bolumAdres,
         };
         this.bolumService.add(bolumAddObj).subscribe({
           next: (response) => {
             if (response.isSuccess) {
               this.toastService.success(response.message);
-              this.getAllBolumler(); 
+              this.getAllBolumler();
             } else {
               this.toastService.error(response.message);
             }
           },
           error: (error) => {
-            this.toastService.error('Bölüm eklenirken bir hata oluştu: ' + error.message);
-          }
+            this.toastService.error(
+              'Bölüm eklenirken bir hata oluştu: ' + error.message
+            );
+          },
         });
       }
     });
   }
-  
+
   editBolum(bolum: BolumModel) {
-   this.getAllAlanlar();
+    this.getAllAlanlar();
     Swal.fire({
       title: `${bolum.id} ID'li bölümü güncelliyorsunuz`,
       html: `
@@ -278,15 +324,25 @@ export class AdminDepartmentManagementComponent implements OnInit {
         <p>Mevcut Adres: ${bolum.adres}</p>
         <hr>
         <p>Yeni Bölüm Adı ve Açıklama:</p>
-        <input id="bolumAd" class="swal2-input" value="${bolum.ad}" placeholder="Bölüm Adı">
-        <input id="bolumAciklama" class="swal2-input" value="${bolum.aciklama}" placeholder="Açıklama">
+        <input id="bolumAd" class="swal2-input" value="${
+          bolum.ad
+        }" placeholder="Bölüm Adı">
+        <input id="bolumAciklama" class="swal2-input" value="${
+          bolum.aciklama
+        }" placeholder="Açıklama">
         <select id="alanId" class="swal2-input">
           <option value="${bolum.alanId}" selected>${bolum.alan.ad}</option>
-          ${this.alanModelObj.map(alan => `<option value="${alan.id}">${alan.ad}</option>`).join('')}
+          ${this.alanModelObj
+            .map((alan) => `<option value="${alan.id}">${alan.ad}</option>`)
+            .join('')}
         </select>
-        <input id="bolumTelefon" class="swal2-input" value="${bolum.telefon}" placeholder="Telefon">
-        <input id="bolumEmail" class="swal2-input" value="${bolum.email}" placeholder="Email">
-        <input id="bolumAdres" class="swal2-input" value="${bolum.adres}" placeholder="Adres">
+      <input id="bolumTelefon" class="swal2-input" placeholder="Telefon" type="tel" pattern="[0-9]{10,11}" title="Lütfen geçerli bir telefon numarası girin (10-11 rakam)">
+        <input id="bolumEmail" class="swal2-input" value="${
+          bolum.email
+        }" placeholder="Email">
+        <input id="bolumAdres" class="swal2-input" value="${
+          bolum.adres
+        }" placeholder="Adres">
       `,
       showCancelButton: true,
       confirmButtonText: 'Güncelle',
@@ -294,54 +350,85 @@ export class AdminDepartmentManagementComponent implements OnInit {
       customClass: {
         popup: 'custom-swal-popup-xl',
         confirmButton: 'custom-swal-confirm',
-        cancelButton: 'custom-swal-cancel'
+        cancelButton: 'custom-swal-cancel',
       },
       preConfirm: () => {
-        const bolumAd = (document.getElementById('bolumAd') as HTMLInputElement).value.trim();
-        const bolumAciklama = (document.getElementById('bolumAciklama') as HTMLInputElement).value.trim();
-        const alanId = (document.getElementById('alanId') as HTMLSelectElement).value;
-        const bolumTelefon = (document.getElementById('bolumTelefon') as HTMLInputElement).value.trim();
-        const bolumEmail = (document.getElementById('bolumEmail') as HTMLInputElement).value.trim();
-        const bolumAdres = (document.getElementById('bolumAdres') as HTMLInputElement).value.trim();
-  
+        const bolumAd = (
+          document.getElementById('bolumAd') as HTMLInputElement
+        ).value.trim();
+        const bolumAciklama = (
+          document.getElementById('bolumAciklama') as HTMLInputElement
+        ).value.trim();
+        const alanId = (document.getElementById('alanId') as HTMLSelectElement)
+          .value;
+        const bolumTelefon = (
+          document.getElementById('bolumTelefon') as HTMLInputElement
+        ).value.trim();
+        const bolumEmail = (
+          document.getElementById('bolumEmail') as HTMLInputElement
+        ).value.trim();
+        const bolumAdres = (
+          document.getElementById('bolumAdres') as HTMLInputElement
+        ).value.trim();
+
         if (!bolumAd || !bolumAciklama || !alanId) {
           Swal.showValidationMessage('Tüm alanları doldurmalısınız!');
           return false;
         }
-  
-        return { ad: bolumAd, aciklama: bolumAciklama, alanId: alanId, telefon: bolumTelefon, email: bolumEmail, adres: bolumAdres };
-      }
+
+        const phoneRegex = /^[0-9]{10,11}$/;
+        if (bolumTelefon && !phoneRegex.test(bolumTelefon)) {
+          Swal.showValidationMessage(
+            'Lütfen geçerli bir telefon numarası girin (10-11 rakam)'
+          );
+          return false;
+        }
+
+        return {
+          ad: bolumAd,
+          aciklama: bolumAciklama,
+          alanId: alanId,
+          telefon: bolumTelefon,
+          email: bolumEmail,
+          adres: bolumAdres,
+        };
+      },
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const updatedBolum: BolumModel = { 
-          ...bolum, 
-          ad: result.value.ad, 
-          aciklama: result.value.aciklama, 
-          alanId: Number(result.value.alanId), 
-          telefon: result.value.telefon, 
-          email: result.value.email, 
-          adres: result.value.adres 
+        const updatedBolum: BolumModel = {
+          ...bolum,
+          ad: result.value.ad,
+          aciklama: result.value.aciklama,
+          alanId: Number(result.value.alanId),
+          telefon: result.value.telefon,
+          email: result.value.email,
+          adres: result.value.adres,
         };
-  
+
         this.bolumService.update(updatedBolum).subscribe({
           next: (response) => {
             if (response.isSuccess) {
               this.toastService.success(response.message);
-              this.getAllBolumler(); 
+              this.getAllBolumler();
             } else {
               this.toastService.error(response.message);
             }
           },
           error: (err) => {
             if (err.error?.ValidationErrors) {
-              const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+              const errorMessages = err.error.ValidationErrors.map(
+                (error: { ErrorMessage: string }) => error.ErrorMessage
+              );
               errorMessages.forEach((message: string | undefined) => {
                 this.toastrService.error(message);
               });
             } else {
-              this.toastrService.error("Bir hata oluştu, lütfen tekrar deneyin.", "Hata");
+              this.toastrService.error(
+                'Bir hata oluştu, lütfen tekrar deneyin.',
+                'Hata'
+              );
             }
-          }
+          },
         });
       }
     });
@@ -361,20 +448,20 @@ export class AdminDepartmentManagementComponent implements OnInit {
           next: (response) => {
             if (response.isSuccess) {
               this.toastService.success(response.message);
-              this.getAllBolumler(); 
+              this.getAllBolumler();
             } else {
-              this.toastService.error('Bölüm silinirken bir hata oluştu: ' + response.message);
+              this.toastService.error(
+                'Bölüm silinirken bir hata oluştu: ' + response.message
+              );
             }
           },
           error: (error) => {
-            this.toastService.error('Bölüm silinirken bir hata oluştu: ' + error.message);
-          }
+            this.toastService.error(
+              'Bölüm silinirken bir hata oluştu: ' + error.message
+            );
+          },
         });
       }
     });
   }
-  
-  
 }
-
-

@@ -40,8 +40,11 @@ export class ProfileComponent implements OnInit {
       }
     }
     getUser() {
-      this.authService.getUserByToken().subscribe(response => {
+      this.userService.getUserByToken().subscribe(response => {
         this.userObj = response.data;
+        if (this.userObj.imageUrl !== null) {
+          this.profileImage = true;
+        }
         this.userObj.showFullTc = false;
         this.selfProfile = true;
       })
@@ -54,6 +57,9 @@ export class ProfileComponent implements OnInit {
           this.router.navigate(['/unauthorized']);
         } else {
           this.userObj = response.data;
+          if (this.userObj.imageUrl !== null) {
+            this.profileImage = true;
+          }
           this.userObj.showFullTc = false;
         }
       })

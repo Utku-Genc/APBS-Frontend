@@ -380,7 +380,6 @@ export class AdminIlanManagementComponent implements OnInit {
     
     this.filters = { ...newFilters };
     this.updateURL();
-    // this.getAllIlans(); // Bu satırı kaldır, URL değiştiğinde route subscription zaten getAllIlans() çağıracak
   }
 
   onPageChange(newPage: number) {
@@ -388,15 +387,13 @@ export class AdminIlanManagementComponent implements OnInit {
     
     this.pageNumber = newPage;
     this.updateURL();
-    // Remove this: this.getAllIlans();
   }
   
   onSortChange() {
     if (this.handlingUrlParams) return;
     
-    this.pageNumber = 1;  // Sayfa numarasını sıfırla
+    this.pageNumber = 1; 
     this.updateURL();
-    // Remove this: this.getAllIlans();
   }
   
   toggleIsDescending() {
@@ -404,7 +401,6 @@ export class AdminIlanManagementComponent implements OnInit {
     
     this.isDescending = !this.isDescending;
     this.updateURL();
-    // Remove this: this.getAllIlans();
   }
 
   private updateURL() {
@@ -435,7 +431,6 @@ export class AdminIlanManagementComponent implements OnInit {
       queryParams.ilanTipi = this.filters.ilanTipi;
     }
   
-    // Navigasyon sırasında mevcut parametreleri değil, tamamen yeni parametreleri kullan
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: queryParams

@@ -37,7 +37,7 @@
             <div>
                 <label>Pozisyon:</label>
                 <select [(ngModel)]="filters.pozisyonId" (change)="onFilterChange(filters)" class="form-control">
-                    <option [value]="null">Seçiniz</option>
+                    <option [ngValue]="undefined">Seçiniz</option>
                     <option *ngFor="let pos of positions" [value]="pos.id">{{ pos.ad }}</option>
                 </select>
             </div>
@@ -45,7 +45,7 @@
             <div>
                 <label>Bölüm:</label>
                 <select [(ngModel)]="filters.bolumId" (change)="onFilterChange(filters)" class="form-control">
-                    <option [value]="null">Seçiniz</option>
+                    <option [ngValue]="undefined">Seçiniz</option>
                     <option *ngFor="let bol of bolums" [value]="bol.id">{{ bol.ad }}</option>
                 </select>
             </div>

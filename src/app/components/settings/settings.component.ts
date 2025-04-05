@@ -26,16 +26,20 @@ export class SettingsComponent implements OnInit {
   newPassword: string = '';
   confirmPassword: string = '';
   profileImage: string | ArrayBuffer | null = null;
-  selectedProfileImage: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
   profileImageChanged: boolean = false;
   isPasswordUpdateCollapseOpen: boolean = false;
 
   ngOnInit(): void {
     this.getUser();
   }
+  
   getUser() {
-    this.authService.getUserByToken().subscribe((response) => {
+    this.userService.getUserByToken().subscribe((response) => {
       this.userObj = response.data;
+      if (this.userObj.imageUrl !== null) {
+        this.profileImage = this.userObj.imageUrl;
+      }
     });
   }
 
@@ -58,6 +62,8 @@ export class SettingsComponent implements OnInit {
         return;
       }
 
+      this.selectedFile = file;
+      
       const reader = new FileReader();
       reader.onload = () => {
         this.profileImage = reader.result as string;
@@ -68,12 +74,36 @@ export class SettingsComponent implements OnInit {
   }
 
   updateProfileImage() {
-    if (this.profileImage) {
-      this.toastService.success('Profil resmi başarıyla güncellendi!');
+    if (this.selectedFile && this.profileImageChanged) {
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      
+      this.userService.changeProfileImage(formData).subscribe({
+        next: (response) => {
+          if (response.isSuccess) {
+            this.toastService.success('Profil resmi başarıyla güncellendi!');
+            this.getUser(); // Güncel kullanıcı bilgilerini yeniden yükle
+            this.profileImageChanged = false;
+          } else {
+            this.toastService.error(response.message || 'Profil resmi güncellenemedi.');
+          }
+        },
+        error: (err) => {
+          if (err.error?.ValidationErrors) {
+            const errorMessages = err.error.ValidationErrors.map((error: { ErrorMessage: string }) => error.ErrorMessage);
+            errorMessages.forEach((message: string | undefined) => {
+              this.toastrService.error(message);
+            });
+          } else {
+            this.toastrService.error(err.error?.message || 'Profil resmi güncellenirken bir hata oluştu.');
+          }
+        }
+      });
     } else {
       this.toastService.info('Hiçbir değişiklik yapılmadı.');
     }
   }
+
   // Şifre ve e-posta güncelleme işlemleri
   updateProfile() {
     Swal.fire({
@@ -133,6 +163,7 @@ export class SettingsComponent implements OnInit {
   togglePasswordUpdateCollapse(){
     this.isPasswordUpdateCollapseOpen =!this.isPasswordUpdateCollapseOpen;
   }
+  
   updatePassword() {
     this.userService.changePassword({
       currentPassword: this.currentPassword,
@@ -162,4 +193,3 @@ export class SettingsComponent implements OnInit {
     });
   }
 }
-
