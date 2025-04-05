@@ -15,6 +15,9 @@ export class UserService {
 
   constructor(private apiService: ApiService) {}
 
+  getUserByToken(): Observable<SingleResponseModel<UserModel>> {
+    return this.apiService.get<SingleResponseModel<UserModel>>(`${this.endpoint}getUserByToken`);
+  }
   getUserById(id: number): Observable<SingleResponseModel<UserModel>> {
     return this.apiService.get<SingleResponseModel<UserModel>>(`${this.endpoint}getById?id=${id}`);
   }
@@ -68,5 +71,9 @@ export class UserService {
 
   changePassword(data: UserUpdatePasswordModel): Observable<any> {
     return this.apiService.put<any>(`${this.endpoint}ChangePassword`, data);
+  }
+
+  changeProfileImage(data: FormData): Observable<any> {
+    return this.apiService.put<any>(`${this.endpoint}ChangeProfilePhoto`, data);
   }
 }

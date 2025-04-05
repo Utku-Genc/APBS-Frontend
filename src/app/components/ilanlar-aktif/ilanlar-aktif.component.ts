@@ -19,20 +19,17 @@ export class IlanlarAktifComponent implements OnInit {
   private bolumService = inject(BolumService);
   private positionService = inject(PositionService);
   private ilanService = inject(IlanService);
-
   positions: PositionModel[] = [];
   bolums: BolumModel[] = [];
   ilanSayisi: number = 0;
-
   status = "active";
   filters: any = {
     baslik: '',
-    pozisyonId: null,
-    bolumId: null
+    pozisyonId: undefined,
+    bolumId: undefined
   };
   pageSize = 12;
   pageNumber = 1;
-
   sortBy: string = 'id';
   isDescending: boolean = false;
   filtersOpen = false;
@@ -42,14 +39,12 @@ export class IlanlarAktifComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.filters.baslik = params['baslik'] || '';
-      this.filters.pozisyonId = params['pozisyonId'] || null;
-      this.filters.bolumId = params['bolumId'] || null;
+      this.filters.pozisyonId = params['pozisyonId'] ? Number(params['pozisyonId']) : undefined;
+      this.filters.bolumId = params['bolumId'] ? Number(params['bolumId']) : undefined;
       this.pageNumber = Number(params['page']) || 1;
-
       this.sortBy = params['sortBy'] || 'id';
       this.isDescending = params['isDescending'] === 'true';
     });
-
     this.loadPositions();
     this.loadBolums();
   }
@@ -66,10 +61,21 @@ export class IlanlarAktifComponent implements OnInit {
     });
   }
 
-
-
   onFilterChange(newFilters: any) {
-    this.filters = { ...newFilters };
+    // Create a clean filters object without null/undefined values
+    const cleanFilters: any = {
+      baslik: newFilters.baslik || ''
+    };
+    
+    if (newFilters.pozisyonId && newFilters.pozisyonId !== 'null') {
+      cleanFilters.pozisyonId = Number(newFilters.pozisyonId);
+    }
+    
+    if (newFilters.bolumId && newFilters.bolumId !== 'null') {
+      cleanFilters.bolumId = Number(newFilters.bolumId);
+    }
+    
+    this.filters = cleanFilters;
     this.pageNumber = 1;
     this.updateURL();
   }
@@ -85,38 +91,36 @@ export class IlanlarAktifComponent implements OnInit {
       sortBy: this.sortBy,
       isDescending: this.isDescending.toString()
     };
-
-    if (this.filters.baslik) {
+ 
+    // Sadece değeri olan filtreleri URL'ye ekle
+    if (this.filters.baslik && this.filters.baslik.trim() !== '') {
       queryParams.baslik = this.filters.baslik;
     }
-
-    if (this.filters.pozisyonId != null) {
+ 
+    if (this.filters.pozisyonId !== undefined) {
       queryParams.pozisyonId = this.filters.pozisyonId;
     }
-
-    if (this.filters.bolumId != null) {
+ 
+    if (this.filters.bolumId !== undefined) {
       queryParams.bolumId = this.filters.bolumId;
     }
-
+   
     this.router.navigate([], {
-      queryParams: queryParams,
-      queryParamsHandling: 'merge'
+      relativeTo: this.route,
+      queryParams: queryParams
     });
   }
 
   resetFilters() {
     this.filters = {
       baslik: '',
-      pozisyonId: null,
-      bolumId: null
+      pozisyonId: undefined,
+      bolumId: undefined
     };
     this.pageNumber = 1;
     this.sortBy = 'id';
     this.isDescending = false;
-
-    this.router.navigate([], {
-      queryParams: { page: 1, sortBy: 'id', isDescending: 'false' }
-    });
+    this.updateURL();
   }
 
   onSortChange() {

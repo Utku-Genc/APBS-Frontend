@@ -4,7 +4,7 @@
     <div class="col-md-3 d-flex justify-content-center align-items-center">
       <i *ngIf="!profileImage" class="fa-regular fa-circle-user profile-img-default"></i>
       <!-- Profil resmi var ise, göster -->
-      <img *ngIf="profileImage" src="../../../assets/site-img/logo.png" alt="Profile Image" class="profile-img">
+      <img *ngIf="profileImage" src="{{userObj.imageUrl}}" alt="Profile Image" class="profile-img">
     </div>
 
     <!-- Kişisel Bilgiler ve Ayarlar -->

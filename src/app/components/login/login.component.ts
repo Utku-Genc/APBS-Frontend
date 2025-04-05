@@ -96,7 +96,9 @@ export class LoginComponent implements OnInit {
       
       // Küçük bir gecikme ekleyerek token'ın tamamen kaydedilmesini sağla
       setTimeout(() => {
-        this.router.navigateByUrl(redirectUrl);
+        this.router.navigateByUrl(redirectUrl).then(() => {
+          window.location.reload(); // Sayfayı yenile
+        });
       }, 500);
     } else {
       // URL parametresi ile gelen returnUrl'i kontrol et
@@ -105,12 +107,16 @@ export class LoginComponent implements OnInit {
       if (returnUrl) {
         // Küçük bir gecikme ekleyerek token'ın tamamen kaydedilmesini sağla
         setTimeout(() => {
-          this.router.navigateByUrl(returnUrl);
+          this.router.navigateByUrl(returnUrl).then(() => {
+            window.location.reload(); // Sayfayı yenile
+          });
         }, 500);
       } else {
         // Hem redirectUrl hem de returnUrl yoksa varsayılan sayfaya yönlendir
         setTimeout(() => {
-          this.router.navigate(['/homepage']); // varsayılan sayfa
+          this.router.navigate(['/homepage']).then(() => {
+            window.location.reload(); // Sayfayı yenile
+          });
         }, 500);
       }
     }
