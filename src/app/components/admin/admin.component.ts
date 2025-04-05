@@ -181,12 +181,14 @@ export class AdminComponent implements OnInit, OnDestroy, AfterViewInit {
   private updatePageTitle() {
     const titles: Record<string, string> = {
       'dashboard': 'Dashboard',
+      'ilan/yonetim': 'İlan Yönetimi',
       'ilan/ekle': 'İlan Ekle',
       'users': 'Kullanıcılar',
       'role': 'Rol ve Pozisyon',
       'alan': 'Alan ve Bölüm',
       'kriter': 'Kriter Yönetimi',
       'bildirim': 'Bildirimler',
+      'email': 'E-posta Yönetimi',
       'settings': 'Sistem Ayarları'
     };
     

@@ -24,6 +24,7 @@ import { IlanlarPasifComponent } from './components/ilanlar-pasif/ilanlar-pasif.
 import { IlanKriterBasvuruComponent } from './components/ilan-kriter-basvuru/ilan-kriter-basvuru.component';
 import { AdminKriterManagementComponent } from './components/admin-kriter-management/admin-kriter-management.component';
 import { AdminEmailComponent } from './components/admin-email/admin-email.component';
+import { AdminIlanManagementComponent } from './components/admin-ilan-management/admin-ilan-management.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -58,6 +59,7 @@ export const routes: Routes = [
           { path: 'alan', component: AdminDepartmentManagementComponent },
           { path: 'role', component: AdminRoleManagementComponent},
           { path: 'users', component: AdminUserManagementComponent }, 
+          { path: 'ilan/yonetim', component: AdminIlanManagementComponent},
           { path: 'ilan/ekle', component: CardsFormsComponent},
           { path: 'kriter', component: AdminKriterManagementComponent},
           { path: 'bildirim', component:AdminNotificationsComponent},

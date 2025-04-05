@@ -1,234 +1,340 @@
-<h2 class="content-title">Dashboard</h2>
-<!-- Filtreleme Bölümü (Solda) -->
-<div>
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
-    <div class="filter-container">
-      <button class="filter-toggle" (click)="toggleFilter()">
-        <i class="fa fa-filter"></i> Filtreler
-        <span *ngIf="filtersOpen" class="ms-1"><i class="fa fa-chevron-up"></i></span>
-        <span *ngIf="!filtersOpen" class="ms-1"><i class="fa fa-chevron-down"></i></span>
-      </button>
-    </div>
-    <div class="text-md-end mt-3 mt-md-0">
-      <div class="sorting-container">
-        <label for="sort-by" class="me-2">Sırala:</label>
-        <select [(ngModel)]="sortBy" (change)="onSortChange()" class="form-select d-inline-block w-auto">
-          <option value="id">ID</option>
-          <option value="baslik">Başlık</option>
-          <option value="pozisyonadi">Pozisyon</option>
-          <option value="bolumadi">Bölüm</option>
-        </select>
-
-        <button (click)="toggleIsDescending()" class="btn btn-secondary ms-2">
-          <i class="fa" [ngClass]="isDescending ? 'fa-arrow-down' : 'fa-arrow-up'"></i>
-          {{ isDescending ? 'Azalan' : 'Artan' }}
-        </button>
-      </div>
-    </div>
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Yönetim Paneli</h1>
+    <p class="dashboard-subtitle">Sistem Genel Durum</p>
   </div>
 
-  <div class="filter-form" [class.open]="filtersOpen">
-    <div class="row">
-      <div class="col-md mb-3">
-        <label>Başlık:</label>
-        <input type="text" [(ngModel)]="filters.baslik" (input)="onFilterChange(filters)" class="form-control"
-          placeholder="Başlık ara..." />
+  <div class="dashboard-grid">
+    <!-- İstatistikler Bölümü -->
+    <div class="stats-grid">
+      <!-- Users Section -->
+      <div class="stats-card">
+        <div class="stats-card-header">
+          <div class="stats-card-title">
+            <i class="fas fa-users"></i>
+            <h2>Kullanıcılar</h2>
+          </div>
+          <span class="badge">Kullanıcı Yönetimi</span>
+        </div>
+        <div class="stats-card-body">
+          <div class="stat-item">
+            <span class="stat-label">Toplam Kullanıcı</span>
+            <span class="stat-value">{{dashboardData.totalUsers}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Aktif Kullanıcılar</span>
+            <span class="stat-value">{{dashboardData.activeUsers}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Pasif Kullanıcılar</span>
+            <span class="stat-value">{{dashboardData.passiveUsers}}</span>
+          </div>
+        </div>
+        <div class="stats-card-footer">
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="(dashboardData.activeUsers / dashboardData.totalUsers) * 100"></div>
+          </div>
+          <span class="progress-text">{{((dashboardData.activeUsers / dashboardData.totalUsers) * 100).toFixed(1)}}%
+            Aktif</span>
+        </div>
+        <div class="stats-card-footer">
+          <a [routerLink]="['/admin/users']" class="btn-details">Detay Görüntüle</a>
+        </div>
       </div>
 
-      <div class="col-md mb-3">
-        <label>Pozisyon:</label>
-        <select [(ngModel)]="filters.pozisyonId" (change)="onFilterChange(filters)" class="form-control">
-          <option [ngValue]="null">Seçiniz</option>
-          <option *ngFor="let pos of positions" [ngValue]="pos.id">{{ pos.ad }}</option>
-        </select>
+      <div id="active-user-stats-card" class="stats-card">
+        <div class="stats-card-header">
+          <div class="stats-card-title">
+            <i class="fas fa-users"></i>
+            <h2>Aktif Kullanıcılar</h2>
+          </div>
+          <span class="badge">Aktif Kullanıcılar</span>
+        </div>
+        <div class="stats-card-body">
+          <div class="stat-item">
+            <span class="stat-label">Toplam Aktif Kullanıcı</span>
+            <span class="stat-value">{{dashboardData.onlineUser + dashboardData.visitorCount}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Giriş Yapmış Kullanıcı</span>
+            <span class="stat-value">{{dashboardData.onlineUser}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Giriş Yapmamış Kullanıcı</span>
+            <span class="stat-value">{{dashboardData.visitorCount}}</span>
+          </div>
+        </div>
+        <div class="stats-card-footer">
+          <div class="progress-bar">
+            <div class="progress-online" [style.width.%]="calculateOnlineUserPercentage()"></div>
+            <div class="progress-visitor" [style.width.%]="calculateVisitorCountPercentage()"></div>
+          </div>
+          <span class="progress-text">Giriş Yapmış: %{{calculateOnlineUserPercentage().toFixed(1)}} - Ziyaretçi:
+            %{{calculateVisitorCountPercentage().toFixed(1)}}</span>
+        </div>
+        <div class="stats-card-footer">
+          <a [routerLink]="['/admin/users']" class="btn-details">Detay Görüntüle</a>
+        </div>
       </div>
 
-      <div class="col-md mb-3">
-        <label>Bölüm:</label>
-        <select [(ngModel)]="filters.bolumId" (change)="onFilterChange(filters)" class="form-control">
-          <option [ngValue]="null">Seçiniz</option>
-          <option *ngFor="let bol of bolums" [ngValue]="bol.id">{{ bol.ad }}</option>
-        </select>
+      <!-- İlan Section -->
+      <div class="stats-card">
+        <div class="stats-card-header">
+          <div class="stats-card-title">
+            <i class="fas fa-bullhorn"></i>
+            <h2>İlanlar</h2>
+          </div>
+          <span class="badge">İlan Yönetimi</span>
+        </div>
+        <div class="stats-card-body">
+          <div class="stat-item">
+            <span class="stat-label">Toplam İlan</span>
+            <span class="stat-value">{{dashboardData.totalIlan}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Aktif İlanlar</span>
+            <span class="stat-value">{{dashboardData.activeIlan}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Pasif İlanlar</span>
+            <span class="stat-value">{{dashboardData.passiveIlan}}</span>
+          </div>
+        </div>
+        <div class="stats-card-footer">
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="(dashboardData.activeIlan / dashboardData.totalIlan) * 100"></div>
+          </div>
+          <span class="progress-text">{{((dashboardData.activeIlan / dashboardData.totalIlan) * 100).toFixed(1)}}%
+            Aktif</span>
+        </div>
+        <div class="stats-card-footer">
+          <a [routerLink]="['/admin/ilan/yonetimi']" class="btn-details">Detay Görüntüle</a>
+        </div>
+      </div>
+
+      <!-- Kriter Section -->
+      <div class="stats-card">
+        <div class="stats-card-header">
+          <div class="stats-card-title">
+            <i class="fas fa-list-check"></i>
+            <h2>Kriter</h2>
+          </div>
+          <span class="badge">Kriter Yönetimi</span>
+        </div>
+        <div class="stats-card-body">
+          <div class="stat-item">
+            <span class="stat-label">Toplam Kriter Katogorisi</span>
+            <span class="stat-value">{{dashboardData.totalKriter}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Alan Kriteri</span>
+            <span class="stat-value">{{dashboardData.totalAlanKriteri}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Puan Kriteri</span>
+            <span class="stat-value">{{dashboardData.totalPuanKriteri}}</span>
+          </div>
+        </div>
+        <div class="stats-card-footer">
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="(dashboardData.totalAlanKriteri / dashboardData.totalKriter) * 100"></div>
+          </div>
+          <span class="progress-text">{{((dashboardData.totalAlanKriteri / dashboardData.totalKriter) * 100).toFixed(1)}}% Alan
+            Kriteri</span>
+        </div>
+        <div class="stats-card-footer">
+          <a [routerLink]="['/admin/kriter']" class="btn-details">Detay Görüntüle</a>
+        </div>
+      </div>
+      
+      <!-- Bildirim Section - With new side-by-side progress bar -->
+      <div id="bildirim-stats-card" class="stats-card">
+        <div class="stats-card-header">
+          <div class="stats-card-title">
+            <i class="fas fa-bell"></i>
+            <h2>Bildirim</h2>
+          </div>
+          <span class="badge">Bildirim Yönetimi</span>
+        </div>
+        <div class="stats-card-body">
+          <div class="stat-item">
+            <span class="stat-label">Toplam Bildirim</span>
+            <span class="stat-value">{{dashboardData.totalBildirim}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Okunmuş Bildirim</span>
+            <span class="stat-value">{{dashboardData.totalReadBildirim}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Okunmamış Bildirim</span>
+            <span class="stat-value">{{dashboardData.totalUnreadBildirim}}</span>
+          </div>
+        </div>
+        <div class="stats-card-footer">
+          <div class="progress-bar">
+            <div class="progress-read" [style.width.%]="calculateReadPercentage()"></div>
+            <div class="progress-unread" [style.width.%]="calculateUnreadPercentage()"></div>
+          </div>
+          <span class="progress-text">Okunmuş: %{{calculateReadPercentage().toFixed(1)}} - Okunmamış:
+            %{{calculateUnreadPercentage().toFixed(1)}}</span>
+        </div>
+        <div class="stats-card-footer">
+          <a [routerLink]="['/admin/bildirim']" class="btn-details">Detay Görüntüle</a>
+        </div>
+      </div>
+
+      <!-- Alan ve Bölüm Section -->
+      <div id="alan-bolum-stats-card" class="stats-card">
+        <div class="stats-card-header">
+          <div class="stats-card-title">
+            <i class="fas fa-th-large"></i>
+            <h2>Alan ve Bölüm</h2>
+          </div>
+          <span class="badge">Sistem Verileri</span>
+        </div>
+        <div class="stats-card-body">
+          <div class="stat-item">
+            <span class="stat-label">Toplam Alan</span>
+            <span class="stat-value">{{dashboardData.totalAlan}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Toplam Bölüm</span>
+            <span class="stat-value">{{dashboardData.totalBolum}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Toplam</span>
+            <span class="stat-value">{{dashboardData.totalAlan + dashboardData.totalBolum}}</span>
+          </div>
+        </div>
+        <div class="stats-card-footer">
+          <div class="progress-bar">
+            <div class="progress-alan" [style.width.%]="calculateAlanPercentage()"></div>
+            <div class="progress-bolum" [style.width.%]="calculateBolumPercentage()"></div>
+          </div>
+          <span class="progress-text">Alan: %{{calculateAlanPercentage().toFixed(1)}} - Bölüm:
+            %{{calculateBolumPercentage().toFixed(1)}}</span>
+        </div>
+        <div class="stats-card-footer">
+          <a [routerLink]="['/admin/alan']" class="btn-details">Detay Görüntüle</a>
+        </div>
+      </div>
+
+      <!-- Total Summary Card - Full width -->
+      <div class="stats-card summary-card full-width">
+        <div class="stats-card-header">
+          <div class="stats-card-title">
+            <i class="fas fa-chart-pie"></i>
+            <h2>Genel Özet</h2>
+          </div>
+        </div>
+        <div class="stats-card-body">
+          <div class="summary-stats">
+            <div class="summary-stat-item">
+              <div class="summary-icon users-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="summary-details">
+                <span class="summary-value">{{dashboardData.totalUsers}}</span>
+                <span class="summary-label">Kullanıcı</span>
+              </div>
+            </div>
+            <div class="summary-stat-item">
+              <div class="summary-icon ads-icon">
+                <i class="fas fa-bullhorn"></i>
+              </div>
+              <div class="summary-details">
+                <span class="summary-value">{{dashboardData.totalIlan}}</span>
+                <span class="summary-label">İlan</span>
+              </div>
+            </div>
+            <div class="summary-stat-item">
+              <div class="summary-icon area-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="summary-details">
+                <span class="summary-value">{{dashboardData.totalAlan}}</span>
+                <span class="summary-label">Alan</span>
+              </div>
+            </div>
+            <div class="summary-stat-item">
+              <div class="summary-icon department-icon">
+                <i class="fas fa-building"></i>
+              </div>
+              <div class="summary-details">
+                <span class="summary-value">{{dashboardData.totalBolum}}</span>
+                <span class="summary-label">Bölüm</span>
+              </div>
+            </div>
+            <div class="summary-stat-item">
+              <div class="summary-icon criteria-icon">
+                <i class="fas fa-list-check"></i>
+              </div>
+              <div class="summary-details">
+                <span class="summary-value">{{dashboardData.totalKriter}}</span>
+                <span class="summary-label">Kriter</span>
+              </div>
+            </div>
+            <div class="summary-stat-item">
+              <div class="summary-icon notification-icon">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div class="summary-details">
+                <span class="summary-value">{{dashboardData.totalBildirim}}</span>
+                <span class="summary-label">Bildirim</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-
-
-    <div class="row">
-      <div class="col-md">
-        <label>Durum:</label>
-        <select [(ngModel)]="filters.status" (change)="onFilterChange(filters)" class="form-control">
-          <option [ngValue]="null">Tümü</option>
-          <option [ngValue]="true">Aktif</option>
-          <option [ngValue]="false">Pasif</option>
-        </select>
+    <!-- Son İlanlar Bölümü -->
+    <div class="recent-items-section">
+      <div class="section-header">
+        <h2><i class="fas fa-clock"></i> En Son Eklenen 2 İlan</h2>
+        <a [routerLink]="['/admin/ilan/yonetim']" class="view-all">Tüm İlanları Görüntüle <i
+            class="fas fa-arrow-right"></i></a>
       </div>
-      <div class="col-md">
-        <label>İlan Tipi:</label>
-        <select [(ngModel)]="filters.ilanTipi" (change)="onFilterChange(filters)" class="form-control">
-          <option [ngValue]="null">Tümü</option>
-          <option [ngValue]="1">Aktif İlanlar</option>
-          <option [ngValue]="2">Geçmiş İlanlar</option>
-        </select>
-      </div>
-    </div>
 
-    <!-- Sıfırlama Butonu -->
-    <button (click)="resetFilters()" class="btn btn-secondary">
-      <i class="fa fa-refresh"></i> Filtreyi Sıfırla
-    </button>
-  </div>
-</div>
-
-<!-- Tablo Bölümü -->
-<div class="admin-table-responsive mt-3">
-  <div *ngIf="ilansModelObj.length === 0" class="alert alert-info">
-    Gösterilecek veri bulunamadı. Filtreleri değiştirerek tekrar deneyin.
-  </div>
-
-  <table *ngIf="ilansModelObj.length > 0" class="table admin-table">
-    <thead>
-      <tr>
-        <th><i class="fas fa-eye"></i> İlan</th>
-        <th scope="col"><i class="fa-solid fa-hashtag"></i> ID</th>
-        <th scope="col"><i class="fas fa-heading"></i> Başlık</th>
-        <th scope="col"><i class="fas fa-align-left"></i> Açıklama</th>
-        <th scope="col"><i class="fa-solid fa-briefcase"></i> Bölüm</th>
-        <th scope="col"><i class="fa-solid fa-book"></i> Pozisyon</th>
-        <th scope="col"><i class="fas fa-user"></i> Yükleyen</th>
-        <th scope="col"><i class="fas fa-check-circle"></i> Durum</th>
-        <th scope="col"><i class="fas fa-calendar"></i> İlan Tipi</th>
-        <th scope="col" colspan="3"><i class="fas fa-tools"></i> İşlemler</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of ilansModelObj">
-        <td>
-          <a routerLink="/detail/{{item.id}}">
-            <button class="btn btn-sm btn-primary">
-              <i class="fas fa-eye"></i>
-            </button>
-          </a>
-        </td>
-        <td><i class="fa-solid fa-hashtag"></i>{{ item.id }}</td>
-        <td>{{ item.baslik | summary:15 }}</td>
-        <td>{{ stripHtml(item.aciklama) | summary:30 }}</td>
-        <td>{{ item.bolum.ad}}</td>
-        <td>{{ item.pozisyon.ad}}</td>
-        <td>
-          <span *ngIf="item.olusturan">
-            <i class="fa-solid fa-hashtag"></i>{{ item.olusturan.id }}
-            {{ item.olusturan.firstName }} {{ item.olusturan.lastName }}
-          </span>
-          <span *ngIf="!item.olusturan">Bilinmiyor</span>
-        </td>
-        <td>
-          <span [class]="item.status ? 'badge bg-success' : 'badge bg-secondary'">
-            <i class="fas" [ngClass]="item.status ? 'fa-check-circle' : 'fa-times-circle'"></i>
-            {{ item.status ? 'Aktif' : 'Pasif' }}
-          </span>
-        </td>
-        <td>
-          <span [ngClass]="getIlanTipiBadgeClass(item)">
-            <i class="fas fa-calendar"></i>
-            {{ getIlanTipiLabel(item) }}
-          </span>
-        </td>
-        <td>
-          <button class="btn action-btn" [ngClass]="item.status ? 'btn-danger' : 'btn-success'"
-            (click)="item.status ? deactivate(item.id) : activate(item.id)">
-            <i class="fas" [ngClass]="item.status ? 'fa-ban' : 'fa-check'"></i>
-            {{ item.status ? 'Pasif Et' : 'Aktif Et' }}
-          </button>
-        </td>
-        <td>
-          <button class="btn action-btn btn-warning" (click)="edit(item.id)">
-            <i class="fa-solid fa-pen"></i> Düzenle
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-danger" (click)="onDelete(item.id)">
-            <i class="fas fa-trash-alt"></i> Sil
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- Sayfalama Butonları -->
-<div *ngIf="ilansModelObj.length > 0" class="pagination-container mt-3">
-  <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1" class="btn btn-primary-page">
-    <i class="fa fa-chevron-left"></i> Önceki
-  </button>
-  <span>Sayfa: {{ pageNumber }}</span>
-  <button (click)="onPageChange(pageNumber + 1)" [disabled]="ilansModelObj.length < pageSize"
-    class="btn btn-primary-page">
-    Sonraki <i class="fa fa-chevron-right"></i>
-  </button>
-</div>
-
-<!-- Düzenle Modal -->
-<div class="modal modal-xl fade" #editModal tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">İlan Düzenle</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form (ngSubmit)="submitForm()">
-          <div class="form-group mb-3">
-            <label for="title">Başlık:</label>
-            <input type="text" id="title" [(ngModel)]="formData.baslik" name="title" required class="form-control"
-              placeholder="Buraya başlık yazın">
-          </div>
-          <div class="form-group mb-3">
-            <label for="description">Açıklama:</label>
-            <quill-editor [(ngModel)]="formData.aciklama" [modules]="editorConfig" name="description"
-              placeholder="Buraya açıklama yazın"></quill-editor>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="position">Pozisyon:</label>
-                <select id="position" [(ngModel)]="formData.pozisyonId" name="position" class="form-control">
-                  <option [ngValue]="null">Seçiniz</option>
-                  <option *ngFor="let pos of positions" [ngValue]="pos.id">{{ pos.ad }}</option>
-                </select>
+      <div class="recent-items-container">
+        <ng-container *ngIf="ilansModelObj && ilansModelObj.length > 0; else noItems">
+          <div class="recent-item" *ngFor="let ilan of ilansModelObj">
+            <div class="recent-item-header">
+              <div class="recent-item-title">
+                <h3>{{ilan.baslik}}</h3>
+                <span class="item-id">#{{ilan.id}}</span>
+              </div>
+              <div class="recent-item-status"
+                [ngClass]="{'status-active': ilan.status, 'status-passive': !ilan.status}">
+                {{ilan.status ? 'Aktif' : 'Pasif'}}
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="department">Bölüm:</label>
-                <select id="department" [(ngModel)]="formData.bolumId" name="department" class="form-control">
-                  <option [ngValue]="null">Seçiniz</option>
-                  <option *ngFor="let bol of bolums" [ngValue]="bol.id">{{ bol.ad }}</option>
-                </select>
+            <div class="recent-item-details">
+              <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-tag"></i> İlan Açıklaması:</span>
+                <span class="detail-value" [innerHTML]="ilan.aciklama | newline"></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-briefcase"></i> Pozisyon:</span>
+                <span class="detail-value">{{ilan.pozisyon.ad}}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-building"></i> Bölüm:</span>
+                <span class="detail-value">{{ilan.bolum.ad || 'Belirtilmemiş'}}</span>
               </div>
             </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="startDate">Başlangıç Tarihi ve Saati:</label>
-                <input type="datetime-local" id="startDate" [(ngModel)]="formData.baslangicTarihi" name="startDate"
-                  class="form-control">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="endDate">Bitiş Tarihi ve Saati:</label>
-                <input type="datetime-local" id="endDate" [(ngModel)]="formData.bitisTarihi" name="endDate"
-                  class="form-control">
-              </div>
+            <div class="recent-item-footer">
+              <a [routerLink]="['/detail/', ilan.id]" class="btn-details">Detay Görüntüle</a>
             </div>
           </div>
-          <div class="d-flex justify-content-end mt-4">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">İptal</button>
-            <button class="btn btn-primary" type="submit">Kaydet</button>
+        </ng-container>
+
+        <ng-template #noItems>
+          <div class="no-items-message">
+            <i class="fas fa-info-circle"></i>
+            <p>Henüz ilan bulunmamaktadır.</p>
           </div>
-        </form>
+        </ng-template>
       </div>
     </div>
   </div>
