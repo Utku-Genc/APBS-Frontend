@@ -1,0 +1,145 @@
+<div class="container my-4">
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="alreadyApplied" class="card border-0 shadow-sm mb-4">
+        <div class="card-body text-center">
+          <div class="display-1 text-primary mb-3">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <h3 class="card-title">Bu İlana Daha Önce Başvuru Yaptınız</h3>
+          <p class="card-text text-muted">Başvurunuz sistemde kayıtlıdır. İlan sonuçları açıklandığında size bildirim gönderilecektir.</p>
+          <button class="btn btn-primary mt-3" [routerLink]="['/ilanlar/aktif']">İlanları Görüntüle</button>
+        </div>
+      </div>
+
+      <div *ngIf="!alreadyApplied" class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom-0 py-3">
+          <h2 class="card-title fw-bold">İlan Başvurusu</h2>
+          <p class="card-subtitle text-muted">İlan ID: {{ ilanId }}</p>
+        </div>
+        
+        <div class="card-body">
+          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMessage }}
+            <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+          </div>
+          
+          <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ successMessage }}
+            <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+          </div>
+          
+          <div class="card mb-4 border-0 bg-light">
+            <div class="card-body">
+              <h5 class="mb-3"><i class="fa-solid fa-circle-info me-2"></i>Başvuru Gereksinimleri</h5>
+              <div class="row g-3">
+                <div *ngFor="let kriter of kriterSummary" class="col-md-6 col-lg-4">
+                  
+                  <div class="d-flex align-items-center">
+                    <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                      <div class="progress-bar" role="progressbar" 
+                           [ngClass]="{'bg-danger': kriter.secilenAdet < kriter.minAdet, 'bg-success': kriter.secilenAdet >= kriter.minAdet}"
+                           [style.width.%]="calculateWidth(kriter.secilenAdet, kriter.minAdet)"></div>
+                    </div>
+                    <small>{{kriter.ad}} ({{kriter.secilenAdet}}/{{kriter.minAdet}})</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="loading" class="d-flex justify-content-center my-5 py-5">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+              <span class="visually-hidden">Yükleniyor...</span>
+            </div>
+          </div>
+          
+          <form [formGroup]="basvuruForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+            <div formArrayName="files">
+              <div *ngFor="let fileGroup of filesArray.controls; let i = index" [formGroupName]="i" class="card mb-4 border border-light ">
+                <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                  <h5 class="mb-0">Belge #{{ i + 1 }}</h5>
+                  <button 
+                    type="button" 
+                    class="btn btn-sm btn-outline-danger" 
+                    *ngIf="filesArray.length > 1" 
+                    (click)="removeFileGroup(i)">
+                    <i class="fa-solid fa-xmark"></i> Kaldır
+                  </button>
+                </div>
+                
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label class="form-label fw-medium">Dosya Seçin</label>
+                    <div class="custom-file-input">
+                      <input 
+                        type="file" 
+                        class="form-control d-none" 
+                        (change)="onFileChange($event, i)"
+                        [ngClass]="{ 'is-invalid': submitted && fileGroup.get('file')?.invalid }"
+                        #fileInput>
+                      <div class="d-flex align-items-center">
+                        <button 
+                          type="button" 
+                          class="btn btn-primary" 
+                          (click)="fileInput.click()">
+                          <i class="fa-solid fa-file-arrow-up me-2"></i>Dosya Seç
+                        </button>
+                        <span class="ms-3 text-truncate" *ngIf="selectedFileNames[i]">{{ selectedFileNames[i] }}</span>
+                        <span class="ms-3 text-muted" *ngIf="!selectedFileNames[i]">Dosya seçilmedi</span>
+                      </div>
+                    </div>
+                    <div *ngIf="submitted && fileGroup.get('file')?.invalid" class="text-danger mt-2">
+                      Dosya seçilmesi zorunludur.
+                    </div>
+                  </div>
+                  
+                  <div *ngIf="selectedFiles[i]" class="mb-3 mt-4 file-kriter-selector">
+                    <label class="form-label fw-medium d-block mb-2">Bu belge hangi kriterleri karşılar?</label>
+                    <div class="kriter-toggle-container">
+                      <div *ngFor="let kriter of kriterler" 
+                           class="kriter-toggle "
+                           [ngClass]="{'kriter-toggle-active': isKriterSelected(i, kriter.kriterId)}"
+                           (click)="toggleKriter(i, kriter.kriterId)">
+                        <span class="kriter-toggle-label text-center">{{ kriter.kriter.ad }}</span>
+                        <i *ngIf="isKriterSelected(i, kriter.kriterId)" class="fa-solid fa-check"></i>
+                      </div>
+                    </div>
+                    <div *ngIf="submitted && fileGroup.get('kriterIds')?.invalid" class="text-danger small mt-2">
+                      En az bir kriter seçilmesi zorunludur.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="text-center mb-4">
+                <button type="button" class="btn btn-outline-secondary" (click)="addFileGroup()">
+                  <i class="fa-solid fa-circle-plus me-2"></i> Yeni Belge Ekle
+                </button>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label for="aciklama" class="form-label fw-medium">Başvuru Açıklaması (İsteğe Bağlı)</label>
+              <textarea 
+                class="form-control" 
+                id="aciklama" 
+                formControlName="aciklama" 
+                placeholder="Başvurunuzla ilgili ek açıklamaları buraya yazabilirsiniz"
+                rows="4"></textarea>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <button type="button" class="btn btn-outline-secondary" [routerLink]="['/ilanlar/aktif']">
+                <i class="fa-solid fa-arrow-left me-2"></i> İptal
+              </button>
+              <button type="submit" class="btn btn-primary px-4 py-2" [disabled]="loading">
+                <i class="fa-solid fa-check me-2"></i> Başvuruyu Tamamla
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,17 +4,13 @@
     <button class="btn btn-outline-secondary back-button" (click)="goBack()">
       <i class="fa-solid fa-arrow-left"></i>
     </button>
-
     <!-- Küçültülmüş Görsel -->
     <img src="../../../assets/site-img/random_shapes.jpg" class="card-img-top" alt="{{ ilanDetailObj.baslik }}">
-
     <div class="card-body">
       <div class="card-header">
         <h2 class="card-title">{{ ilanDetailObj.baslik }}</h2>
-        <p class="card-text deadline"><strong>Başvuru Tarihi: </strong>{{ilanDetailObj.baslangicTarihi | date: 'HH:mm
-          dd/MM/yyyy'}} - {{ ilanDetailObj.bitisTarihi | date: 'HH:mm dd/MM/yyyy'}}</p>
+        <p class="card-text deadline"><strong>Başvuru Tarihi: </strong>{{ilanDetailObj.baslangicTarihi | date: 'HH:mm dd/MM/yyyy'}} - {{ ilanDetailObj.bitisTarihi | date: 'HH:mm dd/MM/yyyy'}}</p>
       </div>
-
       <div class="card-details">
         <div class="info-row">
           <p class="card-text "><strong class="card-primary">Bölüm:</strong> {{ ilanDetailObj.bolum.ad }}</p>
@@ -23,8 +19,6 @@
         <p class="card-text  "><strong class="card-primary">Açıklama:</strong></p>
         <p [innerHTML]="ilanDetailObj.aciklama | newline"></p>
       </div>
-
-
       <ng-container *ngIf="ilanDetailObj.alanKriterleri && ilanDetailObj.alanKriterleri.length > 0">
         <p class="card-text"><strong class="card-primary">Başvuru Şartları:</strong></p>
         <p *ngFor="let item of ilanDetailObj.alanKriterleri" class="card-text">
@@ -34,8 +28,6 @@
           <span *ngIf="!item.minAdet || item.minAdet === 0">herhangi bir Yayın/Etkinlik şartı bulunmamaktadır.</span>
         </p>
       </ng-container>
-
-
       <div class="additional-info">
         <div class="info-row">
           <p class="card-text"><strong class="card-primary">İletişim: </strong> <br>
@@ -45,21 +37,27 @@
           <p class="card-text"><strong class="card-primary">Adres:</strong> {{ ilanDetailObj.bolum.adres }}</p>
         </div>
       </div>
-
       <!-- Başvuru durum mesajları ve buton -->
       <div class="application-status">
         <!-- Şuanki tarih başlangıçtan küçükse kalan süreyi göster -->
         <div *ngIf="isBeforeStartDate()" class="alert alert-info">
           Başvuru başlamasına {{ remainingTimeText }} kaldı
         </div>
-
+        
         <!-- Şuanki tarih bitiş tarihinden büyükse başvuruyu kaçırdınız mesajı -->
         <div *ngIf="isAfterEndDate()" class="alert alert-danger">
           Başvuruyu kaçırdınız
         </div>
-
-        <!-- Kullanıcı giriş yapmışsa ve başvuru süresi içindeyse başvur butonu göster -->
-        <button *ngIf="isLoggedIn && isApplicationPeriodActive()" class="btn btn-success apply-button">
+        
+        <!-- Kullanıcı daha önce başvurmuşsa bilgi mesajı göster -->
+        <div *ngIf="hasAppliedBefore" class="alert alert-success">
+          Bu ilana daha önce başvuru yaptınız
+        </div>
+        
+        <!-- Kullanıcı giriş yapmışsa, başvuru süresi içindeyse ve daha önce başvurmamışsa başvur butonu göster -->
+        <button *ngIf="isLoggedIn && isApplicationPeriodActive() && !hasAppliedBefore" 
+                routerLink="/ilan/basvuru/{{ilanDetailObj.id}}" 
+                class="btn btn-success apply-button">
           Başvur
         </button>
       </div>
