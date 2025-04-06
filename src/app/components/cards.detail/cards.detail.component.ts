@@ -1,14 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NewlinePipe } from '../../pipes/newline.pipe';
 import { IlanDetailModel } from '../../models/ilan/ilan-detail.model';
 import { IlanService } from '../../services/ilan.service';
 import { ToastService } from '../../services/toast.service';
+import { IlanBasvuruService } from '../../services/ilan-basvuru.service';
 
 @Component({
   selector: 'utk-cards-detail',
-  imports: [CommonModule, NewlinePipe],
+  imports: [CommonModule, RouterModule, NewlinePipe],
   templateUrl: './cards.detail.component.html',
   styleUrl: './cards.detail.component.css',
 })
@@ -16,17 +17,23 @@ export class CardsDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private ilanService = inject(IlanService);
+  private ilanBasvuruService = inject(IlanBasvuruService);
   private toastService = inject(ToastService);
 
   ilanDetailObj!: IlanDetailModel;
   currentDate: Date = new Date();
   isLoggedIn = false;
   remainingTimeText = '';
+  hasAppliedBefore = false;
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.isLoggedIn = !!localStorage.getItem('token');
     this.getIlanDetail(id);
+    
+    if (this.isLoggedIn) {
+      this.checkPreviousApplication(id);
+    }
 
     // Her saniye kalan zamanı güncelle
     setInterval(() => {
@@ -56,6 +63,17 @@ export class CardsDetailComponent implements OnInit {
           this.router.navigate(['/unauthorized']);
         }
       },
+    });
+  }
+
+  checkPreviousApplication(ilanId: number) {
+    this.ilanBasvuruService.isAppliedBefore(ilanId).subscribe({
+      next: (response) => {
+        this.hasAppliedBefore = response.data;
+      },
+      error: (err) => {
+        console.error('Başvuru kontrolü yapılırken hata oluştu:', err);
+      }
     });
   }
 

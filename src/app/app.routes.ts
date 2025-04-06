@@ -26,6 +26,7 @@ import { AdminKriterManagementComponent } from './components/admin-kriter-manage
 import { AdminEmailComponent } from './components/admin-email/admin-email.component';
 import { AdminIlanManagementComponent } from './components/admin-ilan-management/admin-ilan-management.component';
 import { AdminBasvuruDurumComponent } from './components/admin-basvuru-durum/admin-basvuru-durum.component';
+import { IlanBasvuruComponent } from './components/ilan-basvuru/ilan-basvuru.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -43,7 +44,7 @@ export const routes: Routes = [
 
     // Card Detail Sayfası
     {path: 'detail/:id', component: CardsDetailComponent},
-    {path: 'ilan/basvuru/:id', component: IlanKriterBasvuruComponent},
+    {path: 'ilan/basvuru/:id', component: IlanBasvuruComponent, canActivate:[LoginGuard]},
 
     {path: 'ilanlar/aktif', component: IlanlarAktifComponent},
     {path: 'ilanlar/gecmis', component: IlanlarPasifComponent},

@@ -29,4 +29,7 @@ export class KriterAlanService {
     getById(id: number): Observable<SingleResponseModel<KriterAlanModel>> {
         return this.apiService.get(`${this.endpoint}getbyid?id=${id}`);
     }
+    getByIlanId(ilanId: number): Observable<ListResponseModel<KriterAlanModel>> {
+        return this.apiService.get(`${this.endpoint}getbyilanid?ilanId=${ilanId}`);
+    }
 }
