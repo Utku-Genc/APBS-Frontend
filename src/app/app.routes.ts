@@ -27,6 +27,7 @@ import { AdminEmailComponent } from './components/admin-email/admin-email.compon
 import { AdminIlanManagementComponent } from './components/admin-ilan-management/admin-ilan-management.component';
 import { AdminBasvuruDurumComponent } from './components/admin-basvuru-durum/admin-basvuru-durum.component';
 import { IlanBasvuruComponent } from './components/ilan-basvuru/ilan-basvuru.component';
+import { YoneticiComponent } from './components/yonetici/yonetici.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -56,7 +57,8 @@ export const routes: Routes = [
     {
         path: 'admin',
         component: AdminComponent,
-        children: [
+        children: [         
+          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
           { path: 'dashboard', component: AdminDashboardComponent },
           { path: 'alan', component: AdminDepartmentManagementComponent },
           { path: 'role', component: AdminRoleManagementComponent},
@@ -67,10 +69,27 @@ export const routes: Routes = [
           { path: 'basvuru/durumlari', component: AdminBasvuruDurumComponent},
           { path: 'bildirim', component:AdminNotificationsComponent},
           { path: 'email', component: AdminEmailComponent},
-          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         ],
         canActivate: [LoginGuard, RoleGuard],
         data: { roles: ['admin'] }
+      },
+
+      {
+        path: 'yonetici',
+        component: YoneticiComponent,
+        children: [          
+          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+          { path: 'dashboard', component: AdminDashboardComponent },
+          { path: 'ilan/yonetim', component: AdminIlanManagementComponent},
+          { path: 'ilan/ekle', component: CardsFormsComponent},
+          { path: 'alan', component: AdminDepartmentManagementComponent },
+          { path: 'basvuru/durumlari', component: AdminBasvuruDurumComponent},
+          { path: 'kriter', component: AdminKriterManagementComponent},
+          { path: 'bildirim', component:AdminNotificationsComponent},
+          { path: 'email', component: AdminEmailComponent},
+        ],
+        canActivate: [LoginGuard, RoleGuard],
+        data: { roles: ['admin', 'yonetici' ] }
       },
 
 

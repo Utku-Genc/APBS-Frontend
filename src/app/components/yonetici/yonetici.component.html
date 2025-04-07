@@ -1,0 +1,114 @@
+<div class="admin-layout">
+    <!-- Mobile menu header - visible only on small screens -->
+    <div class="mobile-menu-header" *ngIf="isMobileView">
+      <button class="mobile-menu-toggle" (click)="toggleSidebar()">
+        <i class="fas" [ngClass]="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+      </button>
+      <h3 class="mobile-header-title">Yönetici Paneli</h3>
+    </div>
+  
+    <!-- Sidebar -->
+    <aside class="sidebar" [class.collapsed]="isSidebarCollapsed && !isMobileView" [class.mobile-open]="isMobileMenuOpen">
+      <div class="sidebar-header">
+        <h3 class="logo">Yönetici Paneli</h3>
+        <button class="toggle-btn" (click)="toggleSidebar()">
+          <i class="fas" [ngClass]="isSidebarCollapsed && !isMobileView ? 'fa-bars' : 'fa-times'"></i>
+        </button>
+      </div>
+  
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <h4 class="nav-section-title">Ana Menü</h4>
+          <ul class="nav-list">
+            <li class="nav-item" routerLinkActive="active">
+              <a [routerLink]="['/yonetici/dashboard']" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a [routerLink]="['/yonetici/ilan/yonetim']" data-toggle="tooltip" data-placement="right" title="İlan Yönetimi">
+                <i class="fas fa-th-list"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">İlan Yönetimi</span>
+              </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a [routerLink]="['/yonetici/ilan/ekle']" data-toggle="tooltip" data-placement="right" title="İlan Ekle">
+                <i class="fa-solid fa-plus-circle"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">İlan Ekle</span>
+              </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a [routerLink]="['/yonetici/alan']" data-toggle="tooltip" data-placement="right" title="Alan ve Bölüm">
+                <i class="fas fa-sitemap"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">Alan ve Bölüm</span>
+              </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a [routerLink]="['/yonetici/basvuru/durumlari']" data-toggle="tooltip" data-placement="right" title="Başvuru Durumları">
+                <i class="fa-solid fa-file-alt"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">Başvuru Durumları</span>
+              </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a [routerLink]="['/yonetici/kriter']" data-toggle="tooltip" data-placement="right" title="Kriter">
+                <i class="fa-solid fa-list-check"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">Kriter</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+  
+        <div class="nav-section">
+          <h4 class="nav-section-title">Sistem</h4>
+          <ul class="nav-list">
+            <li class="nav-item" routerLinkActive="active">
+              <a [routerLink]="['/yonetici/bildirim']" data-toggle="tooltip" data-placement="right" title="Bildirimler">
+                <i class="fas fa-bell"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">Bildirimler</span>
+              </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a [routerLink]="['/yonetici/email']" data-toggle="tooltip" data-placement="right" title="E-Mail">
+                <i class="fa-solid fa-envelope"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">E-Mail</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+  
+        <div class="nav-section">
+          <h4 class="nav-section-title">Diğer Paneller</h4>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a [routerLink]="['/admin']" data-toggle="tooltip" data-placement="right" title="Yönetici Paneli">
+                <i class="fa-solid fa-user-gear"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">Admin Paneli</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/juri']" data-toggle="tooltip" data-placement="right" title="Juri Paneli">
+                <i class="fa-solid fa-user-pen"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">Juri Paneli</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+  
+    <!-- Mobile sidebar overlay -->
+    <div class="sidebar-overlay" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
+  
+    <!-- Main Content -->
+    <main class="main-content" [class.expanded]="isSidebarCollapsed && !isMobileView"
+      [class.with-mobile-header]="isMobileView">
+      <!-- Content Area -->
+      <div class="content">
+        <!-- Router outlet for child routes -->
+        <router-outlet></router-outlet>
+        <!-- Optional: Keep ng-content for backward compatibility -->
+        <ng-content></ng-content>
+      </div>
+    </main>
+  </div>

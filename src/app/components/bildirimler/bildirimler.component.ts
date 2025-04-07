@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationListModel } from '../../models/bildirim/notification-list.model';
 import { BildirimService } from '../../services/bildirim.service';
 import { ToastService } from '../../services/toast.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'utk-bildirimler',
@@ -16,6 +17,7 @@ import { ToastService } from '../../services/toast.service';
 export class BildirimlerComponent implements OnInit {
   private bildirimService = inject(BildirimService);
   private toastService = inject(ToastService);
+  private toastrService = inject(ToastrService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -131,14 +133,21 @@ export class BildirimlerComponent implements OnInit {
         if (response && response.data) {
           this.notifications = response.data;
         } else {
-          this.notifications = [];
-          this.toastService.error('Bildirim verileri alınamadı');
+          this.toastrService.error('Giriş başarısız:', response.message);
         }
       },
-      error: (error) => {
-        this.toastService.error('Bildirim verileri alınamadı: ' + error.message);
-        this.notifications = [];
-      }
+      error: (err) => {
+        if (err.error?.ValidationErrors) {
+          const errorMessages = err.error.ValidationErrors.map(
+            (error: { ErrorMessage: string }) => error.ErrorMessage
+          );
+          errorMessages.forEach((message: string | undefined) => {
+            this.toastrService.error(message);
+          });
+        } else {
+          this.toastrService.error(err.error.message, 'Giriş başarısız:');
+        }
+      },
     });
   }
 
