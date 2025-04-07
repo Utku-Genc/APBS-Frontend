@@ -1,8 +1,9 @@
+// In admin.dashboard.component.ts, add Router to your imports
 import { Component, inject, OnInit } from '@angular/core';
 import { ToastService } from '../../services/toast.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router'; // Add Router import
 import { DashboardService } from '../../services/dashboard.service';
 import { DashboardModel } from '../../models/dashboard/dashboard.model';
 import { IlanService } from '../../services/ilan.service';
@@ -19,9 +20,12 @@ import { NewlinePipe } from '../../pipes/newline.pipe';
 export class AdminDashboardComponent implements OnInit {
   private dashboardService = inject(DashboardService);
   private ilanService = inject(IlanService);
-
+  private router = inject(Router); // Inject Router
   private toastService = inject(ToastService);
   private toastrService = inject(ToastrService);
+
+  // Property to check if we're on the dashboard
+  isDashboardPage: boolean = false;
 
   dashboardData: DashboardModel = {
     onlineUser: 0,
@@ -57,6 +61,9 @@ export class AdminDashboardComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    // Check if we're on the dashboard page
+    this.isDashboardPage = this.router.url === '/yonetici/dashboard';
+    
     this.getDashboardData();
     this.getLastIlan();
   }
@@ -85,6 +92,7 @@ export class AdminDashboardComponent implements OnInit {
       },
     });
   }
+  
   getLastIlan() {
     this.ilanService
       .getilansbyqueryforadmin(
@@ -106,16 +114,12 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   calculateRatio() {
-    // Eğer denominator 0 ise hata oluşmasını önlemek için kontrol
     if (!this.dashboardData.totalBolum) return 0;
-
-    // Normal durumlarda yüzde hesaplama (0-100 arasında bir değer döndürür)
     const ratio =
       (this.dashboardData.totalAlan / this.dashboardData.totalBolum) * 100;
-
-    // Progress bar için maksimum 100 değerini sınırlayalım
     return Math.min(ratio, 100);
   }
+  
   calculateAlanPercentage() {
     const total = this.dashboardData.totalAlan + this.dashboardData.totalBolum;
     if (!total) return 0;
@@ -127,11 +131,13 @@ export class AdminDashboardComponent implements OnInit {
     if (!total) return 0;
     return (this.dashboardData.totalBolum / total) * 100;
   }
+  
   calculateReadPercentage() {
     const total = this.dashboardData.totalReadBildirim + this.dashboardData.totalUnreadBildirim;
     if (!total) return 0;
     return (this.dashboardData.totalReadBildirim / total) * 100;
   }
+  
   calculateUnreadPercentage() {
     const total = this.dashboardData.totalReadBildirim + this.dashboardData.totalUnreadBildirim;
     if (!total) return 0;
@@ -143,11 +149,10 @@ export class AdminDashboardComponent implements OnInit {
     if (!total) return 0;
     return (this.dashboardData.onlineUser / total) * 100;
   }
+  
   calculateVisitorCountPercentage() {
     const total = this.dashboardData.onlineUser + this.dashboardData.visitorCount;
     if (!total) return 0;
     return (this.dashboardData.visitorCount / total) * 100;
   }
 }
-
-

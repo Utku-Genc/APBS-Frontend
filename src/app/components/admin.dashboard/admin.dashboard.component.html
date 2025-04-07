@@ -37,7 +37,7 @@
           <span class="progress-text">{{((dashboardData.activeUsers / dashboardData.totalUsers) * 100).toFixed(1)}}%
             Aktif</span>
         </div>
-        <div class="stats-card-footer">
+        <div class="stats-card-footer" *ngIf="!isDashboardPage">
           <a [routerLink]="['/admin/users']" class="btn-details">Detay Görüntüle</a>
         </div>
       </div>
@@ -72,7 +72,7 @@
           <span class="progress-text">Giriş Yapmış: %{{calculateOnlineUserPercentage().toFixed(1)}} - Ziyaretçi:
             %{{calculateVisitorCountPercentage().toFixed(1)}}</span>
         </div>
-        <div class="stats-card-footer">
+        <div class="stats-card-footer" *ngIf="!isDashboardPage">
           <a [routerLink]="['/admin/users']" class="btn-details">Detay Görüntüle</a>
         </div>
       </div>
@@ -107,7 +107,7 @@
           <span class="progress-text">{{((dashboardData.activeIlan / dashboardData.totalIlan) * 100).toFixed(1)}}%
             Aktif</span>
         </div>
-        <div class="stats-card-footer">
+        <div class="stats-card-footer" *ngIf="!isDashboardPage">
           <a [routerLink]="['/admin/ilan/yonetimi']" class="btn-details">Detay Görüntüle</a>
         </div>
       </div>
@@ -142,7 +142,7 @@
           <span class="progress-text">{{((dashboardData.totalAlanKriteri / dashboardData.totalKriter) * 100).toFixed(1)}}% Alan
             Kriteri</span>
         </div>
-        <div class="stats-card-footer">
+        <div class="stats-card-footer" *ngIf="!isDashboardPage">
           <a [routerLink]="['/admin/kriter']" class="btn-details">Detay Görüntüle</a>
         </div>
       </div>
@@ -178,7 +178,7 @@
           <span class="progress-text">Okunmuş: %{{calculateReadPercentage().toFixed(1)}} - Okunmamış:
             %{{calculateUnreadPercentage().toFixed(1)}}</span>
         </div>
-        <div class="stats-card-footer">
+        <div class="stats-card-footer" *ngIf="!isDashboardPage">
           <a [routerLink]="['/admin/bildirim']" class="btn-details">Detay Görüntüle</a>
         </div>
       </div>
@@ -214,7 +214,7 @@
           <span class="progress-text">Alan: %{{calculateAlanPercentage().toFixed(1)}} - Bölüm:
             %{{calculateBolumPercentage().toFixed(1)}}</span>
         </div>
-        <div class="stats-card-footer">
+        <div class="stats-card-footer" *ngIf="!isDashboardPage">
           <a [routerLink]="['/admin/alan']" class="btn-details">Detay Görüntüle</a>
         </div>
       </div>
@@ -292,7 +292,7 @@
     <div class="recent-items-section">
       <div class="section-header">
         <h2><i class="fas fa-clock"></i> En Son Eklenen 2 İlan</h2>
-        <a [routerLink]="['/admin/ilan/yonetim']" class="view-all">Tüm İlanları Görüntüle <i
+        <a *ngIf="!isDashboardPage" [routerLink]="['/admin/ilan/yonetim']" class="view-all">Tüm İlanları Görüntüle <i
             class="fas fa-arrow-right"></i></a>
       </div>
 
@@ -323,7 +323,7 @@
                 <span class="detail-value">{{ilan.bolum.ad || 'Belirtilmemiş'}}</span>
               </div>
             </div>
-            <div class="recent-item-footer">
+            <div class="recent-item-footer" *ngIf="!isDashboardPage">
               <a [routerLink]="['/detail/', ilan.id]" class="btn-details">Detay Görüntüle</a>
             </div>
           </div>
