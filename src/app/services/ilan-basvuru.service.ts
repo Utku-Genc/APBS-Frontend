@@ -38,4 +38,5 @@ export class IlanBasvuruService {
         return this.apiService.get<SingleResponseModel<boolean>>(`${this.endpoint}isAppliedBefore?ilanId=${ilanId}`);
     }
     
+
 }

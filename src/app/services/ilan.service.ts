@@ -31,27 +31,29 @@ export class IlanService {
     }
   ): Observable<any> {
     let queryParameters = `?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=${sortBy}&isDescending=${isDescending}`;
-    
+
     if (filters) {
       if (filters.id) queryParameters += `&Id=${filters.id}`;
-      
-      if (filters.baslik && filters.baslik.trim() !== '') 
+
+      if (filters.baslik && filters.baslik.trim() !== '')
         queryParameters += `&Baslik=${encodeURIComponent(filters.baslik)}`;
-      
-      if (filters.pozisyonId !== undefined && filters.pozisyonId !== null) 
+
+      if (filters.pozisyonId !== undefined && filters.pozisyonId !== null)
         queryParameters += `&PozisyonId=${filters.pozisyonId}`;
-      
-      if (filters.bolumId !== undefined && filters.bolumId !== null) 
+
+      if (filters.bolumId !== undefined && filters.bolumId !== null)
         queryParameters += `&BolumId=${filters.bolumId}`;
-      
-      if (filters.status !== null && filters.status !== undefined) 
+
+      if (filters.status !== null && filters.status !== undefined)
         queryParameters += `&Status=${filters.status}`;
-      
-      if (filters.ilanTipi !== undefined && filters.ilanTipi !== null) 
+
+      if (filters.ilanTipi !== undefined && filters.ilanTipi !== null)
         queryParameters += `&IlanTipi=${filters.ilanTipi}`;
     }
-    
-    return this.apiService.get(`${this.endpoint}getilansbyqueryforadmin${queryParameters}`);
+
+    return this.apiService.get(
+      `${this.endpoint}getilansbyqueryforadmin${queryParameters}`
+    );
   }
 
   getById(id: number): Observable<any> {
@@ -72,35 +74,35 @@ export class IlanService {
     }
   ): Observable<any> {
     let queryParameters = `?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=${sortBy}&isDescending=${isDescending}`;
-    
+
     if (filters) {
-      if (filters.id) 
-        queryParameters += `&Id=${filters.id}`;
-      
-      if (filters.baslik && filters.baslik.trim() !== '') 
+      if (filters.id) queryParameters += `&Id=${filters.id}`;
+
+      if (filters.baslik && filters.baslik.trim() !== '')
         queryParameters += `&Baslik=${encodeURIComponent(filters.baslik)}`;
-      
-      if (filters.pozisyonId !== undefined && filters.pozisyonId !== null) 
+
+      if (filters.pozisyonId !== undefined && filters.pozisyonId !== null)
         queryParameters += `&PozisyonId=${filters.pozisyonId}`;
-      
-      if (filters.bolumId !== undefined && filters.bolumId !== null) 
+
+      if (filters.bolumId !== undefined && filters.bolumId !== null)
         queryParameters += `&BolumId=${filters.bolumId}`;
-      
-      if (filters.ilanTipi) 
-        queryParameters += `&IlanTipi=${filters.ilanTipi}`;
+
+      if (filters.ilanTipi) queryParameters += `&IlanTipi=${filters.ilanTipi}`;
     }
-    
-    return this.apiService.get(`${this.endpoint}getilansbyquery${queryParameters}`);
+
+    return this.apiService.get(
+      `${this.endpoint}getilansbyquery${queryParameters}`
+    );
   }
 
   getAllActives(): Observable<any> {
     return this.apiService.get(`${this.endpoint}getallactives`);
   }
-  
+
   getAllExpireds(): Observable<any> {
     return this.apiService.get(`${this.endpoint}getallexpireds`);
   }
-  
+
   add(ilan: IlanAddModel): Observable<any> {
     return this.apiService.post<any>(`${this.endpoint}add`, ilan);
   }
@@ -119,5 +121,16 @@ export class IlanService {
 
   activate(userId: number): Observable<any> {
     return this.apiService.put<any>(`${this.endpoint}activate/${userId}`, {});
+  }
+
+  getAppliedIlanByToken(): Observable<SingleResponseModel<any>> {
+    return this.apiService.get<SingleResponseModel<any>>(
+      `${this.endpoint}getappliedilanbytoken`
+    );
+  }
+  getAppliedIlanByUser(id: number): Observable<SingleResponseModel<any>> {
+    return this.apiService.get<SingleResponseModel<any>>(
+      `${this.endpoint}getappliedilanbyuser?userId=${id}`
+    );
   }
 }
