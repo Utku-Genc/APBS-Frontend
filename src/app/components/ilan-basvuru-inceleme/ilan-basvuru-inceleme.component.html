@@ -1,0 +1,83 @@
+<div class="basvuru-inceleme-container">
+    <div class="basvuru-header">
+      <h2>Başvuru Dosyaları İnceleme</h2>
+    </div>
+   
+    <div *ngIf="yukleniyor" class="yukleniyor">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Dosyalar yükleniyor...</p>
+    </div>
+  
+    <div *ngIf="hata" class="hata-mesaji">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>Dosyalar yüklenirken bir hata oluştu.</p>
+    </div>
+   
+    <div class="dosya-container" *ngIf="!yukleniyor && !hata && gruplanmisDosyalar.length > 0">
+      <div class="dosya-item" *ngFor="let dosya of gruplanmisDosyalar">
+        <div class="dosya-header" (click)="toggleDosya(dosya.dosyaUrl)">
+          <div class="dosya-adi">
+            <i class="fas" [ngClass]="getDosyaIcon(getDosyaTipi(dosya.dosyaYolu), getDosyaUzantisi(dosya.dosyaYolu))"></i>
+            {{ getDosyaAdi(dosya.dosyaYolu) }}
+          </div>
+          <div class="dosya-kriterler">
+            <span *ngFor="let kriterItem of dosya.kriterler" class="kriter-badge">
+              {{ kriterItem.kriterAd }}
+            </span>
+          </div>
+          <div class="dosya-actions">
+            <button class="dosya-indir-btn" (click)="dosyaIndir(dosya.dosyaUrl, $event)">
+              <i class="fas fa-download"></i> İndir
+            </button>
+            <i class="fas" [ngClass]="acikDosyalar.includes(dosya.dosyaUrl) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          </div>
+        </div>
+       
+        <div class="dosya-icerik" *ngIf="acikDosyalar.includes(dosya.dosyaUrl)">
+          <div class="dosya-onizleme">
+            <ng-container [ngSwitch]="getDosyaTipi(dosya.dosyaYolu)">
+              <div *ngSwitchCase="'pdf'" class="pdf-container">
+                <iframe [src]="getSafeUrl(dosya.dosyaUrl)" width="100%" height="500"></iframe>
+              </div>
+              <div *ngSwitchCase="'image'" class="image-container">
+                <img [src]="getSafeUrl(dosya.dosyaUrl)" alt="Dosya önizleme">
+              </div>
+              <div *ngSwitchCase="'office'" class="office-container">
+                <ngx-doc-viewer [url]="dosya.dosyaUrl" 
+                                viewer="google" 
+                                style="width:100%;height:500px;"
+                                [viewerUrl]="'https://docs.google.com/gview?url=%URL%&embedded=true'">
+                </ngx-doc-viewer>
+              </div>
+              <div *ngSwitchCase="'text'" class="text-container">
+                <iframe [src]="getSafeUrl(dosya.dosyaUrl)" width="100%" height="500"></iframe>
+              </div>
+              <div *ngSwitchDefault class="default-container">
+                <p>Bu dosya türü önizleme için desteklenmiyor.</p>
+                <a [href]="dosya.dosyaUrl" target="_blank" class="dosya-ac-btn">
+                  <i class="fas fa-external-link-alt"></i> Dosyayı yeni sekmede aç
+                </a>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <div class="dosya-container" *ngIf="!yukleniyor && !hata && gruplanmisDosyalar.length === 0">
+      <div class="no-data">
+        <i class="fas fa-folder-open"></i>
+        <p>Henüz dosya bulunmamaktadır.</p>
+      </div>
+    </div>
+   
+    <div class="yorum-container">
+      <h3>Değerlendirme</h3>
+      <textarea placeholder="Başvuru hakkında değerlendirmenizi yazınız..." rows="4"></textarea>
+      <div class="button-container">
+        <button class="gonder-btn">
+          <i class="fas fa-paper-plane"></i> Gönder
+        </button>
+      </div>
+    </div>
+  </div>

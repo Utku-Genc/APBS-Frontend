@@ -23,6 +23,7 @@
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",
     "ngx-captcha": "^13.0.0",
+    "ngx-doc-viewer": "^15.0.1",
     "ngx-quill": "^27.0.1",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",

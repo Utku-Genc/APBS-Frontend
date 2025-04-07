@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-// Componentler 
+// Componentler
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
@@ -28,72 +28,88 @@ import { AdminIlanManagementComponent } from './components/admin-ilan-management
 import { AdminBasvuruDurumComponent } from './components/admin-basvuru-durum/admin-basvuru-durum.component';
 import { IlanBasvuruComponent } from './components/ilan-basvuru/ilan-basvuru.component';
 import { YoneticiComponent } from './components/yonetici/yonetici.component';
+import { YoneticiIlanBasvuruComponent } from './components/yonetici-ilan-basvuru/yonetici-ilan-basvuru.component';
+import { IlanBasvuruIncelemeComponent } from './components/ilan-basvuru-inceleme/ilan-basvuru-inceleme.component';
 
 export const routes: Routes = [
-    {path: '', redirectTo: 'homepage', pathMatch: 'full'},
-    {path: 'homepage', component: HomepageComponent},
+  { path: '', redirectTo: 'homepage', pathMatch: 'full' },
+  { path: 'homepage', component: HomepageComponent },
 
-    {path: 'login', component: LoginComponent, canActivate: [GuestGuard]},
-    {path: 'register', component: RegisterComponent, canActivate: [GuestGuard]},
+  { path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [GuestGuard] },
 
+  // Profil sayfası için yönlendirmeler ve guardlar.
+  { path: 'profile', component: ProfileComponent, canActivate: [LoginGuard] },
+  {
+    path: 'profiles/:id',
+    component: ProfileComponent,
+    canActivate: [LoginGuard, RoleGuard],
+    data: { roles: ['admin', 'yonetici', 'juri'] },
+  },
+  { path: 'settings', component: SettingsComponent, canActivate: [LoginGuard] },
+  {
+    path: 'bildirimler',
+    component: BildirimlerComponent,
+    canActivate: [LoginGuard],
+  },
 
-    // Profil sayfası için yönlendirmeler ve guardlar.
-    {path: 'profile', component: ProfileComponent, canActivate: [LoginGuard]},
-    {path: 'profiles/:id', component: ProfileComponent, canActivate: [LoginGuard, RoleGuard], data: { roles: ['admin', 'yonetici', 'juri'] }},
-    {path: 'settings', component: SettingsComponent, canActivate: [LoginGuard]},
-    {path: 'bildirimler', component: BildirimlerComponent, canActivate:[LoginGuard]},
+  // Card Detail Sayfası
+  { path: 'detail/:id', component: CardsDetailComponent },
+  {
+    path: 'ilan/basvuru/:id',
+    component: IlanBasvuruComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: 'ilan/basvuru/inceleme/:id',
+    component: IlanBasvuruIncelemeComponent,
+    canActivate: [LoginGuard, RoleGuard],
+    data: { roles: ['admin', 'yonetici', 'juri'] },  
+  },
 
-    // Card Detail Sayfası
-    {path: 'detail/:id', component: CardsDetailComponent},
-    {path: 'ilan/basvuru/:id', component: IlanBasvuruComponent, canActivate:[LoginGuard]},
+  { path: 'ilanlar/aktif', component: IlanlarAktifComponent },
+  { path: 'ilanlar/gecmis', component: IlanlarPasifComponent },
 
-    {path: 'ilanlar/aktif', component: IlanlarAktifComponent},
-    {path: 'ilanlar/gecmis', component: IlanlarPasifComponent},
+  //Admin Dashboard
+  {
+    path: 'admin',
+    component: AdminComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'alan', component: AdminDepartmentManagementComponent },
+      { path: 'role', component: AdminRoleManagementComponent },
+      { path: 'users', component: AdminUserManagementComponent },
+      { path: 'ilan/yonetim', component: AdminIlanManagementComponent },
+      { path: 'ilan/ekle', component: CardsFormsComponent },
+      { path: 'kriter', component: AdminKriterManagementComponent },
+      { path: 'basvuru/durumlari', component: AdminBasvuruDurumComponent },
+      { path: 'bildirim', component: AdminNotificationsComponent },
+      { path: 'email', component: AdminEmailComponent },
+    ],
+    canActivate: [LoginGuard, RoleGuard],
+    data: { roles: ['admin'] },
+  },
 
+  {
+    path: 'yonetici',
+    component: YoneticiComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'ilan/yonetim', component: AdminIlanManagementComponent },
+      { path: 'ilan/ekle', component: CardsFormsComponent },
+      { path: 'ilan/basvurular', component: YoneticiIlanBasvuruComponent },
+      { path: 'alan', component: AdminDepartmentManagementComponent },
+      { path: 'basvuru/durumlari', component: AdminBasvuruDurumComponent },
+      { path: 'kriter', component: AdminKriterManagementComponent },
+      { path: 'bildirim', component: AdminNotificationsComponent },
+      { path: 'email', component: AdminEmailComponent },
+    ],
+    canActivate: [LoginGuard, RoleGuard],
+    data: { roles: ['admin', 'yonetici'] },
+  },
 
-
-
-    //Admin Dashboard
-    {
-        path: 'admin',
-        component: AdminComponent,
-        children: [         
-          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-          { path: 'dashboard', component: AdminDashboardComponent },
-          { path: 'alan', component: AdminDepartmentManagementComponent },
-          { path: 'role', component: AdminRoleManagementComponent},
-          { path: 'users', component: AdminUserManagementComponent }, 
-          { path: 'ilan/yonetim', component: AdminIlanManagementComponent},
-          { path: 'ilan/ekle', component: CardsFormsComponent},
-          { path: 'kriter', component: AdminKriterManagementComponent},
-          { path: 'basvuru/durumlari', component: AdminBasvuruDurumComponent},
-          { path: 'bildirim', component:AdminNotificationsComponent},
-          { path: 'email', component: AdminEmailComponent},
-        ],
-        canActivate: [LoginGuard, RoleGuard],
-        data: { roles: ['admin'] }
-      },
-
-      {
-        path: 'yonetici',
-        component: YoneticiComponent,
-        children: [          
-          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-          { path: 'dashboard', component: AdminDashboardComponent },
-          { path: 'ilan/yonetim', component: AdminIlanManagementComponent},
-          { path: 'ilan/ekle', component: CardsFormsComponent},
-          { path: 'alan', component: AdminDepartmentManagementComponent },
-          { path: 'basvuru/durumlari', component: AdminBasvuruDurumComponent},
-          { path: 'kriter', component: AdminKriterManagementComponent},
-          { path: 'bildirim', component:AdminNotificationsComponent},
-          { path: 'email', component: AdminEmailComponent},
-        ],
-        canActivate: [LoginGuard, RoleGuard],
-        data: { roles: ['admin', 'yonetici' ] }
-      },
-
-
-      { path: 'unauthorized', component: UnauthorizedComponent }, 
-      { path: '**', redirectTo: 'unauthorized' }
-
+  { path: 'unauthorized', component: UnauthorizedComponent },
+  { path: '**', redirectTo: 'unauthorized' },
 ];

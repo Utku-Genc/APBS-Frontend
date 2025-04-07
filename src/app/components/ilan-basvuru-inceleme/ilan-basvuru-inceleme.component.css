@@ -1,0 +1,262 @@
+.basvuru-inceleme-container {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .basvuru-header {
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+  }
+  
+  h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .yukleniyor, .hata-mesaji {
+    text-align: center;
+    padding: 50px 0;
+    color: var(--secondary-text-color);
+  }
+  
+  .yukleniyor i, .hata-mesaji i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    display: block;
+  }
+  
+  .hata-mesaji i {
+    color: #dc3545;
+  }
+  
+  .dosya-container {
+    margin-bottom: 30px;
+  }
+  
+  .dosya-item {
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: var(--card-background-color);
+  }
+  
+  .dosya-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--card-background-color);
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .dosya-header:hover {
+    background-color: var(--input-hover-background-color);
+  }
+  
+  .dosya-adi {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    flex: 1;
+  }
+  
+  .dosya-adi i {
+    margin-right: 10px;
+    color: var(--primary-color);
+  }
+  
+  .dosya-kriterler {
+    flex: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .kriter-badge {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  
+  .dosya-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .dosya-indir-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s;
+  }
+  
+  .dosya-indir-btn:hover {
+    background-color: var(--primary-hover-color);
+  }
+  
+  .dosya-icerik {
+    padding: 15px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    background-color: var(--card-background-color);
+  }
+  
+  .dosya-onizleme {
+    width: 100%;
+    min-height: 200px;
+  }
+  
+  .pdf-container,
+  .image-container,
+  .office-container,
+  .text-container,
+  .default-container {
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: var(--input-background-color);
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    max-height: 500px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .default-container {
+    padding: 30px;
+    text-align: center;
+  }
+  
+  .default-container a {
+    color: var(--primary-color);
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 15px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    transition: all 0.3s;
+  }
+  
+  .default-container a:hover {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .no-data {
+    text-align: center;
+    padding: 50px 0;
+    color: var(--secondary-text-color);
+  }
+  
+  .no-data i {
+    font-size: 50px;
+    margin-bottom: 15px;
+  }
+  
+  .yorum-container {
+    background-color: var(--card-background-color);
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .yorum-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+  }
+  
+  textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+    resize: vertical;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+  
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+  }
+  
+  .gonder-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .gonder-btn:hover {
+    background-color: var(--primary-hover-color);
+  }
+  
+  /* Office dosyaları için stil */
+  .office-container {
+    height: 500px;
+    background-color: white;
+  }
+  
+  /* Yükleme animasyonu */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .fa-spin {
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Özel scroll bar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-bg);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+  }

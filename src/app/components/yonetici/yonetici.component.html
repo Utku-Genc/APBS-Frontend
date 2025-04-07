@@ -39,6 +39,12 @@
               </a>
             </li>
             <li class="nav-item" routerLinkActive="active">
+              <a [routerLink]="['/yonetici/ilan/basvurular']" data-toggle="tooltip" data-placement="right" title="İlan Başvurular">
+                <i class="fa-solid fa-plus-circle"></i>
+                <span [class.hidden]="isSidebarCollapsed && !isMobileView">İlan başvuruları</span>
+              </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
               <a [routerLink]="['/yonetici/alan']" data-toggle="tooltip" data-placement="right" title="Alan ve Bölüm">
                 <i class="fas fa-sitemap"></i>
                 <span [class.hidden]="isSidebarCollapsed && !isMobileView">Alan ve Bölüm</span>

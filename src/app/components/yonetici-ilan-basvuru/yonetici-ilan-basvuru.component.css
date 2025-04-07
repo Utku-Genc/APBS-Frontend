@@ -1,0 +1,377 @@
+/* Genel Stil */
+.title {
+    color: var(--text-color);
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+  }
+  
+  .table-header {
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+  }
+  
+  .user-table th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+  }
+  
+  .user-table td {
+    padding: 12px;
+    border-top: 1px solid var(--secondary-text-color);
+  }
+  .filter-content .form-control {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+    font-size: 14px;
+    margin-bottom: 15px;
+    transition: all 0.25s ease;
+  }
+  
+  .filter-content .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.15);
+    background-color: var(--input-hover-background-color);
+  }
+  
+  .filter-content select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 15px;
+    padding-right: 40px;
+  }
+  .user-table tr:hover {
+    background-color: var(--primary-hover-color);
+    transition: 0.3s;
+  }
+  
+  .user-row {
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+  }
+  
+  .profile-img-default {
+    font-size: 30px;
+    border-radius: 50%;
+    /* Yuvarlak şekil */
+    display: block;
+    color: var(--text-color) !important;
+    padding: 5px;
+  
+  }
+  
+  /* Buton Stilleri */
+  .btn {
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    color: white;
+  }
+  
+  .action-btn {
+    transition: 0.2s;
+  }
+  
+  
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--card-background-color);
+    border-color: var(--card-background-color);
+  }
+  
+  /* Kullanıcı Durum Stilleri */
+  .active-user {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .inactive-user {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  
+  .badge {
+    font-size: 0.9em;
+    padding: 5px 10px;
+    border-radius: 15px;
+  }
+  
+  .bg-secondary {
+    background-color: var(--secondary-color);
+  }
+  
+  /* Açılır Menü */
+  /* Filtreler için Alan Düzeni */
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Aralarındaki boşluk */
+  }
+  
+  /* Her alanı iki sütun halinde yerleştirme */
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Aralarındaki boşluk */
+  }
+  
+  .filter-item {
+    width: calc(50% - 10px);
+    /* İki sütun için genişlik */
+    margin-bottom: 15px;
+    /* Alt boşluk */
+  }
+  
+  .filter-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .filter-content {
+    display: none;
+    background-color: var(--card-background-color);
+    padding: 15px;
+    border-radius: 0px 0px 10px 10px;
+  }
+  
+  .filter-content.open {
+    display: block;
+  }
+  
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .filters input,
+  .filters select,
+  .filters button {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  
+  .filters button {
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    width: 100%;
+  }
+  .filters .btn-filter-reset {
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+  }
+  
+  .filters button:hover {
+    background-color: var(--primary-hover-color);
+    color: white;
+  }
+  
+  
+  /* Modal Styles */
+  #editUserRoleModal .modal-content {
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  #editUserRoleModal .modal-header {
+    background-color: var(--primary-color);
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 15px;
+  }
+  
+  #editUserRoleModal .modal-header .btn-close {
+    color: var(--text-color);
+  }
+  
+  #editUserRoleModal .modal-title {
+    font-size: 1.25rem;
+  }
+  
+  #editUserRoleModal .modal-body {
+    padding: 20px;
+  }
+  
+  #editUserRoleModal .modal-footer {
+    background-color: var(--card-background-color);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 10px;
+  }
+  
+  #editUserRoleModal .list-group-item {
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+    border: 1px solid var(--secondary-text-color);
+  }
+  
+  #editUserRoleModal .list-group-item:hover {
+    background-color: var(--primary-hover-color);
+    transition: 0.3s;
+  }
+  
+  #editUserRoleModal .list-group-item button {
+    font-size: 0.8rem;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  #editUserRoleModal .list-group-item button.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  #editUserRoleModal .list-group-item button.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+  
+  #editUserRoleModal .list-group-item button.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  #editUserRoleModal .list-group-item button.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
+  /* Button Styles */
+  #editUserRoleModal .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  #editUserRoleModal .btn-primary:hover {
+    background-color: var(--card-background-color);
+    border-color: var(--card-background-color);
+  }
+  
+  #editUserRoleModal .btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+  }
+  
+  #editUserRoleModal .btn-secondary:hover {
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
+  }
+  
+  #editUserRoleModal .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  #editUserRoleModal .form-group label {
+    color: var(--text-color);
+  }
+  
+  #editUserRoleModal .form-group p {
+    color: var(--secondary-text-color);
+  }
+  
+  #editUserRoleModal .modal-dialog {
+    max-width: 800px;
+    margin: 30px auto;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
+    #editUserRoleModal .modal-dialog {
+      width: 90%;
+    }
+  
+    #editUserRoleModal .modal-header,
+    #editUserRoleModal .modal-footer {
+      padding: 10px;
+    }
+  
+    #editUserRoleModal .modal-title {
+      font-size: 1.1rem;
+    }
+  
+    #editUserRoleModal .list-group-item {
+      font-size: 0.9rem;
+    }
+  
+    .filter-item {
+      width: 100%;
+      /* Mobilde her alan alt alta olacak */
+    }
+  }
+
+  /* Sayfalama Butonları */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  }
+  
+  .pagination-container button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  }
+  
+  .pagination-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  }
+  
+  .pagination-container button i {
+  margin-right: 8px;
+  }
+  
+  .select-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    width: auto;
+    margin: 0;
+  }
+  
+  .select-button:hover {
+    background-color: var(--primary-hover-color);
+  }
