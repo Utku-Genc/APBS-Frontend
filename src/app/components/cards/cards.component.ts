@@ -12,7 +12,8 @@ import { IlanService } from '../../services/ilan.service';
 import { IlanDetailModel } from '../../models/ilan/ilan-detail.model';
 import { SummaryPipe } from '../../pipes/summary.pipe';
 import { CommonModule, DatePipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
+import { IlanBasvuruService } from '../../services/ilan-basvuru.service';
 
 @Component({
   selector: 'utk-cards',
@@ -42,6 +43,7 @@ export class CardsComponent implements OnInit, OnChanges {
   title = 'İlanlar';
 
   private ilanService = inject(IlanService);
+  private route = inject(ActivatedRoute);
 
   ngOnInit(): void {
   }
@@ -64,9 +66,30 @@ export class CardsComponent implements OnInit, OnChanges {
   getAllActives() {
     const currentUrl = window.location.href;
     if (currentUrl.includes('/profiles/')) {
-      this.title = 'Aktif Başvuruları';
+      this.title = 'Başvuruları';
+      this.route.params.subscribe(params => {
+        const id: number = +params['id'];
+        this.ilanService.getAppliedIlanByUser(id).subscribe({
+          next: (response) => {
+            this.ilanlar = response.data;
+            this.ilanSayisiChange.emit(this.ilanlar.length);
+          },
+          error: (err) => {
+            console.error('Başvuruları alırken hata oluştu:', err);
+          }
+        });
+      });
     } else if (currentUrl.includes('/profile')) {
-      this.title = 'Aktif Başvurularınız';
+      this.title = 'Başvurularınız';
+      this.ilanService.getAppliedIlanByToken().subscribe({
+        next: (response) => {
+          this.ilanlar = response.data;
+          this.ilanSayisiChange.emit(this.ilanlar.length);
+        },
+        error: (err) => {
+          console.error('Başvuruları alırken hata oluştu:', err);
+        }
+      });
     } else if (currentUrl.includes('/ilanlar/aktif')) {
       this.title = 'Aktif İlanlar';
       this.filters.ilanTipi = '1';

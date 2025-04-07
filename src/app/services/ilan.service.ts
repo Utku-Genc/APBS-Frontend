@@ -3,6 +3,8 @@ import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
 import { IlanAddModel } from '../models/ilan/ilan-add.model';
 import { SingleResponseModel } from '../models/response/single.response.model';
+import { IlanDetailModel } from '../models/ilan/ilan-detail.model';
+import { ListResponseModel } from '../models/response/list.response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -119,5 +121,11 @@ export class IlanService {
 
   activate(userId: number): Observable<any> {
     return this.apiService.put<any>(`${this.endpoint}activate/${userId}`, {});
+  }
+  getAppliedIlanByUser(userId: number): Observable<ListResponseModel<IlanDetailModel>> {
+    return this.apiService.get<ListResponseModel<IlanDetailModel>>(`${this.endpoint}getAppliedIlanByUser?userId=${userId}`);
+  }
+  getAppliedIlanByToken(): Observable<ListResponseModel<IlanDetailModel>> {
+    return this.apiService.get<ListResponseModel<IlanDetailModel>>(`${this.endpoint}getAppliedIlanByToken`);
   }
 }
