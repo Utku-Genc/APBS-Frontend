@@ -235,15 +235,22 @@ export class AdminNotificationsComponent implements OnInit {
       next: (response) => {
         if (response && response.data) {
           this.notifications = response.data;
-        } else {
-          this.notifications = [];
-          this.toastService.error(response.message);
+        }else {
+          this.toastrService.error('Bildirimler getirilemedi1!', response.message);
         }
       },
-      error: (error) => {
-        this.toastService.error('Bildirim verileri alınamadı: ' + error.message);
-        this.notifications = [];
-      }
+      error: (err) => {
+        if (err.error?.ValidationErrors) {
+          const errorMessages = err.error.ValidationErrors.map(
+            (error: { ErrorMessage: string }) => error.ErrorMessage
+          );
+          errorMessages.forEach((Message: string | undefined) => {
+            this.toastrService.error(Message);
+          });
+        } else {
+          this.toastrService.error(err.Message, 'Bildirimler getirilemedi!');
+        }
+      },
     });
   }
 
