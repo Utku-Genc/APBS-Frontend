@@ -1,4 +1,4 @@
-<h2 class="content-title">İlan Yönetimi</h2>
+<h2 class="content-title">Jüri Atama</h2>
 <!-- Filtreleme Bölümü (Solda) -->
 <div>
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
@@ -51,28 +51,6 @@
         </select>
       </div>
     </div>
-
-
-
-    <div class="row">
-      <div class="col-md">
-        <label>Durum:</label>
-        <select [(ngModel)]="filters.status" (change)="onFilterChange(filters)" class="form-control">
-          <option [ngValue]="null">Tümü</option>
-          <option [ngValue]="true">Aktif</option>
-          <option [ngValue]="false">Pasif</option>
-        </select>
-      </div>
-      <div class="col-md">
-        <label>İlan Tipi:</label>
-        <select [(ngModel)]="filters.ilanTipi" (change)="onFilterChange(filters)" class="form-control">
-          <option [ngValue]="null">Tümü</option>
-          <option [ngValue]="1">Aktif İlanlar</option>
-          <option [ngValue]="2">Geçmiş İlanlar</option>
-        </select>
-      </div>
-    </div>
-
     <!-- Sıfırlama Butonu -->
     <button (click)="resetFilters()" class="btn btn-secondary">
       <i class="fa fa-refresh"></i> Filtreyi Sıfırla
@@ -92,11 +70,9 @@
         <th><i class="fas fa-eye"></i> İlan</th>
         <th scope="col"><i class="fa-solid fa-hashtag"></i> ID</th>
         <th scope="col"><i class="fas fa-heading"></i> Başlık</th>
-        <th scope="col"><i class="fas fa-align-left"></i> Açıklama</th>
         <th scope="col"><i class="fa-solid fa-briefcase"></i> Bölüm</th>
         <th scope="col"><i class="fa-solid fa-book"></i> Pozisyon</th>
-        <th scope="col"><i class="fas fa-user"></i> Yükleyen</th>
-        <th scope="col"><i class="fas fa-check-circle"></i> Durum</th>
+        <th scope="col"><i class="fa-solid fa-users"></i> Jüriler</th>
         <th scope="col"><i class="fas fa-calendar"></i> İlan Tipi</th>
         <th scope="col" colspan="3"><i class="fas fa-tools"></i> İşlemler</th>
       </tr>
@@ -111,22 +87,19 @@
           </a>
         </td>
         <td><i class="fa-solid fa-hashtag"></i>{{ item.id }}</td>
-        <td>{{ item.baslik | summary:15 }}</td>
-        <td>{{ stripHtml(item.aciklama) | summary:30 }}</td>
+        <td>{{ item.baslik | summary:25 }}</td>
         <td>{{ item.bolum.ad}}</td>
         <td>{{ item.pozisyon.ad}}</td>
         <td>
-          <span *ngIf="item.olusturan">
-            <i class="fa-solid fa-hashtag"></i>{{ item.olusturan.id }}
-            {{ item.olusturan.firstName }} {{ item.olusturan.lastName }}
-          </span>
-          <span *ngIf="!item.olusturan">Bilinmiyor</span>
-        </td>
-        <td>
-          <span class="w-100" [class]="item.status ? 'badge bg-success' : 'badge bg-secondary'">
-            <i class="fas" [ngClass]="item.status ? 'fa-check-circle' : 'fa-times-circle'"></i>
-            {{ item.status ? 'Aktif' : 'Pasif' }}
-          </span>
+            <span class="w-100">
+              #{{item.olusturan.id}}  {{ item.olusturan.firstName }},
+            </span>
+            <span class="w-100">
+              #{{item.olusturan.id}}  {{ item.olusturan.firstName }},
+            </span>
+            <span class="w-100">
+              #{{item.olusturan.id}}  {{ item.olusturan.firstName }}
+            </span>
         </td>
         <td>
           <span class="w-100" [ngClass]="getIlanTipiBadgeClass(item)">
@@ -134,23 +107,13 @@
             {{ getIlanTipiLabel(item) }}
           </span>
         </td>
+
         <td>
-          <button class="btn action-btn w-100" [ngClass]="item.status ? 'btn-danger' : 'btn-success'"
-            (click)="item.status ? deactivate(item.id) : activate(item.id)">
-            <i class="fas" [ngClass]="item.status ? 'fa-ban' : 'fa-check'"></i>
-            {{ item.status ? 'Pasif Et' : 'Aktif Et' }}
+          <button class="btn action-btn btn-warning w-100">
+            <i class="fa-solid fa-pen"></i> Jüri Ekle
           </button>
         </td>
-        <td>
-          <button class="btn action-btn btn-warning w-100" (click)="edit(item.id)">
-            <i class="fa-solid fa-pen"></i> Düzenle
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-danger w-100" (click)="onDelete(item.id)">
-            <i class="fas fa-trash-alt"></i> Sil
-          </button>
-        </td>
+
       </tr>
     </tbody>
   </table>
@@ -169,6 +132,7 @@
 </div>
 
 <!-- Düzenle Modal -->
+ <!--
 <div class="modal modal-xl fade" #editModal tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -233,3 +197,4 @@
     </div>
   </div>
 </div>
+-->

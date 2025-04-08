@@ -6,10 +6,15 @@
       <span class="navbar-title">Akademik Personel Başvuru Sistemi</span>
     </a>
 
+    <!-- Tema Değiştirme Butonu - Navbar dışında -->
+    <button class="btn btn-outline-secondary theme-toggle-btn" (click)="switchTheme()">
+      <i [class]="isDarkTheme ? 'fas fa-sun' : 'fas fa-moon'"></i>
+    </button>
+
     <!-- Navbar Toggle Button (Mobil için) Herkeste sabit-->
-    <button class="navbar-toggler" type="button" (click)="toggleMobileMenu()" aria-controls="navbarNav"
+    <button class="navbar-toggler" type="button" (click)="toggleMobileMenu($event)" aria-controls="navbarNav"
       aria-expanded="false" aria-label="Toggle navigation">
-<i class="fa-solid fa-bars"></i>
+      <i class="fa-solid fa-bars"></i>
     </button>
 
     <!-- Navbar Menü -->
@@ -98,13 +103,6 @@
             </ul>
           </li>
         </ng-container>
-
-        <!-- Tema Değiştirme Butonu -->
-        <li class="nav-item">
-          <button class="btn btn-outline-secondary" (click)="switchTheme()">
-            <i [class]="isDarkTheme ? 'fas fa-sun' : 'fas fa-moon'"></i>
-          </button>
-        </li>
       </ul>
     </div>
   </div>

@@ -30,6 +30,7 @@ import { IlanBasvuruComponent } from './components/ilan-basvuru/ilan-basvuru.com
 import { YoneticiComponent } from './components/yonetici/yonetici.component';
 import { YoneticiIlanBasvuruComponent } from './components/yonetici-ilan-basvuru/yonetici-ilan-basvuru.component';
 import { IlanBasvuruIncelemeComponent } from './components/ilan-basvuru-inceleme/ilan-basvuru-inceleme.component';
+import { YoneticiIlanJuriComponent } from './components/yonetici-ilan-juri/yonetici-ilan-juri.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'homepage', pathMatch: 'full' },
@@ -99,6 +100,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'ilan/yonetim', component: AdminIlanManagementComponent },
       { path: 'ilan/ekle', component: CardsFormsComponent },
+      { path: 'ilan/juri', component: YoneticiIlanJuriComponent},
       { path: 'ilan/basvurular', component: YoneticiIlanBasvuruComponent },
       { path: 'alan', component: AdminDepartmentManagementComponent },
       { path: 'basvuru/durumlari', component: AdminBasvuruDurumComponent },
