@@ -1,6 +1,7 @@
 /* Navbar Renk Düzenlemeleri */
 .navbar {
     background-color: var(--primary-color);
+
 }
 
 .navbar .navbar-brand {
@@ -22,6 +23,7 @@
     transition: all 0.3s ease;
     border-radius: 5px;
     margin: 0 5px;
+
 }
 
 .navbar .nav-link:hover {
@@ -42,36 +44,15 @@
     max-width: 400px;
 }
 
-/* Tema değiştir button - Genel stil */
-.navbar .btn-outline-secondary, 
-.theme-toggle-btn {
+/* Tema değiştir button */
+.navbar .btn-outline-secondary {
     color: var(--text-color);
     border-color: var(--primary-color);
 }
 
-.navbar .btn-outline-secondary:hover,
-.theme-toggle-btn:hover {
+.navbar .btn-outline-secondary:hover {
     background-color: var(--primary-color);
     color: var(--text-color);
-}
-
-/* Container düzeni */
-.container-fluid {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-/* Tema değiştirme butonu için özel düzenleme */
-.theme-toggle-btn {
-    position: absolute;
-    right: 15px;
-    z-index: 1050; /* Diğer elementlerin üzerinde görünmesi için yüksek z-index */
-}
-
-/* Navbar menüsü için düzen */
-.navbar-collapse {
-    padding-right: 50px; /* Tema butonu için yer açıyoruz */
 }
 
 /* Profil dropdown */
@@ -85,6 +66,7 @@
 .navbar .nav-item.dropdown .dropdown-menu .dropdown-item:hover {
     background-color: var(--primary-hover-color);
     color: white;
+
 }
 
 .icon-container {
@@ -98,45 +80,33 @@
     font-size: 20px;
 }
 
-/* Mobil Menü - Animasyon İyileştirmesi */
+/* Mobil Menü */
 .navbar-collapse {
-    display: block !important;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
-    opacity: 0;
-    visibility: hidden;
+    transition: all 0.3s ease;
 }
 
 .navbar-collapse.show {
-    max-height: 500px; /* Bu değeri menünüzün maksimum yüksekliğine göre ayarlayın */
-    opacity: 1;
-    visibility: visible;
+    display: block !important;
 }
 
-/* Güneş ve Ay simgesi animasyon */
-.navbar .btn-outline-secondary i.fas.fa-sun,
-.theme-toggle-btn i.fas.fa-sun {
-    color: #ffda85;
-    /* Güneş rengi */
+.navbar .btn-outline-secondary i.fas.fa-sun {
+    color:
+        #ffda85;
     width: 20px;
 }
 
-.navbar .btn-outline-secondary i.fas.fa-moon,
-.theme-toggle-btn i.fas.fa-moon {
-    color: #ffffff;
-    /* Ay rengi */
+.navbar .btn-outline-secondary i.fas.fa-moon {
+    color:
+        #ffffff;
     width: 20px;
+
 }
 
 .navbar .navbar-title {
     display: inline-block;
     max-width: 90%;
-    /* Başlık, container'a sığacak şekilde boyutlandırılır */
     word-wrap: break-word;
-    /* Uzun kelimeler alt satıra kayar */
     white-space: normal;
-    /* Satır sonunda otomatik olarak alt satıra geçer */
 }
 
 @media screen and (max-width: 500px) {
@@ -150,41 +120,6 @@
 }
 
 @media screen and (max-width: 991px) {
-    /* Mobil görünümde tema butonunun konumu */
-    .theme-toggle-btn {
-        position: static;
-        margin-left: auto;
-        margin-right: 10px;
-        z-index: auto;
-    }
-    
-    /* Navbar collapse için padding'i kaldır */
-    .navbar-collapse {
-        padding-right: 0;
-    }
-    
-    /* Navbar flexbox düzeni */
-    .container-fluid {
-        flex-wrap: wrap;
-    }
-    
-    .navbar-brand {
-        flex: 1;
-    }
-    
-    .navbar-toggler {
-        order: 3;
-    }
-    
-    .theme-toggle-btn {
-        order: 2;
-    }
-    
-    .navbar-collapse {
-        order: 4;
-        width: 100%;
-    }
-
     .navbar .nav-item {
         margin: 5px 0;
         width: 100%;
@@ -193,9 +128,9 @@
 
     .start-100 {
         left: 10% !important;
-        top: 15%!important;
+        top: 15% !important;
     }
-    
+
     .navbar .nav-item .nav-link {
         background-color: var(--primary-color) !important;
         margin: 0 16px;

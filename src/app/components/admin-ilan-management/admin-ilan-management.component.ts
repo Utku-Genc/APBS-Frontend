@@ -13,6 +13,10 @@ import { QuillModule } from 'ngx-quill';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { UserListModel } from '../../models/user/user-list.model';
+import { IlanJuriService } from '../../services/ilan-juri.service';
+import { IlanJuriGetByIlanIdModel } from '../../models/ilan-juri/ilan-juri-get-by-ilan-id.model';
 
 @Component({
   selector: 'utk-admin-ilan-management',
@@ -22,8 +26,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 })
 export class AdminIlanManagementComponent implements OnInit {
   private ilanService = inject(IlanService);
+  private userService = inject(UserService);
   private positionService = inject(PositionService);
   private bolumService = inject(BolumService);
+  private ilanJuriService = inject(IlanJuriService);
   private sanitizer = inject(DomSanitizer);
   private toastService = inject(ToastService);
   private toastrService = inject(ToastrService);
@@ -32,10 +38,20 @@ export class AdminIlanManagementComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   @ViewChild('editModal') editModal!: ElementRef;
+  @ViewChild('juriModal') juriModal!: ElementRef;
+  
   ilansModelObj: IlanDetailModel[] = [];
   formData: any = {}; 
   positions: any[] = [];
   bolums: any[] = [];
+
+  userObj: UserListModel[] = [];
+  selectedIlanJuris: IlanJuriGetByIlanIdModel[] = [];  
+  selectedIlanId: number = 0;
+  
+  isLoadingUsers: boolean = false;
+  userPageSize: number = 8;
+  userPageNumber: number = 1;
   
   filtersOpen: boolean = false;
   ilanSayisi: number = 0;
@@ -51,6 +67,19 @@ export class AdminIlanManagementComponent implements OnInit {
     status: null,
     ilanTipi: null,
   };
+
+  userFilters = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    nationalityId: '',
+    searchTerm: '',
+    status: undefined as boolean | undefined,
+    operationClaimId: '',
+    OperationClaimName: 'juri',
+    minDateOfBirth: '',
+    maxDateOfBirth: ''
+  }
   private handlingUrlParams = false;
 
   editorConfig = {
@@ -65,6 +94,8 @@ export class AdminIlanManagementComponent implements OnInit {
   ngOnInit(): void {
     // Önce route parametrelerini kontrol et
     this.route.queryParams.subscribe(params => {
+      this.handlingUrlParams = true;
+      
       // URL'den parametreleri al
       if (params['page']) {
         this.pageNumber = parseInt(params['page']);
@@ -101,6 +132,8 @@ export class AdminIlanManagementComponent implements OnInit {
       
       // Parametreler alındıktan sonra verileri getir
       this.getAllIlans();
+      
+      this.handlingUrlParams = false;
     });
 
     this.getPositions();
@@ -116,8 +149,8 @@ export class AdminIlanManagementComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.ilansModelObj = response.data;
-          this.ilanSayisi = response.totalCount || this.ilansModelObj.length; // API toplam sayıyı dönüyorsa onu al, yoksa mevcut veri sayısını kullan
-          this.cdRef.detectChanges(); // Değişiklikleri bildir
+          this.ilanSayisi = response.totalCount || this.ilansModelObj.length;
+          this.cdRef.detectChanges();
         },
         error: (error) => {
           this.toastService.error('İlanlar yüklenirken bir hata oluştu.');
@@ -147,6 +180,182 @@ export class AdminIlanManagementComponent implements OnInit {
       }
     });
   }
+
+  searchUsers() {
+    this.isLoadingUsers = true;
+    this.userPageNumber = 1;
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.isLoadingUsers = true;
+    this.userService
+      .getUsersByQuery(
+        this.userPageSize,
+        this.userPageNumber,
+        "id",
+        false,
+        this.userFilters
+      )
+      .subscribe({
+        next: (response) => {
+          this.isLoadingUsers = false;
+          if (response.isSuccess) {
+            let filteredUsers = response.data;
+            
+            // Filter out users who are already assigned as jurors
+            if (this.selectedIlanJuris && this.selectedIlanJuris.length > 0) {
+              // Extract user IDs from the nested structure
+              const assignedUserIds = this.selectedIlanJuris.map(jury => jury.kullaniciId);
+              // Filter the user list to exclude assigned jurors
+              filteredUsers = filteredUsers.filter(user => !assignedUserIds.includes(user.id));
+            }
+            
+            // Set the filtered list to userObj
+            this.userObj = filteredUsers;
+            this.cdRef.detectChanges();
+          } else {
+            this.toastService.error('Kullanıcılar yüklenirken hata oluştu.');
+          }
+        },
+        error: (error) => {
+          this.isLoadingUsers = false;
+          this.toastService.error('API isteği başarısız oldu.');
+        }
+      });
+  }
+  
+  deleteJuri(juryId: number) {
+    // Find the jury entry to be removed
+    const removedJury = this.selectedIlanJuris.find(jury => jury.id === juryId);
+    
+    Swal.fire({
+      title: 'Jüri Silme',
+      text: 'Bu jüriyi silmek istediğinizden emin misiniz?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Evet, sil',
+      cancelButtonText: 'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Remove from UI first (optimistic update)
+        this.selectedIlanJuris = this.selectedIlanJuris.filter(jury => jury.id !== juryId);
+        this.cdRef.detectChanges();
+        
+        this.ilanJuriService.delete(juryId).subscribe({
+          next: (response) => {
+            if (response.isSuccess) {
+              this.toastService.success('Jüri başarıyla silindi.');
+              
+              // After successful deletion, refresh the user list to include the removed juror
+              this.getUsers();
+            } else {
+              // If operation failed, add the jury back to the list
+              if (removedJury) {
+                this.selectedIlanJuris.push(removedJury);
+                this.cdRef.detectChanges();
+              }
+              this.toastService.error(response.message || 'Jüri silme işlemi başarısız oldu.');
+            }
+          },
+          error: (error) => {
+            // If error, add the jury back to the list
+            if (removedJury) {
+              this.selectedIlanJuris.push(removedJury);
+              this.cdRef.detectChanges();
+            }
+            this.toastService.error('Jüri silme sırasında bir hata oluştu.');
+          }
+        });
+      }
+    });
+  }
+  onUserPageChange(newPage: number) {
+    if (newPage < 1) return;
+    
+    this.userPageNumber = newPage;
+    this.getUsers();
+  }
+
+  juriAtama(ilanId: number) {
+    this.selectedIlanId = ilanId;
+    this.userFilters.searchTerm = '';
+    this.userObj = [];
+    
+    // Önce jürileri yükle, sonra kullanıcıları getir
+    this.getJurisByIlanId(ilanId, () => {
+      // getUsers içinde jüri filtresi uygulanacağı için burada çağrıyoruz
+      this.getUsers();
+      
+      // Jüri atama modalını aç
+      const modal = new bootstrap.Modal(this.juriModal.nativeElement);
+      modal.show();
+    });
+  }
+
+  getJurisByIlanId(ilanId: number, callback?: () => void) {
+    this.ilanJuriService.getByIlanId(ilanId).subscribe({
+      next: (response) => {
+        if (response.isSuccess) {
+          // Store the jury objects with their structure
+          this.selectedIlanJuris = response.data;
+        } else {
+          this.selectedIlanJuris = [];
+          this.toastService.error('Jüri bilgileri yüklenirken hata oluştu.');
+        }
+        
+        this.cdRef.detectChanges();
+        if (callback) callback();
+      },
+      error: (error) => {
+        this.selectedIlanJuris = [];
+        this.toastService.error('Jüri bilgileri yüklenirken bir hata oluştu.');
+        
+        this.cdRef.detectChanges();
+        if (callback) callback();
+      }
+    });
+  }
+
+  addJuri(userId: number) {
+    const juriData = {
+      ilanId: this.selectedIlanId,
+      kullaniciId: userId
+    };
+  
+    // Eklenen kullanıcıyı geçici olarak listeden kaldır
+    const addedUser = this.userObj.find(user => user.id === userId);
+    if (addedUser) {
+      this.userObj = this.userObj.filter(user => user.id !== userId);
+    }
+    
+    this.ilanJuriService.add(juriData).subscribe({
+      next: (response) => {
+        if (response.isSuccess) {
+          this.toastService.success('Jüri başarıyla atandı.');
+          
+          // Jüri listesini güncellemek için tekrar yükle
+          this.getJurisByIlanId(this.selectedIlanId);
+        } else {
+          // Başarısız olursa listede göster
+          if (addedUser) {
+            this.userObj.push(addedUser);
+            this.cdRef.detectChanges();
+          }
+          this.toastService.error(response.message || 'Jüri atama işlemi başarısız oldu.');
+        }
+      },
+      error: (error) => {
+        // Hata olursa listede göster
+        if (addedUser) {
+          this.userObj.push(addedUser);
+          this.cdRef.detectChanges();
+        }
+        this.toastService.error('Jüri atama sırasında bir hata oluştu.');
+      }
+    });
+  }
+
 
   stripHtml(html: string): string {
     if (!html) return '';

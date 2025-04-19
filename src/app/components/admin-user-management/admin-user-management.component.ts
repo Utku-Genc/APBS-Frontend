@@ -18,6 +18,7 @@ import { OperationClaimService } from '../../services/operation-claim.service';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { OperationClaimModel } from '../../models/operation-claim/operation-claim.model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'utk-admin-user-management',
@@ -44,7 +45,9 @@ export class AdminUserManagementComponent implements OnInit {
     lastName: '',
     email: '',
     nationalityId: '',
-    status: undefined,
+    status: undefined as boolean | undefined,
+    operationClaimId: '',
+    OperationClaimName: '',
     minDateOfBirth: '',
     maxDateOfBirth: ''
   };
@@ -55,6 +58,7 @@ export class AdminUserManagementComponent implements OnInit {
   
   userRole: UserOperationClaimModel[] = [];
   roles: OperationClaimModel[] = [];
+  loadingUsers = false;
 
   selectedUserRoles: any[] = [];
   selectedAvailableRoles: any[] = [];
@@ -63,29 +67,40 @@ export class AdminUserManagementComponent implements OnInit {
   profileImage: boolean = false;
 
   ngOnInit(): void {
-    this.loadFiltersFromUrl();
-    this.getAllRoles();
-  }
-  
-  loadFiltersFromUrl() {
-    this.activatedRoute.queryParams.subscribe((params) => {
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
       // URL'den filtre parametrelerini al
       this.filters.firstName = params['firstName'] || '';
       this.filters.lastName = params['lastName'] || '';
       this.filters.email = params['email'] || '';
-      this.filters.status = params['status'] || undefined;
+      
+      // Status değerini doğru şekilde ayarla
+      if (params['status'] === 'true') {
+        this.filters.status = true;
+      } else if (params['status'] === 'false') {
+        this.filters.status = false;
+      } else {
+        this.filters.status = undefined;
+      }
+      
+      this.filters.OperationClaimName = params['OperationClaimName'] || '';
+      this.filters.operationClaimId = params['operationClaimId'] || '';
       this.filters.minDateOfBirth = params['minDateOfBirth'] || '';
       this.filters.maxDateOfBirth = params['maxDateOfBirth'] || '';
-  
+
       // Sayfa numarasını al
       this.pageNumber = +params['page'] || 1;
   
       // Filtrelerle kullanıcıları yükle
       this.loadUsers();
     });
+    
+    this.getAllRoles();
   }
   
   loadUsers() {
+    if (this.loadingUsers) return;
+    
+    this.loadingUsers = true;
     this.userService
       .getUsersByQuery(
         this.pageSize,
@@ -96,24 +111,24 @@ export class AdminUserManagementComponent implements OnInit {
       )
       .subscribe(
         (response) => {
+          this.loadingUsers = false;
           if (response.isSuccess) {
             this.users = response.data;
-            this.users.forEach((user) => {
-              this.getUsersRoleById(user.id);
-            });
           } else {
             this.toastService.error('Kullanıcılar yüklenirken hata oluştu.');
           }
         },
         (error) => {
+          this.loadingUsers = false;
           this.toastService.error('API isteği başarısız oldu.');
         }
       );
-  
-    // URL'yi güncelle
-    this.updateUrlWithFilters();
   }
   
+  applyFilters() {
+    this.pageNumber = 1; // Filtreleme yapılırken sayfa numarasını sıfırla
+    this.updateUrlWithFilters();
+  }
 
   getUsersRoleById(userId: number) {
     this.userOperationClaimService.getByUserId(userId).subscribe(
@@ -133,52 +148,62 @@ export class AdminUserManagementComponent implements OnInit {
     );
   }
 
-updateUrlWithFilters() {
-  const queryParams: any = {};
+  updateUrlWithFilters() {
+    const queryParams: any = {};
 
-  if (this.filters.firstName) queryParams.firstName = this.filters.firstName;
-  if (this.filters.lastName) queryParams.lastName = this.filters.lastName;
-  if (this.filters.email) queryParams.email = this.filters.email;
-  if (this.filters.status) queryParams.status = this.filters.status;
-  if (this.filters.minDateOfBirth) queryParams.minDateOfBirth = this.filters.minDateOfBirth;
-  if (this.filters.maxDateOfBirth) queryParams.maxDateOfBirth = this.filters.maxDateOfBirth;
-  if (this.pageNumber) queryParams.page = this.pageNumber;
+    if (this.filters.firstName) queryParams.firstName = this.filters.firstName;
+    if (this.filters.lastName) queryParams.lastName = this.filters.lastName;
+    if (this.filters.email) queryParams.email = this.filters.email;
+    if (this.filters.status === true || this.filters.status === false) queryParams.status = this.filters.status.toString();
+    if (this.filters.OperationClaimName) queryParams.OperationClaimName = this.filters.OperationClaimName;
+    if (this.filters.operationClaimId) queryParams.operationClaimId = this.filters.operationClaimId;
+    if (this.filters.minDateOfBirth) queryParams.minDateOfBirth = this.filters.minDateOfBirth;
+    if (this.filters.maxDateOfBirth) queryParams.maxDateOfBirth = this.filters.maxDateOfBirth;
+    if (this.pageNumber > 1) queryParams.page = this.pageNumber;
 
-  this.router.navigate([], {
-    relativeTo: this.activatedRoute,
-    queryParams: queryParams,
-    queryParamsHandling: 'merge', // Diğer parametreleri kaybetmeden birleştir
-  });
-}
+    // Navigate to the new URL with our filters
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: queryParams,
+      queryParamsHandling: '',
+    }).then(() => {
+      // Only after navigation is complete, load users
+      this.loadUsers();
+    });
+  }
 
-resetFilters() {
-  this.filters = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    nationalityId: '',
-    status: undefined,
-    minDateOfBirth: '',
-    maxDateOfBirth: ''
-  };
-  this.pageNumber = 1;
-  this.loadUsers();
-}
+  resetFilters() {
+    this.filters = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      nationalityId: '',
+      operationClaimId: '',
+      OperationClaimName: '',
+      status: undefined,
+      minDateOfBirth: '',
+      maxDateOfBirth: ''
+    };
+    this.pageNumber = 1;
+    this.updateUrlWithFilters();
+  }
 
-toggleFilters() {
-  this.showFilters = !this.showFilters;
-}
+  toggleFilters() {
+    this.showFilters = !this.showFilters;
+  }
+
   previousPage() {
     if (this.pageNumber > 1) {
       this.pageNumber--;
-      this.loadUsers();
+      this.updateUrlWithFilters();
     }
   }
 
   nextPage() {
     this.pageNumber++;
-    this.loadUsers();
+    this.updateUrlWithFilters();
   }
+
   // API'den kullanıcıları çekme
   getAllRoles() {
     this.operationClaimService.getAll().subscribe(
@@ -238,7 +263,6 @@ toggleFilters() {
         this.userService.activateUser(userId).subscribe((response) => {
           if (response.isSuccess) {
             this.toastService.success(response.message);
-
             this.loadUsers(); // Kullanıcıları yeniden yükle
           } else {
             this.toastService.error('Engel kaldırılırken hata oluştu.');

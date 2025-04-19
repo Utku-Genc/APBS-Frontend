@@ -34,6 +34,8 @@ export class UserService {
       nationalityId?: string;
       searchTerm?: string;
       email?: string;
+      operationClaimId?: string;
+      OperationClaimName?: string;
       minDateOfBirth?: string;
       maxDateOfBirth?: string;
       status?: boolean;
@@ -48,6 +50,8 @@ export class UserService {
       if (filters.nationalityId) queryParams += `&NationalityId=${filters.nationalityId}`;
       if (filters.searchTerm) queryParams += `&SearchTerm=${encodeURIComponent(filters.searchTerm)}`;
       if (filters.email) queryParams += `&Email=${encodeURIComponent(filters.email)}`;
+      if (filters.operationClaimId) queryParams += `&OperationClaimId=${filters.operationClaimId}`;
+      if (filters.OperationClaimName) queryParams += `&OperationClaimName=${encodeURIComponent(filters.OperationClaimName)}`;
       if (filters.minDateOfBirth) queryParams += `&MinDateOfBirth=${filters.minDateOfBirth}`;
       if (filters.maxDateOfBirth) queryParams += `&MaxDateOfBirth=${filters.maxDateOfBirth}`;
       if (filters.status !== undefined) queryParams += `&Status=${filters.status}`;

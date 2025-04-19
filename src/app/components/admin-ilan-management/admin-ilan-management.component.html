@@ -96,9 +96,8 @@
         <th scope="col"><i class="fa-solid fa-briefcase"></i> Bölüm</th>
         <th scope="col"><i class="fa-solid fa-book"></i> Pozisyon</th>
         <th scope="col"><i class="fas fa-user"></i> Yükleyen</th>
-        <th scope="col"><i class="fas fa-check-circle"></i> Durum</th>
         <th scope="col"><i class="fas fa-calendar"></i> İlan Tipi</th>
-        <th scope="col" colspan="3"><i class="fas fa-tools"></i> İşlemler</th>
+        <th scope="col" colspan="4"><i class="fas fa-tools"></i> İşlemler</th>
       </tr>
     </thead>
     <tbody>
@@ -123,12 +122,6 @@
           <span *ngIf="!item.olusturan">Bilinmiyor</span>
         </td>
         <td>
-          <span class="w-100" [class]="item.status ? 'badge bg-success' : 'badge bg-secondary'">
-            <i class="fas" [ngClass]="item.status ? 'fa-check-circle' : 'fa-times-circle'"></i>
-            {{ item.status ? 'Aktif' : 'Pasif' }}
-          </span>
-        </td>
-        <td>
           <span class="w-100" [ngClass]="getIlanTipiBadgeClass(item)">
             <i class="fas fa-calendar"></i>
             {{ getIlanTipiLabel(item) }}
@@ -139,6 +132,11 @@
             (click)="item.status ? deactivate(item.id) : activate(item.id)">
             <i class="fas" [ngClass]="item.status ? 'fa-ban' : 'fa-check'"></i>
             {{ item.status ? 'Pasif Et' : 'Aktif Et' }}
+          </button>
+        </td>
+        <td>
+          <button class="btn action-btn btn-warning w-100" (click)="juriAtama(item.id)">
+            <i class="fa-solid fa-users"></i> Jüriler
           </button>
         </td>
         <td>
@@ -229,6 +227,83 @@
             <button class="btn btn-primary" type="submit">Kaydet</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Jüri Atama Modal -->
+<div class="modal fade" id="juriModal" #juriModal tabindex="-1" aria-labelledby="juriModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="juriModalLabel">İlana Jüri Atama</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{selectedIlanId}} ID'li ilana atanmış jüriler aşağıda gösterilmektedir.</p>
+
+        <!-- Arama Bölümü -->        
+        <div class="mb-3">
+          <label for="searchTerm" class="form-label"><strong>Kullanıcı Ara:</strong></label>
+          <div class="input-group">
+            <input type="text" id="searchTerm" class="form-control w-50" [(ngModel)]="userFilters.searchTerm"
+              placeholder="Ad, soyad veya email ile ara...">
+            <button class="btn btn-primary input-group-text w-25" (click)="searchUsers()">
+              <i class="fa fa-search"></i> Ara
+            </button>
+          </div>
+        </div>
+
+        <div class="d-flex">
+          <div class="form-group col me-2">
+            <label class="mb-2"><strong>Atanmış Jüriler</strong></label>
+            <ul class="list-group" *ngIf="selectedIlanJuris && selectedIlanJuris.length > 0; else noJuris">
+              <li class="list-group-item" *ngFor="let juri of selectedIlanJuris"> 
+                #{{juri.kullaniciId}} {{ juri.juri.firstName }} {{ juri.juri.lastName }}
+                <button class="btn btn-danger btn-sm float-end" (click)="deleteJuri(juri.id)">Sil</button>
+              </li>
+            </ul>
+            <ng-template #noJuris>
+              <p>Bu ilana atanmış jüri bulunmamaktadır.</p>
+            </ng-template>
+          </div>
+
+          <div class="form-group ms-2 col">
+            <label class="mb-2"><strong>Eklenebilir Kullanıcılar</strong></label>
+            <div *ngIf="isLoadingUsers" class="text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Yükleniyor...</span>
+              </div>
+            </div>
+            <ul class="list-group" *ngIf="!isLoadingUsers && userObj && userObj.length > 0; else noUsers">
+              <li class="list-group-item" *ngFor="let user of userObj">
+                #{{user.id}} {{ user.firstName }} {{ user.lastName }}
+                <button class="btn btn-success btn-sm float-end" (click)="addJuri(user.id)">Ekle</button>
+              </li>
+            </ul>
+            <ng-template #noUsers>
+              <p *ngIf="!isLoadingUsers">Arama kriterlerine uygun kullanıcı bulunamadı.</p>
+            </ng-template>
+
+            <!-- Sayfalama Butonları -->
+            <div *ngIf="userObj && userObj.length > 0" class="pagination-container mt-3">
+              <button (click)="onUserPageChange(userPageNumber - 1)" [disabled]="userPageNumber === 1"
+                class="btn btn-sm btn-primary-page">
+                <i class="fa fa-chevron-left"></i> Önceki
+              </button>
+              <span>Sayfa: {{ userPageNumber }}</span>
+              <button (click)="onUserPageChange(userPageNumber + 1)" [disabled]="userObj.length < userPageSize"
+                class="btn btn-sm btn-primary-page">
+                Sonraki <i class="fa fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
       </div>
     </div>
   </div>

@@ -21,15 +21,22 @@
 
                 <!-- TC Kimlik ve Email -->
                 <div class="row mt-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="nationalityId">TC Kimlik</label>
                         <input type="text" id="nationalityId" [(ngModel)]="filters.nationalityId" class="form-control"
                             placeholder="TC Kimlik girin">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="email">Email</label>
                         <input type="email" id="email" [(ngModel)]="filters.email" class="form-control"
                             placeholder="Email girin">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="Rol">Rol</label>
+                        <select id="status" [(ngModel)]="filters.operationClaimId" class="form-control">
+                            <option value="">Tümü</option>
+                            <option *ngFor="let role of roles" [value]="role.id">{{role.name}}</option>
+                        </select>
                     </div>
                 </div>
 
@@ -38,9 +45,9 @@
                     <div class="col-md-4">
                         <label for="status">Durum</label>
                         <select id="status" [(ngModel)]="filters.status" class="form-control">
-                            <option value="">Tümü</option>
-                            <option value="true">Aktif</option>
-                            <option value="false">Engelli</option>
+                            <option [ngValue]="undefined">Tümü</option>
+                            <option [ngValue]="true">Aktif</option>
+                            <option [ngValue]="false">Engelli</option>
                         </select>
                     </div>
                     <div class="col-md-4">
@@ -57,7 +64,7 @@
 
                 <div class="row mt-3">
                     <div class="col-md-6">
-                        <button class="btn btn-primary mt-3" (click)="loadUsers()">Filtrele</button>
+                        <button class="btn btn-primary mt-3" (click)="applyFilters()">Filtrele</button>
                     </div>
                     <div class="col-md-6">
                         <button class="btn btn-primary btn-filter-reset mt-3" (click)="resetFilters()">Sıfırla</button>
@@ -66,9 +73,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <div class="table-responsive mt-4">
         <p *ngIf="users && users.length === 0">Herhangi bir kullanıcı mevcut değil!</p>
@@ -98,8 +102,11 @@
                     </a>
                     </td>
                     <td><i class="fa-solid fa-hashtag"></i>{{ user.id }}</td>
-                    <td>
+                    <td *ngIf="user.imageUrl == null">
                         <i *ngIf="!profileImage" class="fa-regular fa-circle-user profile-img-default"></i>
+                    </td>
+                    <td *ngIf="user.imageUrl != null">
+                        <img [src]="user.imageUrl" alt="User Image" class="profile-img-default">
                     </td>
                     <td>{{ user.firstName }} {{ user.lastName }}</td>
                     <td (mouseenter)="user.showFullTc = true" (mouseleave)="user.showFullTc = false">
@@ -112,7 +119,7 @@
                         </span>
                     </td>
                     <td>
-                        <span *ngFor="let role of user.roles" class="badge bg-secondary mx-1">
+                        <span *ngFor="let role of user.operationClaims" class="badge bg-secondary mx-1">
                             {{ role.operationClaimName }}
                         </span>
                     </td>

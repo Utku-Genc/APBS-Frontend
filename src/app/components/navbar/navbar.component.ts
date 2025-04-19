@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, OnDestroy, HostListener, Renderer2 } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
@@ -23,7 +23,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private userService = inject(UserService);
   private router = inject(Router);
   private bildirimService = inject(BildirimService);
-  private renderer = inject(Renderer2);
 
   notifications: NotificationListModel[] = [];
   isLoggedIn: boolean = false;
@@ -37,25 +36,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   userObj!: UserModel;
   private notificationSubscription?: Subscription;
   private routerSubscription?: Subscription;
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    // Eğer mobil menü açıksa ve tıklanan yer navbar-toggler veya navbar-collapse dışındaysa menüyü kapat
-    if (this.mobileMenuActive) {
-      const navbarCollapse = document.querySelector('.navbar-collapse');
-      const navbarToggler = document.querySelector('.navbar-toggler');
-      
-      // Tıklanan element navbar-collapse veya navbar-toggler içinde değilse
-      if (navbarCollapse && navbarToggler) {
-        const clickedInsideNavbar = navbarCollapse.contains(event.target as Node) || 
-                                    navbarToggler.contains(event.target as Node);
-        
-        if (!clickedInsideNavbar) {
-          this.toggleMobileMenu();
-        }
-      }
-    }
-  }
 
   ngOnInit() {
     // İlk olarak tema ayarlarını uygula
@@ -146,21 +126,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.profileMenuActive = !this.profileMenuActive;
   }
 
-  toggleMobileMenu(event?: Event) {
-    if (event) {
-      event.stopPropagation(); // Tıklama olayının belge seviyesine çıkmasını engelle
-    }
+  toggleMobileMenu() {
     this.mobileMenuActive = !this.mobileMenuActive;
-    
-    // Animasyon için ARIA attribute güncelleme
-    const navbarCollapse = document.querySelector('.navbar-collapse');
-    if (navbarCollapse) {
-      this.renderer.setAttribute(
-        navbarCollapse, 
-        'aria-expanded', 
-        this.mobileMenuActive ? 'true' : 'false'
-      );
-    }
   }
 
   setTheme(theme: string) {

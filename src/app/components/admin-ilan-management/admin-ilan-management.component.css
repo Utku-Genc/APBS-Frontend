@@ -604,6 +604,46 @@
     padding: 0 10px;
     margin-bottom: 10px;
   }
+  #juriModal .list-group-item {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--secondary-text-color);
+  }
+  
+  #juriModal .list-group-item:hover {
+    background-color: var(--primary-hover-color);
+    transition: 0.3s;
+  }
+  
+  #juriModal .list-group-item button {
+    font-size: 0.8rem;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  #juriModal .list-group-item button.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  #juriModal .list-group-item button.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+  
+  #juriModal .list-group-item button.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  #juriModal .list-group-item button.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
+  #juriModal .input-group-text {
+    height: auto;
+  }
   
   /* Mobil Optimizasyonu */
   @media screen and (max-width: 991px) {
@@ -670,3 +710,4 @@
       margin-bottom: 10px;
     }
   }
+
