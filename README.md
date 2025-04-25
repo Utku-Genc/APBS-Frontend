@@ -59,7 +59,7 @@ src/
 ## 🔗 Backend Bağlantısı
 
 Frontend'in bağlı olduğu backend projesine aşağıdan ulaşabilirsiniz:  
-➡️ ➡️ [Akademik Personel Başvuru Sistemi (APBS) Backend](https://github.com/umutgulfidan/Akademik-Personel-Basvuru-Sistemi-APBS-)
+➡️ [Akademik Personel Başvuru Sistemi (APBS) Backend](https://github.com/umutgulfidan/Akademik-Personel-Basvuru-Sistemi-APBS-)
 
 ---
 
