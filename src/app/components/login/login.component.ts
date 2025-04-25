@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     password: '',
   };
   turnstileSiteKey = environment.turnstileSiteKey;
-  isCaptchaValid = true; // Butonun başlangıçta devre dışı olması için
+  isCaptchaValid = false; // Butonun başlangıçta devre dışı olması için
   captchaTheme = 'dark'; // Default theme
 
   ngOnInit() {
