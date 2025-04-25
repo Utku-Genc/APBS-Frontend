@@ -1,59 +1,112 @@
-# APBSFrontend
+# Akademik Personel Başvuru Sistemi (APBS) - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+Akademik Personel Başvuru Sistemi, üniversitelerdeki akademik kadro başvuru süreçlerini dijitalleştirmek amacıyla geliştirilmiş modern bir web uygulamasıdır. Bu repo, sistemin **Angular tabanlı frontend** kısmını içermektedir.
 
-## Development server
+## 🎥 Tanıtım Videosu
 
-To start a local development server, run:
+Aşağıdaki videoyu izleyerek sistemin nasıl çalıştığını keşfedebilirsiniz:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/id_ekleytecem" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+---
+
+## 🚀 Proje Özellikleri
+
+- ✅ Kullanıcı kaydı ve giriş sistemi
+- 📄 Başvuru formu doldurma ve belge yükleme
+- 🧾 Başvuru geçmişini görüntüleme
+- 🧑‍💼 Admin ve Yönetici paneli ile başvuru onay/red işlemleri
+- 📥 Dosya yönetimi ve belge kontrolü
+- 🎨 Karanlık/aydınlık tema desteği
+- 🔐 JWT tabanlı kimlik doğrulama
+
+---
+
+## 🧩 Kullanılan Teknolojiler
+
+| Teknoloji | Açıklama |
+|----------|----------|
+| **Angular 19** | Frontend framework |
+| **Bootstrap 5** | Responsive tasarım için |
+| **SweetAlert2** | Kullanıcı bildirimleri |
+| **SignalR** | Anlık kullanıcı bildirimleri |
+| **RxJS** | Reactive veri yönetimi |
+| **TypeScript** | JavaScript'in güçlü tipi |
+| **CSS** | Stil yönetimi |
+
+---
+
+## 🗃️ Proje Yapısı (Özet)
+
+```bash
+src/
+│
+├── app/
+│   ├── auth/            # Giriş / kayıt işlemleri
+│   ├── admin/           # Yönetici paneli
+│   ├── user/            # Kullanıcı işlemleri
+│   └── app-routing.module.ts
+│
+├── assets/              # Logo ve statik dosyalar
+└── environments/        # API URL yapılandırmaları
+```
+
+---
+
+## 🔗 Backend Bağlantısı
+
+Frontend'in bağlı olduğu backend projesine aşağıdan ulaşabilirsiniz:  
+➡️ [APBS Backend (ASP.NET Core Web API)](https://github.com/umutgulfidan/Akademik-Personel-Basvuru-Sistemi-APBS)
+
+---
+
+## 🔧 Kurulum ve Çalıştırma
+
+### 1. Projeyi klonlayın
+
+```bash
+git clone https://github.com/Utku-Genc/APBS-Frontend.git
+cd APBS-Frontend
+```
+
+### 2. Bağımlılıkları yükleyin
+
+```bash
+npm install
+```
+
+### 3. Geliştirme sunucusunu başlatın
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+> Uygulama, varsayılan olarak `http://localhost:4200` adresinde çalışır.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🧪 Giriş ve Kayıt Bilgisi
 
-```bash
-ng generate component component-name
-```
+> Sistemin kullanılabilmesi için backend tarafının aktif olması gerekmektedir.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+🆔 Kullanıcılar sisteme **TC Kimlik Numarası** ile kayıt olmalıdır. Veritabanında önceden tanımlı kullanıcılar bulunmamaktadır.
 
-```bash
-ng generate --help
-```
+🔐 Kayıt işlemi sonrası giriş yapılabilir. Her kullanıcı kendi başvurusunu oluşturur ve takip eder.
 
-## Building
+📌 Yönetici hesabı için sistem yöneticisinden yetkilendirme alınmalıdır.
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## 📬 İletişim
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+📧 [Ahmet Efe Tosun](https://github.com/AhmetEfeTosun)   - ahefto@gmail.com  
+📬 [Umut Gulfidan](https://github.com/umutgulfidan) - umutgulfidan41@gmail.com  
+🖥️ [Utku Genç](https://github.com/Utku-Genc) - utkugenc2003@gmail.com
 
-## Running unit tests
+---
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 📄 Lisans
 
-```bash
-ng test
-```
+Bu proje MIT lisansı ile lisanslanmıştır. Detaylar için `LICENSE` dosyasını inceleyebilirsiniz.
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
