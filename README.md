@@ -8,6 +8,9 @@ Aşağıdaki bağlantıdan sistemin nasıl çalıştığını gösteren kısa ta
 
 📺 [Tanıtım Videosunu İzle](https://www.youtube.com/watch?v=8ySWleKSafs)  
 
+[![Video](https://img.youtube.com/vi/8ySWleKSafs/maxresdefault.jpg)](https://www.youtube.com/watch?v=8ySWleKSafs)
+
+
 ---
 
 ## 🚀 Proje Özellikleri
