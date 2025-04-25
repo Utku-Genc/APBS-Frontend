@@ -59,8 +59,8 @@ src/
 ## 🔗 Backend Bağlantısı
 
 Frontend'in bağlı olduğu backend projesine aşağıdan ulaşabilirsiniz:  
-➡️ [[APBS Backend (ASP.NET Core Web API)](https://github.com/umutgulfidan/Akademik-Personel-Basvuru-Sistemi-APBS)](https://github.com/umutgulfidan/Akademik-Personel-Basvuru-Sistemi-APBS-)
-](https://github.com/umutgulfidan/Akademik-Personel-Basvuru-Sistemi-APBS-)
+➡️ ➡️ [Akademik Personel Başvuru Sistemi (APBS) Backend](https://github.com/umutgulfidan/Akademik-Personel-Basvuru-Sistemi-APBS-)
+
 ---
 
 ## 🔧 Kurulum ve Çalıştırma
