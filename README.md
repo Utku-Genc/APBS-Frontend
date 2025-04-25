@@ -4,9 +4,9 @@ Akademik Personel Başvuru Sistemi, üniversitelerdeki akademik kadro başvuru s
 
 ## 🎥 Tanıtım Videosu
 
-Aşağıdaki videoyu izleyerek sistemin nasıl çalıştığını keşfedebilirsiniz:
+Aşağıdaki bağlantıdan sistemin nasıl çalıştığını gösteren kısa tanıtım videosunu izleyebilirsiniz:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/id_ekleytecem" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+📺 [Tanıtım Videosunu İzle](https://www.youtube.com/watch?v=8ySWleKSafs)  
 
 ---
 
