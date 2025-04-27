@@ -285,7 +285,30 @@
   max-width: 800px;
   margin: 30px auto;
 }
-
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  }
+  
+  .pagination-container button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  }
+  
+  .pagination-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  }
+  
+  .pagination-container button i {
+  margin-right: 8px;
+  }
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   #editUserRoleModal .modal-dialog {

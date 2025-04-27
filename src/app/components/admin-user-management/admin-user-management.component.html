@@ -142,9 +142,17 @@
         </table>
     </div>
 
-    <div class="pagination">
-        <button class="btn btn-secondary" (click)="previousPage()" [disabled]="pageNumber === 1">Önceki</button>
-        <button class="btn btn-secondary" (click)="nextPage()" [disabled]="users.length < pageSize">Sonraki</button>
+
+    <div *ngIf="users.length > 0" class="pagination-container mt-3">
+        <button (click)="previousPage()" [disabled]="pageNumber === 1"
+            class="btn btn-primary-page">
+            <i class="fa fa-chevron-left"></i> Önceki
+        </button>
+        <span>Sayfa: {{ pageNumber }}</span>
+        <button (click)="nextPage()" [disabled]="users.length < pageSize"
+            class="btn btn-primary-page">
+            Sonraki <i class="fa fa-chevron-right"></i>
+        </button>
     </div>
 </div>
 
