@@ -100,6 +100,12 @@ ng serve
 
 ---
 
+## 📝 Proje Raporu
+
+Proje raporuna [Rapor](https://github.com/user-attachments/files/19960362/yazlab_rapor.pdf) linkinden erişebilirsiniz.
+
+---
+
 ## 📬 İletişim
 
 📧 [Ahmet Efe Tosun](https://github.com/AhmetEfeTosun)   - ahefto@gmail.com  
