@@ -21,7 +21,6 @@ import { AdminNotificationsComponent } from './components/admin-notifications/ad
 import { BildirimlerComponent } from './components/bildirimler/bildirimler.component';
 import { IlanlarAktifComponent } from './components/ilanlar-aktif/ilanlar-aktif.component';
 import { IlanlarPasifComponent } from './components/ilanlar-pasif/ilanlar-pasif.component';
-import { IlanKriterBasvuruComponent } from './components/ilan-kriter-basvuru/ilan-kriter-basvuru.component';
 import { AdminKriterManagementComponent } from './components/admin-kriter-management/admin-kriter-management.component';
 import { AdminEmailComponent } from './components/admin-email/admin-email.component';
 import { AdminIlanManagementComponent } from './components/admin-ilan-management/admin-ilan-management.component';
@@ -30,7 +29,6 @@ import { IlanBasvuruComponent } from './components/ilan-basvuru/ilan-basvuru.com
 import { YoneticiComponent } from './components/yonetici/yonetici.component';
 import { YoneticiIlanBasvuruComponent } from './components/yonetici-ilan-basvuru/yonetici-ilan-basvuru.component';
 import { IlanBasvuruIncelemeComponent } from './components/ilan-basvuru-inceleme/ilan-basvuru-inceleme.component';
-import { YoneticiIlanJuriComponent } from './components/yonetici-ilan-juri/yonetici-ilan-juri.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'homepage', pathMatch: 'full' },
@@ -100,7 +98,6 @@ export const routes: Routes = [
       { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'ilan/yonetim', component: AdminIlanManagementComponent },
       { path: 'ilan/ekle', component: CardsFormsComponent },
-      { path: 'ilan/juri', component: YoneticiIlanJuriComponent},
       { path: 'ilan/basvurular', component: YoneticiIlanBasvuruComponent },
       { path: 'alan', component: AdminDepartmentManagementComponent },
       { path: 'basvuru/durumlari', component: AdminBasvuruDurumComponent },
